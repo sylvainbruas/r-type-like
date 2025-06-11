@@ -154,3 +154,64 @@ L'erreur était causée par l'utilisation de data URIs inline dans le code JavaS
 - fix: Replace data URIs with procedural textures to resolve browser security issues
 
 ---
+
+## Question 6 (2025-06-11 07:00)
+**Demande :** Les tirs du vaisseau ne se dirigent pas vers la droite. Ils devraient le faire tant qu'ils ne sortent pas de l'écran ou tant qu'ils ne croisent pas des ennemis. Corriger cela et limiter le nombre de tir en cours à 2.
+
+**Problèmes identifiés :**
+1. Les projectiles du joueur n'avaient pas une direction garantie vers la droite
+2. Aucune limite sur le nombre de projectiles simultanés
+3. Logique de nettoyage des projectiles incomplète
+4. Manque de contrôle explicite sur la vélocité des projectiles
+
+**Actions réalisées :**
+1. **Correction de la direction des projectiles :**
+   - Modification de Bullet.js pour utiliser `setVelocity(400, 0)` au lieu de `setVelocityX()`
+   - Garantie que les projectiles du joueur vont toujours vers la droite
+   - Projectiles ennemis configurés pour aller vers la gauche avec `setVelocity(-400, 0)`
+   - Ajout d'une méthode `setDirection()` pour contrôle explicite
+
+2. **Limitation des projectiles simultanés :**
+   - Ajout de `maxPlayerBullets = 2` dans GameScene
+   - Vérification du nombre de projectiles actifs avant de tirer
+   - Logique : `if (this.playerBullets.children.entries.length < this.maxPlayerBullets)`
+
+3. **Amélioration du nettoyage des projectiles :**
+   - Extension de `cleanupBullets()` pour gérer les limites verticales
+   - Nettoyage séparé pour projectiles joueur (sortent à droite) et ennemis (sortent à gauche)
+   - Vérification des limites : `x < -50 || x > width + 50 || y < -50 || y > height + 50`
+
+4. **Renforcement de la logique de tir :**
+   - Double vérification de la vélocité dans `fireBullet()`
+   - Force explicite de la direction avec `bullet.setVelocityX(400)`
+   - Position de spawn optimisée : `this.player.x + 30` (devant le vaisseau)
+
+5. **Tests complets de la mécanique :**
+   - Création de bullet-mechanics.test.js avec 8 tests
+   - Tests de limitation des projectiles simultanés
+   - Validation des directions (droite pour joueur, gauche pour ennemis)
+   - Tests de nettoyage hors écran
+   - Vérification du délai entre tirs (fireRate)
+
+**Fonctionnalités corrigées :**
+- ✅ Projectiles du joueur vont toujours vers la droite
+- ✅ Maximum 2 projectiles simultanés pour le joueur
+- ✅ Nettoyage automatique des projectiles hors écran
+- ✅ Respect du délai entre tirs (150ms)
+- ✅ Directions opposées pour joueur vs ennemis
+- ✅ Effets visuels différenciés (cyan vs rouge)
+- ✅ Performance optimisée avec nettoyage amélioré
+
+**Tests ajoutés :**
+- Limitation à 2 projectiles maximum
+- Direction correcte des projectiles
+- Nettoyage hors écran
+- Cohérence des vitesses
+- Logique de tir après destruction
+- Respect du délai entre tirs
+- Effets visuels différenciés
+
+**Commits créés :**
+- fix: Correct bullet mechanics and limit simultaneous player bullets to 2
+
+---

@@ -113,3 +113,44 @@
 - test: Add comprehensive test suite with 58 tests
 
 ---
+
+## Question 5 (2025-06-11 07:00)
+**Demande :** Correction de l'erreur "Local data URIs are not supported: player"
+
+**Problème identifié :**
+L'erreur était causée par l'utilisation de data URIs inline dans le code JavaScript pour créer les textures des sprites. Les navigateurs modernes bloquent les data URIs locaux pour des raisons de sécurité, particulièrement quand le jeu est ouvert directement via file:// au lieu d'un serveur HTTP.
+
+**Actions réalisées :**
+1. Création d'une nouvelle scène PreloadScene.js pour gérer les assets :
+   - Génération procédurale des textures avec Phaser.Graphics
+   - Création des sprites player, enemy, et bullet programmatiquement
+   - Ajout d'une barre de chargement avec progression visuelle
+2. Création d'assets SVG de fallback dans assets/images/ :
+   - player.svg : Vaisseau du joueur (vert avec réacteur jaune)
+   - enemy.svg : Vaisseau ennemi (rouge avec réacteur jaune)  
+   - bullet.svg : Projectile (cyan)
+3. Modification de la structure de chargement :
+   - Ajout de PreloadScene avant MenuScene dans main.js
+   - Suppression des data URIs de MenuScene.js
+   - Mise à jour de index.html pour inclure PreloadScene
+4. Amélioration de l'expérience utilisateur :
+   - Écran de chargement avec barre de progression
+   - Textures générées sans dépendance externe
+   - Compatibilité cross-browser garantie
+
+**Solution technique :**
+- Remplacement des `data:image/svg+xml;base64` par `graphics.generateTexture()`
+- Utilisation de l'API Phaser.Graphics pour dessiner les sprites
+- Élimination des problèmes CORS et de sécurité des navigateurs
+- Maintien de la qualité visuelle avec des formes vectorielles
+
+**Résultat :**
+- ✅ Jeu fonctionnel sans serveur HTTP (ouverture directe d'index.html)
+- ✅ Pas d'erreurs de sécurité dans la console
+- ✅ Assets générés dynamiquement sans fichiers externes requis
+- ✅ Expérience de chargement améliorée avec feedback visuel
+
+**Commits créés :**
+- fix: Replace data URIs with procedural textures to resolve browser security issues
+
+---

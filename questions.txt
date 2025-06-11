@@ -43,3 +43,29 @@
 - feat: Add complete R-Type 2 game structure with Phaser.js
 
 ---
+
+## Question 3 (2025-06-11 07:00)
+**Demande :** Ajouter de la documentation pour mettre en place un virtualenv Python.
+
+**Actions réalisées :**
+1. Création du fichier SETUP.md avec guide complet de configuration virtualenv
+2. Ajout du fichier .gitignore pour exclure les environnements virtuels et fichiers temporaires
+3. Création du fichier requirements.txt (vide pour l'instant, prêt pour futures dépendances)
+4. Développement des scripts de démarrage automatisés :
+   - start.sh pour macOS/Linux avec détection automatique du virtualenv
+   - start.bat pour Windows avec même fonctionnalité
+5. Mise à jour du README.md avec instructions d'installation virtualenv
+6. Documentation des alternatives de serveur (Node.js, PHP)
+7. Ajout de sections dépannage et bonnes pratiques
+
+**Fonctionnalités ajoutées :**
+- Guide étape par étape pour créer et activer un virtualenv
+- Scripts automatisés pour lancer le serveur avec ou sans virtualenv
+- Documentation complète des alternatives et du dépannage
+- Structure de projet professionnelle avec .gitignore approprié
+- Instructions pour différents OS (macOS, Linux, Windows)
+
+**Commits créés :**
+- feat: Add Python virtualenv setup and development tools
+
+---

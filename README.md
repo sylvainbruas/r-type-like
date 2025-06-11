@@ -113,6 +113,10 @@ Rtype/
 │   └── managers/          # Gestionnaires
 │       ├── ScoreManager.js # Gestion des scores
 │       └── LevelManager.js # Gestion des niveaux
+├── tests/                 # Suite de tests complète
+│   ├── test-runner.html   # Interface de test
+│   ├── *.test.js         # Fichiers de tests
+│   └── README.md         # Documentation des tests
 ├── assets/                # Ressources (images, sons)
 ├── README.md
 └── questions.txt          # Suivi du développement
@@ -141,6 +145,28 @@ Le projet utilise une architecture modulaire avec séparation claire des respons
 - **Scènes** : Gestion des différents états du jeu
 - **Entités** : Classes pour les objets du jeu (joueur, ennemis, projectiles)
 - **Managers** : Gestion des systèmes (scores, niveaux)
+
+### Tests
+
+Le projet inclut une suite de tests complète pour garantir la qualité du code :
+
+```bash
+# Lancer les tests via l'interface web
+# Ouvrez tests/test-runner.html dans votre navigateur
+
+# Ou via serveur local
+python3 -m http.server 8000
+# Puis naviguez vers http://localhost:8000/tests/test-runner.html
+```
+
+**Couverture des tests :**
+- ✅ Configuration du jeu (10 tests)
+- ✅ Gestionnaire de scores (15 tests)  
+- ✅ Gestionnaire de niveaux (18 tests)
+- ✅ Logique générale (15 tests)
+- **Total : 58 tests**
+
+📖 **Pour plus de détails sur les tests, consultez [tests/README.md](tests/README.md)**
 
 ## Contribution
 

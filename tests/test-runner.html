@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R-Type 2 - Tests</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-suite {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        
+        .test-suite h2 {
+            color: #00ff00;
+            margin-top: 0;
+        }
+        
+        .test-case {
+            background: #333;
+            border-left: 4px solid #666;
+            margin: 10px 0;
+            padding: 10px 15px;
+        }
+        
+        .test-case.passed {
+            border-left-color: #00ff00;
+            background: #1a3a1a;
+        }
+        
+        .test-case.failed {
+            border-left-color: #ff0000;
+            background: #3a1a1a;
+        }
+        
+        .test-case.pending {
+            border-left-color: #ffff00;
+            background: #3a3a1a;
+        }
+        
+        .test-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .test-result {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .test-stats {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat {
+            display: inline-block;
+            margin: 0 20px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .passed { color: #00ff00; }
+        .failed { color: #ff0000; }
+        .pending { color: #ffff00; }
+        
+        .run-tests-btn {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .run-tests-btn:hover {
+            background: #00cc00;
+        }
+        
+        .console-output {
+            background: #000;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🎮 R-Type 2 - Suite de Tests</h1>
+            <button class="run-tests-btn" onclick="runAllTests()">▶️ Lancer Tous les Tests</button>
+        </div>
+        
+        <div class="test-stats" id="test-stats">
+            <div class="stat">
+                <div class="stat-value passed" id="passed-count">0</div>
+                <div>Réussis</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value failed" id="failed-count">0</div>
+                <div>Échoués</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value pending" id="pending-count">0</div>
+                <div>En attente</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="total-count">0</div>
+                <div>Total</div>
+            </div>
+        </div>
+        
+        <div id="test-suites"></div>
+        
+        <div class="console-output" id="console-output">
+            <div>Console de test - Prêt à lancer les tests...</div>
+        </div>
+    </div>
+
+    <!-- Chargement des dépendances -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+    
+    <!-- Chargement des fichiers du jeu -->
+    <script src="../js/config.js"></script>
+    <script src="../js/managers/ScoreManager.js"></script>
+    <script src="../js/managers/LevelManager.js"></script>
+    
+    <!-- Framework de test simple -->
+    <script src="test-framework.js"></script>
+    
+    <!-- Tests -->
+    <script src="config.test.js"></script>
+    <script src="score-manager.test.js"></script>
+    <script src="level-manager.test.js"></script>
+    <script src="game-logic.test.js"></script>
+    
+    <script>
+        // Initialisation des tests
+        window.addEventListener('load', () => {
+            console.log('🎮 R-Type 2 Test Suite - Initialisé');
+            updateStats();
+        });
+    </script>
+</body>
+</html>

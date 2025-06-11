@@ -215,3 +215,85 @@ L'erreur était causée par l'utilisation de data URIs inline dans le code JavaS
 - fix: Correct bullet mechanics and limit simultaneous player bullets to 2
 
 ---
+
+## Question 7 (2025-06-11 07:00)
+**Demande :** Les boss devraient bouger, tout en restant dans le tiers droit de l'écran. Ils se déplacent entre 25% et 35% de la vitesse de mon vaisseau, cette vitesse varie toutes les 5s. Toutes les minutes, il va rester sur place pendant 10s en tremblant un peu puis il va foncer tout droit sur la position de mon vaiseau, à 50% de ma vitesse.
+
+**Actions réalisées :**
+1. **Système de mouvement dynamique des boss :**
+   - Ajout de propriétés de mouvement : `currentSpeed`, `speedChangeTimer`, `chargeTimer`
+   - Définition de la zone de mouvement dans le tiers droit : `movementZone` (67% à 100% de l'écran)
+   - Contrainte automatique pour maintenir les boss dans leur zone
+
+2. **Vitesse variable (25-35% du joueur) :**
+   - Calcul dynamique : `Phaser.Math.Between(playerSpeed * 0.25, playerSpeed * 0.35)`
+   - Changement automatique toutes les 5 secondes via `speedChangeDuration = 5000ms`
+   - Méthode `updateMovementSpeed()` pour recalculer la vitesse
+
+3. **Séquence de charge toutes les minutes :**
+   - Timer de charge : `chargeDuration = 60000ms` (1 minute)
+   - Phase de préparation : `chargePrepTime = 10000ms` (10 secondes)
+   - États : `isPreparingCharge` et `isCharging` pour gérer les phases
+
+4. **Effet de tremblement pendant la préparation :**
+   - Génération d'offsets aléatoires : `trembleOffset.x/y = (Math.random() - 0.5) * 10`
+   - Application du tremblement à la position du boss
+   - Mémorisation de la position originale pour le retour
+
+5. **Charge vers la position du joueur :**
+   - Capture de la position du joueur au début de la préparation
+   - Calcul de la direction : `dx/dy` et normalisation par la distance
+   - Vitesse de charge : `playerSpeed * 0.5` (50% de la vitesse du joueur)
+   - Réinitialisation après sortie d'écran
+
+6. **Patterns de mouvement spécialisés :**
+   - `serpentMovement()` : Mouvement sinusoïdal vertical avec amplitude 80px
+   - `cruiserMovement()` : Mouvement vertical lent et régulier (amplitude 60px)
+   - `stationMovement()` : Mouvement minimal (amplitude 30px)
+   - `dreadnoughtMovement()` : Mouvement complexe multi-composantes
+   - `finalMovement()` : Mouvement le plus imprévisible avec 3 fréquences
+
+7. **Système de contraintes :**
+   - `constrainToMovementZone()` : Maintient les boss dans le tiers droit
+   - Inversion de vélocité lors de collision avec les limites
+   - Repositionnement automatique si hors limites
+
+8. **Séparation mouvement/attaque :**
+   - Patterns d'attaque simplifiés (focus sur le tir)
+   - Mouvement géré indépendamment des patterns d'attaque
+   - Meilleure lisibilité et maintenance du code
+
+**Fonctionnalités implémentées :**
+- ✅ Boss confinés dans le tiers droit de l'écran (67-100%)
+- ✅ Vitesse variable entre 25% et 35% de celle du joueur
+- ✅ Changement de vitesse toutes les 5 secondes
+- ✅ Séquence de charge toutes les minutes
+- ✅ Tremblement de 10 secondes avant la charge
+- ✅ Charge à 50% de la vitesse du joueur vers sa position
+- ✅ 5 patterns de mouvement différents selon le type de boss
+- ✅ Système de contraintes pour maintenir les boss en zone
+- ✅ Réinitialisation automatique après charge
+
+**Tests ajoutés (10 nouveaux) :**
+- Calcul de vitesse entre 25% et 35%
+- Définition de la zone de mouvement
+- Changement de vitesse toutes les 5 secondes
+- Déclenchement de charge après 1 minute
+- Vitesse de charge à 50%
+- Préparation de charge pendant 10 secondes
+- Contraintes de zone de mouvement
+- Calcul de direction vers le joueur
+- Patterns de mouvement différenciés
+- Génération de tremblement aléatoire
+
+**Résultat :**
+- Boss avec comportement dynamique et imprévisible
+- Gameplay plus engageant avec phases de danger (charge)
+- Mouvement réaliste confiné à la zone appropriée
+- IA améliorée avec comportements complexes
+- **Total : 76 tests** (66 + 10 nouveaux)
+
+**Commits créés :**
+- feat: Implement dynamic boss movement with charge mechanics
+
+---

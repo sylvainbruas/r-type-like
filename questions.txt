@@ -13,3 +13,33 @@
 - Initial commit: Add README and project tracking system
 
 ---
+
+## Question 2 (2025-06-11 07:00)
+**Demande :** Créer un jeu inspiré de R-TYPE2 sur Super Nintendo. Ce jeu doit être jouable sur le navigateur. Laisser le choix de la bibliothèque la plus efficace pour faire cela. Il y aura 5 niveaux, chacun se terminant par un boss, et un système de points.
+
+**Actions réalisées :**
+1. Choix de Phaser.js comme bibliothèque de jeu (performance optimale, syntaxe claire)
+2. Création de la structure HTML5 avec interface utilisateur (score, niveau, vies)
+3. Implémentation de la configuration du jeu avec paramètres équilibrés
+4. Développement du système de scènes (Menu, Jeu, Game Over)
+5. Création de la classe Player avec déplacements, tir, effets visuels et invulnérabilité
+6. Implémentation de la classe Enemy avec 3 types (basic, fast, heavy) et patterns de mouvement
+7. Développement de la classe Boss avec 5 boss uniques et patterns d'attaque spécifiques
+8. Création de la classe Bullet avec effets de traînée et gestion des collisions
+9. Implémentation du ScoreManager avec système de combo et high scores
+10. Développement du LevelManager avec 5 niveaux et difficulté progressive
+
+**Fonctionnalités implémentées :**
+- 5 niveaux avec boss uniques : Serpent Mécanique, Croiseur Lourd, Station Orbitale, Dreadnought, Core Alien
+- Système de points avec multiplicateurs et combos
+- 3 vies pour le joueur avec invulnérabilité temporaire
+- Ennemis avec IA et patterns de mouvement variés
+- Effets visuels : particules, explosions, traînées de projectiles
+- Interface utilisateur en temps réel
+- Sauvegarde des high scores en localStorage
+- Fond étoilé animé et atmosphère spatiale
+
+**Commits créés :**
+- feat: Add complete R-Type 2 game structure with Phaser.js
+
+---

@@ -4,29 +4,6 @@ class MenuScene extends Phaser.Scene {
         super({ key: 'MenuScene' });
     }
     
-    preload() {
-        // Créer des graphiques simples pour le prototype
-        this.load.image('player', 'data:image/svg+xml;base64,' + btoa(`
-            <svg width="32" height="16" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="0,8 8,0 24,4 32,8 24,12 8,16" fill="#00ff00"/>
-                <circle cx="28" cy="8" r="2" fill="#ffff00"/>
-            </svg>
-        `));
-        
-        this.load.image('enemy', 'data:image/svg+xml;base64,' + btoa(`
-            <svg width="24" height="16" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="24,8 16,0 0,4 0,12 16,16" fill="#ff0000"/>
-                <circle cx="4" cy="8" r="2" fill="#ffff00"/>
-            </svg>
-        `));
-        
-        this.load.image('bullet', 'data:image/svg+xml;base64,' + btoa(`
-            <svg width="8" height="4" xmlns="http://www.w3.org/2000/svg">
-                <rect width="8" height="4" fill="#00ffff"/>
-            </svg>
-        `));
-    }
-    
     create() {
         // Titre du jeu
         this.add.text(GameConfig.width / 2, 150, 'R-TYPE 2', {

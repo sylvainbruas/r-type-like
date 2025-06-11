@@ -14,7 +14,7 @@ class RTypeGame {
                     debug: false
                 }
             },
-            scene: [MenuScene, GameScene, GameOverScene]
+            scene: [PreloadScene, MenuScene, GameScene, GameOverScene]
         };
         
         this.game = new Phaser.Game(this.config);

@@ -125,6 +125,13 @@ class GameScene extends Phaser.Scene {
         // Mouvement du joueur
         this.player.update(this.cursors);
         
+        // Mise à jour des boss
+        this.bosses.children.entries.forEach(boss => {
+            if (boss.update) {
+                boss.update();
+            }
+        });
+        
         // Tir du joueur
         if (this.spaceKey.isDown && time > this.lastFired + GameConfig.player.fireRate) {
             // Vérifier le nombre de projectiles actifs

@@ -17,6 +17,28 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         this.startTime = scene.time.now;
         this.entryComplete = false;
         
+        // Propriétés de mouvement
+        this.playerSpeed = GameConfig.player.speed; // 200
+        this.currentSpeed = 0;
+        this.speedChangeTimer = 0;
+        this.speedChangeDuration = 5000; // 5 secondes
+        this.chargeTimer = 0;
+        this.chargeDuration = 60000; // 1 minute
+        this.isCharging = false;
+        this.chargePrepTime = 10000; // 10 secondes de tremblement
+        this.isPreparingCharge = false;
+        this.chargeTarget = { x: 0, y: 0 };
+        this.originalX = 0;
+        this.trembleOffset = { x: 0, y: 0 };
+        
+        // Zone de mouvement (tiers droit de l'écran)
+        this.movementZone = {
+            left: GameConfig.width * 0.67, // 67% de l'écran
+            right: GameConfig.width - 50,
+            top: 50,
+            bottom: GameConfig.height - 50
+        };
+        
         // Apparence du boss
         this.setScale(2);
         this.setTint(0xff00ff);
@@ -29,6 +51,9 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         
         // Afficher le nom du boss
         this.showBossName();
+        
+        // Initialiser la vitesse
+        this.updateMovementSpeed();
     }
     
     createHealthBar() {
@@ -94,7 +119,8 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         this.scene.time.delayedCall(2000, () => {
             this.setVelocityX(0);
             this.entryComplete = true;
-            this.x = GameConfig.width - 100;
+            this.x = this.movementZone.right - 50; // Position dans la zone de mouvement
+            this.originalX = this.x;
         });
     }
     
@@ -104,6 +130,9 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         const currentTime = this.scene.time.now;
         const elapsed = currentTime - this.startTime;
         
+        // Gestion du mouvement du boss
+        this.updateBossMovement(currentTime);
+        
         // Patterns d'attaque selon le type de boss
         this.executePattern(elapsed);
         
@@ -112,6 +141,211 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         
         // Mise à jour de la barre de vie
         this.updateHealthBar();
+    }
+    
+    updateBossMovement(currentTime) {
+        // Vérifier si c'est le moment de charger
+        if (currentTime - this.startTime > this.chargeTimer + this.chargeDuration && !this.isCharging && !this.isPreparingCharge) {
+            this.startChargeSequence();
+        }
+        
+        if (this.isPreparingCharge) {
+            this.handleChargePreparation(currentTime);
+        } else if (this.isCharging) {
+            this.handleCharging();
+        } else {
+            this.handleNormalMovement(currentTime);
+        }
+        
+        // Maintenir le boss dans sa zone
+        this.constrainToMovementZone();
+    }
+    
+    startChargeSequence() {
+        this.isPreparingCharge = true;
+        this.chargeStartTime = this.scene.time.now;
+        this.setVelocity(0, 0); // Arrêter le mouvement
+        
+        // Mémoriser la position du joueur
+        if (this.scene.player) {
+            this.chargeTarget.x = this.scene.player.x;
+            this.chargeTarget.y = this.scene.player.y;
+        }
+    }
+    
+    handleChargePreparation(currentTime) {
+        const prepElapsed = currentTime - this.chargeStartTime;
+        
+        // Tremblement pendant 10 secondes
+        if (prepElapsed < this.chargePrepTime) {
+            this.trembleOffset.x = (Math.random() - 0.5) * 10;
+            this.trembleOffset.y = (Math.random() - 0.5) * 10;
+            this.x = this.originalX + this.trembleOffset.x;
+            this.y += this.trembleOffset.y;
+        } else {
+            // Commencer la charge
+            this.isPreparingCharge = false;
+            this.isCharging = true;
+            this.chargeStartTime = currentTime;
+            
+            // Calculer la direction vers la cible
+            const dx = this.chargeTarget.x - this.x;
+            const dy = this.chargeTarget.y - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance > 0) {
+                const chargeSpeed = this.playerSpeed * 0.5; // 50% de la vitesse du joueur
+                this.setVelocity(
+                    (dx / distance) * chargeSpeed,
+                    (dy / distance) * chargeSpeed
+                );
+            }
+        }
+    }
+    
+    handleCharging() {
+        // La charge continue jusqu'à ce que le boss sorte de l'écran ou touche quelque chose
+        if (this.x < -100 || this.x > GameConfig.width + 100 || 
+            this.y < -100 || this.y > GameConfig.height + 100) {
+            // Réinitialiser après la charge
+            this.resetAfterCharge();
+        }
+    }
+    
+    resetAfterCharge() {
+        this.isCharging = false;
+        this.isPreparingCharge = false;
+        this.chargeTimer = this.scene.time.now; // Réinitialiser le timer de charge
+        
+        // Repositionner le boss dans sa zone
+        this.x = this.movementZone.right - 50;
+        this.y = GameConfig.height / 2;
+        this.originalX = this.x;
+        this.setVelocity(0, 0);
+        
+        // Reprendre le mouvement normal
+        this.updateMovementSpeed();
+    }
+    
+    handleNormalMovement(currentTime) {
+        // Changer la vitesse toutes les 5 secondes
+        if (currentTime - this.speedChangeTimer > this.speedChangeDuration) {
+            this.updateMovementSpeed();
+            this.speedChangeTimer = currentTime;
+        }
+        
+        // Mouvement selon le pattern du boss
+        this.applyMovementPattern(currentTime);
+    }
+    
+    updateMovementSpeed() {
+        // Vitesse entre 25% et 35% de celle du joueur
+        const minSpeed = this.playerSpeed * 0.25;
+        const maxSpeed = this.playerSpeed * 0.35;
+        this.currentSpeed = Phaser.Math.Between(minSpeed, maxSpeed);
+    }
+    
+    applyMovementPattern(currentTime) {
+        const elapsed = currentTime - this.startTime;
+        
+        switch (this.pattern) {
+            case 'serpent':
+                this.serpentMovement(elapsed);
+                break;
+            case 'cruiser':
+                this.cruiserMovement(elapsed);
+                break;
+            case 'station':
+                this.stationMovement(elapsed);
+                break;
+            case 'dreadnought':
+                this.dreadnoughtMovement(elapsed);
+                break;
+            case 'final':
+                this.finalMovement(elapsed);
+                break;
+        }
+    }
+    
+    serpentMovement(elapsed) {
+        // Mouvement sinusoïdal vertical
+        const amplitude = 80;
+        const frequency = 0.002;
+        const targetY = GameConfig.height / 2 + Math.sin(elapsed * frequency) * amplitude;
+        
+        const dy = targetY - this.y;
+        this.setVelocityY(dy * 0.02 * this.currentSpeed / this.playerSpeed);
+    }
+    
+    cruiserMovement(elapsed) {
+        // Mouvement vertical lent et régulier
+        const amplitude = 60;
+        const frequency = 0.001;
+        const targetY = GameConfig.height / 2 + Math.sin(elapsed * frequency) * amplitude;
+        
+        const dy = targetY - this.y;
+        this.setVelocityY(dy * 0.01 * this.currentSpeed / this.playerSpeed);
+    }
+    
+    stationMovement(elapsed) {
+        // Mouvement minimal (station plus statique)
+        const amplitude = 30;
+        const frequency = 0.0005;
+        const targetY = GameConfig.height / 2 + Math.sin(elapsed * frequency) * amplitude;
+        
+        const dy = targetY - this.y;
+        this.setVelocityY(dy * 0.005 * this.currentSpeed / this.playerSpeed);
+    }
+    
+    dreadnoughtMovement(elapsed) {
+        // Mouvement complexe avec composantes multiples
+        const amplitude1 = 70;
+        const amplitude2 = 30;
+        const frequency1 = 0.003;
+        const frequency2 = 0.001;
+        
+        const targetY = GameConfig.height / 2 + 
+                       Math.sin(elapsed * frequency1) * amplitude1 + 
+                       Math.cos(elapsed * frequency2) * amplitude2;
+        
+        const dy = targetY - this.y;
+        this.setVelocityY(dy * 0.025 * this.currentSpeed / this.playerSpeed);
+    }
+    
+    finalMovement(elapsed) {
+        // Mouvement le plus complexe et imprévisible
+        const amplitude = 100;
+        const frequency1 = 0.004;
+        const frequency2 = 0.002;
+        const frequency3 = 0.0015;
+        
+        const targetY = GameConfig.height / 2 + 
+                       Math.sin(elapsed * frequency1) * amplitude +
+                       Math.cos(elapsed * frequency2) * (amplitude * 0.5) +
+                       Math.sin(elapsed * frequency3) * (amplitude * 0.3);
+        
+        const dy = targetY - this.y;
+        this.setVelocityY(dy * 0.03 * this.currentSpeed / this.playerSpeed);
+    }
+    
+    constrainToMovementZone() {
+        // Maintenir le boss dans le tiers droit de l'écran
+        if (this.x < this.movementZone.left) {
+            this.x = this.movementZone.left;
+            this.setVelocityX(Math.abs(this.body.velocity.x));
+        }
+        if (this.x > this.movementZone.right) {
+            this.x = this.movementZone.right;
+            this.setVelocityX(-Math.abs(this.body.velocity.x));
+        }
+        if (this.y < this.movementZone.top) {
+            this.y = this.movementZone.top;
+            this.setVelocityY(Math.abs(this.body.velocity.y));
+        }
+        if (this.y > this.movementZone.bottom) {
+            this.y = this.movementZone.bottom;
+            this.setVelocityY(-Math.abs(this.body.velocity.y));
+        }
     }
     
     executePattern(elapsed) {
@@ -137,10 +371,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     serpentPattern(elapsed) {
-        // Mouvement sinusoïdal
-        this.y = GameConfig.height / 2 + Math.sin(elapsed * 0.002) * 100;
-        
-        // Tir en rafale
+        // Tir en rafale (mouvement géré séparément)
         if (this.scene.time.now > this.lastFired + 800) {
             this.fireSpread(3);
             this.lastFired = this.scene.time.now;
@@ -148,10 +379,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     cruiserPattern(elapsed) {
-        // Mouvement vertical lent
-        this.y += Math.sin(elapsed * 0.001) * 0.5;
-        
-        // Tir rapide
+        // Tir rapide (mouvement géré séparément)
         if (this.scene.time.now > this.lastFired + 500) {
             this.fireStraight();
             this.lastFired = this.scene.time.now;
@@ -159,10 +387,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     stationPattern(elapsed) {
-        // Position fixe
-        this.y = GameConfig.height / 2;
-        
-        // Tir en éventail
+        // Tir en éventail (mouvement géré séparément)
         if (this.scene.time.now > this.lastFired + 1200) {
             this.fireSpread(5);
             this.lastFired = this.scene.time.now;
@@ -170,10 +395,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     dreadnoughtPattern(elapsed) {
-        // Mouvement complexe
-        this.y = GameConfig.height / 2 + Math.sin(elapsed * 0.003) * 80 + Math.cos(elapsed * 0.001) * 40;
-        
-        // Tir multiple
+        // Tir multiple (mouvement géré séparément)
         if (this.scene.time.now > this.lastFired + 600) {
             this.fireSpread(4);
             this.fireStraight();
@@ -182,9 +404,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     finalPattern(elapsed) {
-        // Pattern le plus complexe
-        this.y = GameConfig.height / 2 + Math.sin(elapsed * 0.004) * 120;
-        
+        // Pattern le plus complexe (mouvement géré séparément)
         if (this.phase >= 3) {
             // Phase finale - tir intense
             if (this.scene.time.now > this.lastFired + 300) {

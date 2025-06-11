@@ -25,9 +25,9 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
     
     setupByOwner(owner, angle) {
         if (owner === 'player') {
-            // Projectile du joueur
+            // Projectile du joueur - TOUJOURS vers la droite
             this.setTint(0x00ffff);
-            this.setVelocityX(this.speed);
+            this.setVelocity(this.speed, 0); // Vitesse horizontale positive, verticale nulle
             this.setScale(1, 0.5);
             
             // Effet de traînée
@@ -55,8 +55,8 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
                 );
                 this.setRotation(radians);
             } else {
-                // Projectile droit
-                this.setVelocityX(-this.speed);
+                // Projectile droit vers la gauche
+                this.setVelocity(-this.speed, 0);
             }
             
             // Effet de traînée rouge
@@ -102,5 +102,10 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
         }
         
         super.destroy();
+    }
+    
+    // Méthode pour forcer la direction (utilisée par GameScene)
+    setDirection(velocityX, velocityY = 0) {
+        this.setVelocity(velocityX, velocityY);
     }
 }

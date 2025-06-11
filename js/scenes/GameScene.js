@@ -24,6 +24,7 @@ class GameScene extends Phaser.Scene {
         this.levelStartTime = this.time.now;
         this.bossSpawned = false;
         this.levelComplete = false;
+        this.maxPlayerBullets = 2; // Limite de projectiles simultanés
         
         // Collisions
         this.setupCollisions();
@@ -126,8 +127,11 @@ class GameScene extends Phaser.Scene {
         
         // Tir du joueur
         if (this.spaceKey.isDown && time > this.lastFired + GameConfig.player.fireRate) {
-            this.fireBullet();
-            this.lastFired = time;
+            // Vérifier le nombre de projectiles actifs
+            if (this.playerBullets.children.entries.length < this.maxPlayerBullets) {
+                this.fireBullet();
+                this.lastFired = time;
+            }
         }
         
         // Animation du fond étoilé
@@ -155,8 +159,13 @@ class GameScene extends Phaser.Scene {
     }
     
     fireBullet() {
+        // Créer le projectile à droite du vaisseau
         const bullet = new Bullet(this, this.player.x + 30, this.player.y, 'player');
         this.playerBullets.add(bullet);
+        
+        // S'assurer que le projectile va vers la droite
+        bullet.setVelocityX(400);
+        bullet.setVelocityY(0);
     }
     
     completeLevel() {
@@ -185,14 +194,16 @@ class GameScene extends Phaser.Scene {
     }
     
     cleanupBullets() {
+        // Nettoyer les projectiles du joueur hors écran
         this.playerBullets.children.entries.forEach(bullet => {
-            if (bullet.x > GameConfig.width + 50) {
+            if (bullet.x > GameConfig.width + 50 || bullet.y < -50 || bullet.y > GameConfig.height + 50) {
                 bullet.destroy();
             }
         });
         
+        // Nettoyer les projectiles ennemis hors écran
         this.enemyBullets.children.entries.forEach(bullet => {
-            if (bullet.x < -50) {
+            if (bullet.x < -50 || bullet.y < -50 || bullet.y > GameConfig.height + 50) {
                 bullet.destroy();
             }
         });

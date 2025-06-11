@@ -297,3 +297,55 @@ L'erreur était causée par l'utilisation de data URIs inline dans le code JavaS
 - feat: Implement dynamic boss movement with charge mechanics
 
 ---
+
+## Question 8 (2025-06-11 07:00)
+**Demande :** Les boss ne bougent toujours pas.
+
+**Problème identifié :**
+Le système de mouvement des boss était correctement implémenté mais n'était pas activé car la méthode `update()` des boss n'était pas appelée par la GameScene. Les boss restaient immobiles malgré toute la logique de mouvement en place.
+
+**Actions réalisées :**
+1. **Activation du système de mouvement :**
+   - Ajout de l'appel `boss.update()` dans `GameScene.update()`
+   - Itération sur tous les boss actifs : `this.bosses.children.entries.forEach()`
+   - Vérification de l'existence de la méthode avant appel
+
+2. **Correction de l'initialisation des timers :**
+   - Remplacement de `this.speedChangeTimer = 0` par `scene.time.now`
+   - Remplacement de `this.chargeTimer = 0` par `scene.time.now`
+   - Ajout de `this.chargeStartTime = 0` pour la gestion des phases
+
+3. **Simplification de la logique de charge :**
+   - Correction du calcul de déclenchement : `currentTime - this.chargeTimer > this.chargeDuration`
+   - Suppression de la logique complexe avec `this.startTime`
+   - Amélioration de la fiabilité du système de timing
+
+4. **Ajout de logs de debug :**
+   - Console.log pour le changement de vitesse
+   - Console.log pour le déclenchement de la charge
+   - Console.log pour la réinitialisation après charge
+   - Suivi du mouvement serpent pour validation
+
+5. **Amélioration des patterns de mouvement :**
+   - Simplification des calculs de vélocité
+   - Application directe avec `setVelocityY()`
+   - Suppression des facteurs de normalisation complexes
+   - Amélioration de la réactivité du mouvement
+
+**Corrections techniques :**
+- ✅ **Intégration dans la boucle de jeu** : `boss.update()` appelé à chaque frame
+- ✅ **Timers fonctionnels** : Initialisation avec `scene.time.now`
+- ✅ **Logique de charge simplifiée** : Calcul direct sans intermédiaires
+- ✅ **Debug activé** : Logs pour tracer le comportement
+- ✅ **Mouvement réactif** : Vélocité appliquée directement
+
+**Résultat attendu :**
+- Boss qui bougent verticalement selon leur pattern
+- Changement de vitesse toutes les 5 secondes (visible dans la console)
+- Séquence de charge après 1 minute (avec logs de debug)
+- Mouvement confiné dans le tiers droit de l'écran
+
+**Commits créés :**
+- fix: Activate boss movement by calling update() method in GameScene
+
+---

@@ -1,0 +1,12 @@
+# Aucune dépendance Python requise pour ce projet
+# Le jeu R-Type 2 est entièrement côté client (HTML/CSS/JavaScript)
+# 
+# Ce fichier est fourni pour la cohérence de la structure du projet
+# et pour d'éventuelles extensions futures nécessitant Python
+#
+# Pour installer les dépendances (actuellement vide) :
+# pip install -r requirements.txt
+
+# Dépendances optionnelles pour le développement :
+# watchdog==3.0.0  # Pour le hot reload
+# flask==2.3.0     # Si vous voulez un serveur plus avancé

@@ -31,24 +31,59 @@ Ce projet recrée l'expérience du jeu R-Type 2 de Super Nintendo avec des fonct
 
 Aucune installation requise ! Le jeu fonctionne directement dans le navigateur.
 
+### Installation Rapide
+
 1. Clonez le repository :
 ```bash
 git clone [url-du-repo]
 cd Rtype
 ```
 
-2. Ouvrez `index.html` dans votre navigateur web moderne
+2. **Option A** - Ouverture directe :
+   - Ouvrez `index.html` dans votre navigateur web moderne
 
-Ou utilisez un serveur local pour de meilleures performances :
+3. **Option B** - Serveur local (recommandé) :
 ```bash
-# Avec Python 3
-python -m http.server 8000
+# Méthode simple
+python3 -m http.server 8000
 
-# Avec Node.js (si http-server est installé)
-npx http-server
+# Ou utilisez les scripts fournis
+./start.sh        # macOS/Linux
+start.bat         # Windows
 
 # Puis ouvrez http://localhost:8000
 ```
+
+### Installation avec Environnement Virtuel Python
+
+Pour un environnement de développement plus propre :
+
+```bash
+# 1. Créer l'environnement virtuel
+python3 -m venv venv
+
+# 2. Activer l'environnement
+source venv/bin/activate  # macOS/Linux
+# ou
+venv\Scripts\activate     # Windows
+
+# 3. Lancer le serveur
+python -m http.server 8000
+
+# 4. Ouvrir http://localhost:8000
+```
+
+### Autres Options de Serveur
+
+```bash
+# Avec Node.js (si installé)
+npx http-server -p 8000
+
+# Avec PHP (si installé)
+php -S localhost:8000
+```
+
+📖 **Pour plus de détails sur la configuration, consultez [SETUP.md](SETUP.md)**
 
 ## Contrôles
 

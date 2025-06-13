@@ -70,13 +70,14 @@ class GameScene extends Phaser.Scene {
     
     updateUI() {
         // Mettre à jour l'affichage des vies
-        if (this.livesText) {
+        if (this.livesText && this.player) {
             this.livesText.setText(`VIES: ${this.player.lives}`);
         }
         
         // Mettre à jour l'affichage du score
         if (this.scoreText && this.scoreManager) {
-            this.scoreText.setText(`SCORE: ${this.scoreManager.getScore()}`);
+            const scoreData = this.scoreManager.getScoreData();
+            this.scoreText.setText(`SCORE: ${scoreData.score}`);
         }
     }
     

@@ -21,11 +21,10 @@ class RTypeGame {
         this.scoreManager = new ScoreManager();
         this.levelManager = new LevelManager();
         
-        // Variables globales du jeu
+        // Variables globales du jeu (simplifiées)
         this.gameState = {
             score: 0,
             level: 1,
-            lives: GameConfig.player.lives,
             isGameOver: false
         };
         
@@ -37,23 +36,17 @@ class RTypeGame {
     }
     
     updateUI() {
-        document.getElementById('score').textContent = this.gameState.score;
-        document.getElementById('level').textContent = this.gameState.level;
-        document.getElementById('lives').textContent = this.gameState.lives;
+        if (document.getElementById('score')) {
+            document.getElementById('score').textContent = this.gameState.score;
+        }
+        if (document.getElementById('level')) {
+            document.getElementById('level').textContent = this.gameState.level;
+        }
     }
     
     addScore(points) {
         this.gameState.score += points;
         this.updateUI();
-    }
-    
-    loseLife() {
-        this.gameState.lives--;
-        this.updateUI();
-        
-        if (this.gameState.lives <= 0) {
-            this.gameOver();
-        }
     }
     
     nextLevel() {
@@ -71,7 +64,6 @@ class RTypeGame {
         this.gameState = {
             score: 0,
             level: 1,
-            lives: GameConfig.player.lives,
             isGameOver: false
         };
         this.updateUI();

@@ -48,8 +48,13 @@ cd Rtype
 python3 -m http.server 8000
 
 # Ou utilisez les scripts fournis
-./start.sh        # macOS/Linux
+./start.sh        # macOS/Linux (port 8000 par défaut)
+./start.sh 8001   # macOS/Linux (port personnalisé)
 start.bat         # Windows
+
+# Scripts utilitaires
+./stop.sh         # Arrêter tous les serveurs
+./diagnose.sh     # Diagnostic des problèmes
 
 # Puis ouvrez http://localhost:8000
 ```

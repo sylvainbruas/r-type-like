@@ -5,8 +5,12 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
+        // Récupérer le niveau depuis les données de la scène ou initialiser à 1
+        const currentLevel = this.scene.settings.data?.level || 1;
+        
         // Initialiser les managers
         this.levelManager = new LevelManager();
+        this.levelManager.setCurrentLevel(currentLevel); // Définir le niveau actuel
         this.scoreManager = new ScoreManager();
         
         // Groupes d'objets
@@ -40,6 +44,46 @@ class GameScene extends Phaser.Scene {
         
         // Fond étoilé animé
         this.createStarfield();
+        
+        // Afficher le niveau actuel
+        this.displayLevelInfo();
+    }
+    
+    displayLevelInfo() {
+        const currentLevel = this.levelManager.getCurrentLevel();
+        const levelData = this.levelManager.getLevelData(currentLevel);
+        
+        // Afficher le numéro de niveau
+        this.levelText = this.add.text(10, 10, `NIVEAU ${currentLevel}`, {
+            fontSize: '20px',
+            fill: '#ffffff',
+            fontFamily: 'Courier New'
+        });
+        
+        // Afficher le nom du niveau si disponible
+        if (levelData && levelData.name) {
+            this.levelNameText = this.add.text(10, 35, levelData.name, {
+                fontSize: '14px',
+                fill: '#cccccc',
+                fontFamily: 'Courier New'
+            });
+        }
+        
+        // Afficher temporairement le message de début de niveau
+        const startMessage = this.add.text(GameConfig.width / 2, GameConfig.height / 2, 
+            `NIVEAU ${currentLevel}\n${levelData?.name || 'SECTEUR INCONNU'}`, {
+            fontSize: '32px',
+            fill: '#00ff00',
+            fontFamily: 'Courier New',
+            align: 'center'
+        }).setOrigin(0.5);
+        
+        // Faire disparaître le message après 2 secondes
+        this.time.delayedCall(2000, () => {
+            if (startMessage && startMessage.destroy) {
+                startMessage.destroy();
+            }
+        });
     }
     
     setupCollisions() {
@@ -241,6 +285,8 @@ class GameScene extends Phaser.Scene {
         this.levelComplete = true;
         
         const currentLevel = this.levelManager.getCurrentLevel();
+        console.log('Level completed:', currentLevel); // Debug
+        
         if (currentLevel >= GameConfig.levels.count) {
             // Jeu terminé
             this.add.text(GameConfig.width / 2, GameConfig.height / 2, 'FÉLICITATIONS!\nVOUS AVEZ SAUVÉ LA GALAXIE!', {
@@ -255,9 +301,20 @@ class GameScene extends Phaser.Scene {
             });
         } else {
             // Niveau suivant
-            this.levelManager.nextLevel();
+            const nextLevel = this.levelManager.nextLevel();
+            console.log('Moving to level:', nextLevel); // Debug
+            
+            // Afficher le message de niveau suivant
+            this.add.text(GameConfig.width / 2, GameConfig.height / 2, `NIVEAU ${nextLevel}`, {
+                fontSize: '48px',
+                fill: '#00ff00',
+                fontFamily: 'Courier New',
+                align: 'center'
+            }).setOrigin(0.5);
+            
             this.time.delayedCall(2000, () => {
-                this.scene.restart();
+                // Redémarrer la scène avec le nouveau niveau
+                this.scene.restart({ level: nextLevel });
             });
         }
     }

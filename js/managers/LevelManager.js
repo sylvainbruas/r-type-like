@@ -113,6 +113,17 @@ class LevelManager {
         return this.currentLevel;
     }
     
+    getLevelData(level = null) {
+        const targetLevel = level || this.currentLevel;
+        return this.levelData[targetLevel] || null;
+    }
+    
+    setCurrentLevel(level) {
+        this.currentLevel = level;
+        this.resetLevelStats();
+        return this.currentLevel;
+    }
+    
     nextLevel() {
         this.currentLevel++;
         this.resetLevelStats();

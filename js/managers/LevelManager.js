@@ -109,6 +109,16 @@ class LevelManager {
         return false; // Jeu terminé
     }
     
+    getCurrentLevel() {
+        return this.currentLevel;
+    }
+    
+    nextLevel() {
+        this.currentLevel++;
+        this.resetLevelStats();
+        return this.currentLevel;
+    }
+    
     resetLevelStats() {
         this.enemiesSpawned = 0;
         this.enemiesKilled = 0;

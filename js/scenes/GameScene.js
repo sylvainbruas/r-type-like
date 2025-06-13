@@ -5,6 +5,10 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
+        // Initialiser les managers
+        this.levelManager = new LevelManager();
+        this.scoreManager = new ScoreManager();
+        
         // Groupes d'objets
         this.playerBullets = this.physics.add.group();
         this.enemyBullets = this.physics.add.group();
@@ -43,7 +47,7 @@ class GameScene extends Phaser.Scene {
         this.physics.add.overlap(this.playerBullets, this.enemies, (bullet, enemy) => {
             bullet.destroy();
             enemy.takeDamage(1);
-            rTypeGame.addScore(GameConfig.scoring.enemy);
+            this.scoreManager.addScore(GameConfig.scoring.enemy, 'enemy');
         });
         
         // Balles du joueur vs boss
@@ -86,8 +90,11 @@ class GameScene extends Phaser.Scene {
     }
     
     startEnemySpawning() {
+        const currentLevel = this.levelManager.getCurrentLevel();
+        const difficulty = GameConfig.levels.difficulty[currentLevel - 1] || 1;
+        
         this.enemySpawnEvent = this.time.addEvent({
-            delay: GameConfig.enemies.spawnRate / GameConfig.levels.difficulty[rTypeGame.gameState.level - 1],
+            delay: GameConfig.enemies.spawnRate / difficulty,
             callback: this.spawnEnemy,
             callbackScope: this,
             loop: true
@@ -106,7 +113,8 @@ class GameScene extends Phaser.Scene {
             this.bossSpawned = true;
             this.enemySpawnEvent.destroy();
             
-            const bossData = GameConfig.bosses[rTypeGame.gameState.level - 1];
+            const currentLevel = this.levelManager.getCurrentLevel();
+            const bossData = GameConfig.bosses[currentLevel - 1] || GameConfig.bosses[0];
             const boss = new Boss(this, GameConfig.width + 100, GameConfig.height / 2, bossData);
             this.bosses.add(boss);
         }
@@ -115,9 +123,10 @@ class GameScene extends Phaser.Scene {
     playerHit() {
         if (!this.player.invulnerable) {
             this.player.hit();
-            rTypeGame.loseLife();
+            // Gérer la perte de vie localement
+            console.log('Player hit! Lives remaining:', this.player.lives);
             
-            if (rTypeGame.gameState.lives <= 0) {
+            if (this.player.lives <= 0) {
                 this.scene.start('GameOverScene');
             }
         }
@@ -191,8 +200,15 @@ class GameScene extends Phaser.Scene {
     getGroupSpawnRate() {
         // Taux de spawn des groupes (plus lent que les ennemis individuels)
         const baseRate = 8000; // 8 secondes de base
-        const levelMultiplier = this.levelManager.getDifficultyMultiplier();
-        return baseRate / levelMultiplier;
+        
+        // Vérifier que levelManager existe
+        if (this.levelManager && typeof this.levelManager.getDifficultyMultiplier === 'function') {
+            const levelMultiplier = this.levelManager.getDifficultyMultiplier();
+            return baseRate / levelMultiplier;
+        }
+        
+        // Fallback si levelManager n'est pas disponible
+        return baseRate;
     }
     
     spawnEnemyGroup() {
@@ -224,7 +240,8 @@ class GameScene extends Phaser.Scene {
     completeLevel() {
         this.levelComplete = true;
         
-        if (rTypeGame.gameState.level >= GameConfig.levels.count) {
+        const currentLevel = this.levelManager.getCurrentLevel();
+        if (currentLevel >= GameConfig.levels.count) {
             // Jeu terminé
             this.add.text(GameConfig.width / 2, GameConfig.height / 2, 'FÉLICITATIONS!\nVOUS AVEZ SAUVÉ LA GALAXIE!', {
                 fontSize: '32px',
@@ -235,11 +252,10 @@ class GameScene extends Phaser.Scene {
             
             this.time.delayedCall(3000, () => {
                 this.scene.start('MenuScene');
-                rTypeGame.restart();
             });
         } else {
             // Niveau suivant
-            rTypeGame.nextLevel();
+            this.levelManager.nextLevel();
             this.time.delayedCall(2000, () => {
                 this.scene.restart();
             });

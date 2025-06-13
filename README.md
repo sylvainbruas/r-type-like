@@ -164,11 +164,12 @@ python3 -m http.server 8000
 - ✅ Gestionnaire de scores (15 tests)  
 - ✅ Gestionnaire de niveaux (18 tests)
 - ✅ Progression de niveau (10 tests)
+- ✅ Système de vies du joueur (10 tests)
 - ✅ Logique générale (15 tests)
 - ✅ Mécanique des projectiles (8 tests)
 - ✅ Mouvement des boss (12 tests)
 - ✅ Groupes d'ennemis (12 tests)
-- **Total : 100 tests**
+- **Total : 110 tests**
 
 📖 **Pour plus de détails sur les tests, consultez [tests/README.md](tests/README.md)**
 

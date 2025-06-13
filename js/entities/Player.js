@@ -11,6 +11,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
         this.setScale(1.5);
         this.health = 1;
+        this.lives = 3; // Nombre de vies du joueur
         this.invulnerable = false;
         this.invulnerabilityTime = 2000; // 2 secondes d'invulnérabilité
         
@@ -60,6 +61,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if (!this.invulnerable) {
             this.invulnerable = true;
             
+            // Perdre une vie
+            this.lives--;
+            console.log('Player hit! Lives remaining:', this.lives);
+            
             // Effet visuel de dégât
             this.setTint(0xff0000);
             this.scene.tweens.add({
@@ -88,6 +93,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 explosion.destroy();
             });
         }
+    }
+    
+    resetLives() {
+        this.lives = 3;
+    }
+    
+    getLives() {
+        return this.lives;
     }
     
     destroy() {

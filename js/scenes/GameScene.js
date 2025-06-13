@@ -47,6 +47,37 @@ class GameScene extends Phaser.Scene {
         
         // Afficher le niveau actuel
         this.displayLevelInfo();
+        
+        // Afficher l'interface utilisateur
+        this.createUI();
+    }
+    
+    createUI() {
+        // Affichage des vies
+        this.livesText = this.add.text(10, GameConfig.height - 30, `VIES: ${this.player.lives}`, {
+            fontSize: '18px',
+            fill: '#ffffff',
+            fontFamily: 'Courier New'
+        });
+        
+        // Affichage du score
+        this.scoreText = this.add.text(GameConfig.width - 200, 10, 'SCORE: 0', {
+            fontSize: '18px',
+            fill: '#ffffff',
+            fontFamily: 'Courier New'
+        });
+    }
+    
+    updateUI() {
+        // Mettre à jour l'affichage des vies
+        if (this.livesText) {
+            this.livesText.setText(`VIES: ${this.player.lives}`);
+        }
+        
+        // Mettre à jour l'affichage du score
+        if (this.scoreText && this.scoreManager) {
+            this.scoreText.setText(`SCORE: ${this.scoreManager.getScore()}`);
+        }
     }
     
     displayLevelInfo() {
@@ -92,6 +123,7 @@ class GameScene extends Phaser.Scene {
             bullet.destroy();
             enemy.takeDamage(1);
             this.scoreManager.addScore(GameConfig.scoring.enemy, 'enemy');
+            this.updateUI(); // Mettre à jour le score
         });
         
         // Balles du joueur vs boss
@@ -167,7 +199,10 @@ class GameScene extends Phaser.Scene {
     playerHit() {
         if (!this.player.invulnerable) {
             this.player.hit();
-            // Gérer la perte de vie localement
+            
+            // Mettre à jour l'interface
+            this.updateUI();
+            
             console.log('Player hit! Lives remaining:', this.player.lives);
             
             if (this.player.lives <= 0) {

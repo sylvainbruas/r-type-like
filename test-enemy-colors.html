@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Couleurs Ennemis</title>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .enemy-test {
+            background: #111;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+        }
+        .enemy-sprite {
+            background: #222;
+            padding: 20px;
+            margin-right: 20px;
+            text-align: center;
+            border: 1px solid #444;
+        }
+        .enemy-info {
+            flex: 1;
+        }
+        .color-palette {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .color-swatch {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #666;
+        }
+        .comparison {
+            background: #222;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Test des Couleurs des Ennemis</h1>
+        
+        <div class="enemy-test">
+            <div class="enemy-sprite">
+                <img src="assets/images/enemy1.svg" alt="Enemy 1" style="image-rendering: pixelated; transform: scale(4);">
+                <h3>Enemy 1</h3>
+            </div>
+            <div class="enemy-info">
+                <h2>🔴 Intercepteur Rouge</h2>
+                <p><strong>Couleurs principales:</strong></p>
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #CC0000;" title="Corps principal"></div>
+                    <div class="color-swatch" style="background: #FF3333;" title="Reflets"></div>
+                    <div class="color-swatch" style="background: #FF6600;" title="Réacteurs"></div>
+                    <div class="color-swatch" style="background: #0066CC;" title="Cockpit"></div>
+                </div>
+                <p><strong>Caractéristiques:</strong> Corps rouge vif, réacteurs orange, cockpit bleu</p>
+                <p><strong>Status:</strong> <span id="enemy1-status">Vérification...</span></p>
+            </div>
+        </div>
+        
+        <div class="enemy-test">
+            <div class="enemy-sprite">
+                <img src="assets/images/enemy2.svg" alt="Enemy 2" style="image-rendering: pixelated; transform: scale(4);">
+                <h3>Enemy 2</h3>
+            </div>
+            <div class="enemy-info">
+                <h2>🟣 Croiseur Violet</h2>
+                <p><strong>Couleurs principales:</strong></p>
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #6600CC;" title="Corps principal"></div>
+                    <div class="color-swatch" style="background: #9933FF;" title="Reflets"></div>
+                    <div class="color-swatch" style="background: #FF3300;" title="Réacteurs"></div>
+                    <div class="color-swatch" style="background: #00CCFF;" title="Cockpit"></div>
+                </div>
+                <p><strong>Caractéristiques:</strong> Corps violet profond, double réacteur rouge, cockpit cyan</p>
+                <p><strong>Status:</strong> <span id="enemy2-status">Vérification...</span></p>
+            </div>
+        </div>
+        
+        <div class="enemy-test">
+            <div class="enemy-sprite">
+                <img src="assets/images/enemy3.svg" alt="Enemy 3" style="image-rendering: pixelated; transform: scale(4);">
+                <h3>Enemy 3</h3>
+            </div>
+            <div class="enemy-info">
+                <h2>🟢 Chasseur Vert</h2>
+                <p><strong>Couleurs principales:</strong></p>
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #00AA00;" title="Corps principal"></div>
+                    <div class="color-swatch" style="background: #33CC33;" title="Reflets"></div>
+                    <div class="color-swatch" style="background: #FF4400;" title="Réacteur"></div>
+                    <div class="color-swatch" style="background: #FFFF00;" title="Marquages"></div>
+                </div>
+                <p><strong>Caractéristiques:</strong> Corps vert, réacteur orange, marquages jaunes distinctifs</p>
+                <p><strong>Status:</strong> <span id="enemy3-status">Vérification...</span></p>
+            </div>
+        </div>
+        
+        <div class="comparison">
+            <h2>🎯 Comparaison Côte à Côte</h2>
+            <p>Les trois types d'ennemis avec leurs couleurs distinctives</p>
+            <div style="display: flex; justify-content: center; gap: 40px; margin: 20px 0;">
+                <div>
+                    <img src="assets/images/enemy1.svg" alt="Enemy 1" style="image-rendering: pixelated; transform: scale(3);">
+                    <p>🔴 Rouge</p>
+                </div>
+                <div>
+                    <img src="assets/images/enemy2.svg" alt="Enemy 2" style="image-rendering: pixelated; transform: scale(3);">
+                    <p>🟣 Violet</p>
+                </div>
+                <div>
+                    <img src="assets/images/enemy3.svg" alt="Enemy 3" style="image-rendering: pixelated; transform: scale(3);">
+                    <p>🟢 Vert</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="enemy-test">
+            <div class="enemy-info">
+                <h2>🧪 Instructions de Test</h2>
+                <ol>
+                    <li><strong>Vérifiez visuellement:</strong> Chaque ennemi doit avoir sa couleur distinctive</li>
+                    <li><strong>Lancez le jeu:</strong> <code>./start.sh</code> puis <code>http://localhost:8006</code></li>
+                    <li><strong>Observez en jeu:</strong> Les ennemis doivent apparaître avec leurs vraies couleurs</li>
+                    <li><strong>Console (F12):</strong> Vérifiez les logs "🎨 Preserving original colors"</li>
+                    <li><strong>Testez les dégâts:</strong> Flash blanc puis retour aux couleurs originales</li>
+                </ol>
+                
+                <h3>🔍 Logs Attendus</h3>
+                <pre style="background: #333; padding: 10px; margin: 10px 0;">
+🎲 Selected enemy texture: enemy1 (1/3)
+👾 Enemy created with texture: enemy1
+🎨 Preserving original colors for enemy1
+
+🎲 Selected enemy texture: enemy2 (2/3)
+👾 Enemy created with texture: enemy2
+🎨 Preserving original colors for enemy2
+                </pre>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Vérifier si les images se chargent correctement
+        function checkImageLoad(src, statusId) {
+            const img = new Image();
+            img.onload = () => {
+                document.getElementById(statusId).innerHTML = '✅ Image chargée correctement';
+                document.getElementById(statusId).style.color = '#00ff00';
+            };
+            img.onerror = () => {
+                document.getElementById(statusId).innerHTML = '❌ Erreur de chargement';
+                document.getElementById(statusId).style.color = '#ff0000';
+            };
+            img.src = src;
+        }
+        
+        // Vérifier le chargement des 3 ennemis
+        checkImageLoad('assets/images/enemy1.svg', 'enemy1-status');
+        checkImageLoad('assets/images/enemy2.svg', 'enemy2-status');
+        checkImageLoad('assets/images/enemy3.svg', 'enemy3-status');
+    </script>
+</body>
+</html>

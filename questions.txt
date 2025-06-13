@@ -646,3 +646,84 @@ scene.time.delayedCall(100, () => {
 - fix: Prevent undefined scene errors during boss destruction
 
 ---
+
+## Question 13 (2025-06-11 07:00)
+**Demande :** J'ai vaincu le boss mais je ne suis pas passé au niveau 2. Le niveau 1 recommence.
+
+**Problème identifié :**
+Après avoir vaincu le boss, le jeu appelait `this.scene.restart()` sans paramètres, ce qui recréait une nouvelle instance de GameScene avec un LevelManager réinitialisé au niveau 1. La progression de niveau n'était pas persistée entre les redémarrages de scène.
+
+**Actions réalisées :**
+1. **Système de persistance de niveau :**
+   - Modification de `completeLevel()` pour passer le niveau suivant : `this.scene.restart({ level: nextLevel })`
+   - Récupération du niveau dans `create()` : `const currentLevel = this.scene.settings.data?.level || 1`
+   - Initialisation du LevelManager avec le niveau correct : `this.levelManager.setCurrentLevel(currentLevel)`
+
+2. **Ajout de méthodes au LevelManager :**
+   - `setCurrentLevel(level)` : Définit le niveau actuel et réinitialise les stats
+   - `getLevelData(level)` : Récupère les données d'un niveau spécifique
+   - Support pour récupérer les données du niveau actuel par défaut
+
+3. **Amélioration de l'interface utilisateur :**
+   - Affichage permanent du niveau actuel en haut à gauche
+   - Affichage du nom du niveau sous le numéro
+   - Message de début de niveau avec animation de disparition (2s)
+   - Message de transition "NIVEAU X" lors du passage au niveau suivant
+
+4. **Correction du MenuScene :**
+   - Démarrage explicite au niveau 1 : `this.scene.start('GameScene', { level: 1 })`
+   - Garantit que le jeu commence toujours au premier niveau
+
+5. **Amélioration de la logique de progression :**
+   - Logs de debug pour tracer la progression : `console.log('Level completed:', currentLevel)`
+   - Vérification du niveau maximum avant progression
+   - Message de fin de jeu quand tous les niveaux sont terminés
+
+6. **Interface de niveau améliorée :**
+   - `displayLevelInfo()` : Affiche les informations du niveau actuel
+   - Texte permanent pour le numéro de niveau
+   - Texte pour le nom du niveau (ex: "Secteur Spatial")
+   - Message temporaire de début de niveau avec style cohérent
+
+**Fonctionnalités implémentées :**
+- ✅ **Progression correcte** : Passage du niveau 1 au niveau 2, 3, etc.
+- ✅ **Persistance de données** : Niveau maintenu entre les redémarrages de scène
+- ✅ **Interface informative** : Affichage du niveau actuel et du nom
+- ✅ **Messages de transition** : Feedback visuel lors des changements de niveau
+- ✅ **Démarrage propre** : Jeu commence toujours au niveau 1 depuis le menu
+
+**Méthodes ajoutées :**
+- `LevelManager.setCurrentLevel(level)` : Définit le niveau actuel
+- `LevelManager.getLevelData(level)` : Récupère les données de niveau
+- `GameScene.displayLevelInfo()` : Affiche les informations de niveau
+
+**Flux de progression corrigé :**
+1. **Boss vaincu** → `completeLevel()` appelée
+2. **Niveau incrémenté** → `this.levelManager.nextLevel()`
+3. **Scène redémarrée** → `this.scene.restart({ level: nextLevel })`
+4. **Nouveau niveau** → `create()` récupère le niveau depuis les données
+5. **LevelManager initialisé** → `setCurrentLevel(currentLevel)`
+
+**Tests ajoutés (10 nouveaux) :**
+- Niveau de départ (niveau 1)
+- Définition du niveau actuel
+- Progression au niveau suivant
+- Récupération des données de niveau
+- Gestion des niveaux inexistants
+- Données du niveau actuel par défaut
+- Réinitialisation des stats
+- Progression jusqu'au niveau maximum
+- Validation des données de tous les niveaux
+- Calcul du multiplicateur de difficulté
+- **Total : 100 tests** (90 + 10 nouveaux)
+
+**Résultat :**
+- ✅ **Progression fonctionnelle** : Passage correct entre les niveaux
+- ✅ **Interface claire** : Joueur informé du niveau actuel
+- ✅ **Données persistantes** : Niveau maintenu entre les scènes
+- ✅ **100 tests** : Couverture complète du système de progression
+
+**Commits créés :**
+- fix: Implement proper level progression system
+
+---

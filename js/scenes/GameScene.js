@@ -61,6 +61,14 @@ class GameScene extends Phaser.Scene {
             this.player.lives = currentLives;
         }
         
+        // Initialiser les statistiques de jeu
+        this.gameStats = sceneData.gameStats || {
+            enemiesKilled: 0,
+            shotsFired: 0,
+            shotsHit: 0,
+            startTime: Date.now()
+        };
+        
         // Gestion des touches
         this.cursors = this.input.keyboard.createCursorKeys();
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -105,6 +113,11 @@ class GameScene extends Phaser.Scene {
             fill: '#ffffff',
             fontFamily: 'Courier New'
         });
+    }
+    
+    calculateAccuracy() {
+        if (this.gameStats.shotsFired === 0) return 0;
+        return Math.round((this.gameStats.shotsHit / this.gameStats.shotsFired) * 100);
     }
     
     updateUI() {
@@ -161,14 +174,22 @@ class GameScene extends Phaser.Scene {
         // Balles du joueur vs ennemis
         this.physics.add.overlap(this.playerBullets, this.enemies, (bullet, enemy) => {
             bullet.destroy();
+            this.gameStats.shotsHit++; // Compter les touches
             enemy.takeDamage(1);
             this.scoreManager.addScore(GameConfig.scoring.enemy, 'enemy');
+            
+            // Si l'ennemi est détruit, compter la destruction
+            if (enemy.health <= 0) {
+                this.gameStats.enemiesKilled++;
+            }
+            
             this.updateUI(); // Mettre à jour le score
         });
         
         // Balles du joueur vs boss
         this.physics.add.overlap(this.playerBullets, this.bosses, (bullet, boss) => {
             bullet.destroy();
+            this.gameStats.shotsHit++; // Compter les touches sur boss
             boss.takeDamage(1);
         });
         
@@ -246,7 +267,27 @@ class GameScene extends Phaser.Scene {
             console.log('Player hit! Lives remaining:', this.player.lives);
             
             if (this.player.lives <= 0) {
-                this.scene.start('GameOverScene');
+                // Récupérer les données actuelles du jeu
+                const currentScore = this.scoreManager.getScoreData().score;
+                const currentLevel = this.levelManager.getCurrentLevel();
+                const accuracy = this.calculateAccuracy();
+                
+                console.log('Game Over - Score:', currentScore, 'Level:', currentLevel, 'Stats:', this.gameStats);
+                
+                // Passer les données à GameOverScene
+                this.scene.start('GameOverScene', { 
+                    score: currentScore, 
+                    level: currentLevel,
+                    finalStats: {
+                        score: currentScore,
+                        level: currentLevel,
+                        enemiesKilled: this.gameStats.enemiesKilled,
+                        shotsFired: this.gameStats.shotsFired,
+                        shotsHit: this.gameStats.shotsHit,
+                        accuracy: accuracy,
+                        playTime: Math.round((Date.now() - this.gameStats.startTime) / 1000)
+                    }
+                });
             }
         }
     }
@@ -351,6 +392,9 @@ class GameScene extends Phaser.Scene {
         const bullet = new Bullet(this, this.player.x + 30, this.player.y, 'player');
         this.playerBullets.add(bullet);
         
+        // Compter les tirs
+        this.gameStats.shotsFired++;
+        
         // S'assurer que le projectile va vers la droite
         bullet.setVelocityX(400);
         bullet.setVelocityY(0);
@@ -397,11 +441,17 @@ class GameScene extends Phaser.Scene {
             }).setOrigin(0.5);
             
             this.time.delayedCall(2000, () => {
-                // Redémarrer la scène avec le nouveau niveau, score et vies
+                // Redémarrer la scène avec le nouveau niveau, score, vies ET statistiques
                 this.scene.restart({ 
                     level: nextLevel, 
                     score: finalScore, 
-                    lives: currentLives 
+                    lives: currentLives,
+                    gameStats: {
+                        enemiesKilled: this.gameStats.enemiesKilled,
+                        shotsFired: this.gameStats.shotsFired,
+                        shotsHit: this.gameStats.shotsHit,
+                        startTime: this.gameStats.startTime
+                    }
                 });
             });
         }

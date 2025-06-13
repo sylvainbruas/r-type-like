@@ -727,3 +727,91 @@ Après avoir vaincu le boss, le jeu appelait `this.scene.restart()` sans paramè
 - fix: Implement proper level progression system
 
 ---
+
+## Question 14 (2025-06-11 07:00)
+**Demande :** Quand je suis touché, je ne perds pas de vie.
+
+**Problème identifié :**
+Le joueur avait une propriété `health` mais pas de système de `lives` (vies). La méthode `hit()` dans la classe Player ne décrémentait aucun compteur de vies, elle ne faisait que l'effet visuel d'invulnérabilité. Il n'y avait pas non plus d'interface utilisateur pour afficher les vies restantes.
+
+**Actions réalisées :**
+1. **Ajout du système de vies au Player :**
+   - Ajout de la propriété `this.lives = 3` dans le constructeur
+   - Modification de `hit()` pour décrémenter les vies : `this.lives--`
+   - Ajout de logs de debug : `console.log('Player hit! Lives remaining:', this.lives)`
+
+2. **Méthodes de gestion des vies :**
+   - `resetLives()` : Remet les vies à 3 (pour nouveau jeu/niveau)
+   - `getLives()` : Retourne le nombre de vies actuel
+   - Conservation du système d'invulnérabilité existant (2 secondes)
+
+3. **Interface utilisateur complète :**
+   - `createUI()` : Crée l'affichage des vies et du score
+   - Affichage des vies en bas à gauche : "VIES: 3"
+   - Affichage du score en haut à droite : "SCORE: 0"
+   - Style cohérent avec police Courier New
+
+4. **Mise à jour dynamique de l'interface :**
+   - `updateUI()` : Met à jour l'affichage en temps réel
+   - Appel automatique quand le joueur est touché
+   - Appel automatique quand le score change
+   - Synchronisation parfaite entre état du jeu et affichage
+
+5. **Amélioration de la logique de collision :**
+   - Mise à jour de `playerHit()` pour appeler `updateUI()`
+   - Conservation de la vérification d'invulnérabilité
+   - Game Over déclenché quand `lives <= 0`
+
+6. **Intégration avec le système de score :**
+   - Mise à jour du score lors de la destruction d'ennemis
+   - Affichage temps réel du score dans l'interface
+   - Utilisation du ScoreManager existant
+
+**Fonctionnalités implémentées :**
+- ✅ **Système de vies** : 3 vies au départ, perte d'une vie par coup
+- ✅ **Interface utilisateur** : Affichage permanent des vies et du score
+- ✅ **Invulnérabilité** : 2 secondes d'invulnérabilité après chaque coup
+- ✅ **Game Over** : Déclenchement automatique à 0 vie
+- ✅ **Mise à jour temps réel** : Interface synchronisée avec l'état du jeu
+
+**Interface utilisateur :**
+```
+NIVEAU 2                    SCORE: 1250
+Champ d'Astéroïdes         
+
+[Gameplay au centre]
+
+VIES: 2
+```
+
+**Logique de collision corrigée :**
+1. **Collision détectée** → `playerHit()` appelée
+2. **Vérification invulnérabilité** → Si pas invulnérable
+3. **Appel Player.hit()** → Décrémente les vies et active invulnérabilité
+4. **Mise à jour UI** → `updateUI()` rafraîchit l'affichage
+5. **Vérification Game Over** → Si vies <= 0, fin de partie
+
+**Tests ajoutés (10 nouveaux) :**
+- Vies initiales (3 vies)
+- Perte de vie lors d'un coup
+- Protection par invulnérabilité
+- Activation de l'invulnérabilité
+- Gestion du Game Over
+- Réinitialisation des vies
+- Calcul des vies restantes
+- Invulnérabilité temporaire
+- Affichage de l'interface
+- États de jeu selon les vies
+- **Total : 110 tests** (100 + 10 nouveaux)
+
+**Résultat :**
+- ✅ **Perte de vie fonctionnelle** : Chaque coup fait perdre une vie
+- ✅ **Interface informative** : Joueur voit ses vies restantes
+- ✅ **Invulnérabilité** : Pas de perte multiple rapide
+- ✅ **Game Over** : Fin de partie à 0 vie
+- ✅ **Feedback visuel** : Effets de dégât + interface mise à jour
+
+**Commits créés :**
+- fix: Implement proper player lives system with UI display
+
+---

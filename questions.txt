@@ -1192,3 +1192,151 @@ done
 - fix: Enhance server management scripts with port conflict detection
 
 ---
+
+## Question 19 (2025-06-11 07:00)
+**Demande :** Les statistiques (niveau, score) ne sont pas bonnes lors d'un Game Over.
+
+**Problème identifié :**
+L'écran Game Over affichait des statistiques incorrectes car :
+1. GameOverScene utilisait `rTypeGame.gameState.score` et `rTypeGame.gameState.level` au lieu des vraies données
+2. Aucune donnée n'était passée depuis GameScene vers GameOverScene
+3. Les statistiques de jeu (précision, ennemis tués, temps) n'étaient pas trackées
+4. Pas de persistance des statistiques entre les niveaux
+
+**Actions réalisées :**
+1. **Passage de données correct vers GameOverScene :**
+   - Récupération du score actuel : `this.scoreManager.getScoreData().score`
+   - Récupération du niveau actuel : `this.levelManager.getCurrentLevel()`
+   - Passage via paramètres de scène : `this.scene.start('GameOverScene', { score, level, finalStats })`
+   - Remplacement de `rTypeGame.gameState` par les vraies données
+
+2. **Système de tracking des statistiques :**
+   - Initialisation des stats : `{ enemiesKilled: 0, shotsFired: 0, shotsHit: 0, startTime: Date.now() }`
+   - Comptage des tirs : `this.gameStats.shotsFired++` à chaque tir
+   - Comptage des touches : `this.gameStats.shotsHit++` quand projectile touche
+   - Comptage des ennemis : `this.gameStats.enemiesKilled++` quand ennemi détruit
+   - Calcul de précision : `Math.round((shotsHit / shotsFired) * 100)`
+
+3. **Affichage détaillé des statistiques :**
+   - Score final : Données réelles du ScoreManager
+   - Niveau atteint : Données réelles du LevelManager
+   - Ennemis détruits : Comptage cumulatif
+   - Précision : Pourcentage de touches réussies
+   - Tirs effectués : Nombre total de projectiles tirés
+   - Temps de jeu : Formaté en minutes:secondes
+
+4. **Persistance des statistiques entre niveaux :**
+   - Sauvegarde des stats lors de `completeLevel()`
+   - Restauration des stats au début du niveau suivant
+   - Statistiques cumulatives sur toute la partie
+   - Conservation du temps de départ initial
+
+**Code de tracking implémenté :**
+```javascript
+// Initialisation des statistiques
+this.gameStats = sceneData.gameStats || {
+    enemiesKilled: 0,
+    shotsFired: 0,
+    shotsHit: 0,
+    startTime: Date.now()
+};
+
+// Comptage des tirs
+this.gameStats.shotsFired++;
+
+// Comptage des touches
+this.gameStats.shotsHit++;
+if (enemy.health <= 0) {
+    this.gameStats.enemiesKilled++;
+}
+
+// Calcul de précision
+calculateAccuracy() {
+    if (this.gameStats.shotsFired === 0) return 0;
+    return Math.round((this.gameStats.shotsHit / this.gameStats.shotsFired) * 100);
+}
+```
+
+**Affichage GameOverScene amélioré :**
+```javascript
+// Récupération des vraies données
+const sceneData = this.scene.settings.data || {};
+const finalScore = sceneData.score || 0;
+const finalLevel = sceneData.level || 1;
+const gameStats = sceneData.finalStats || {};
+
+// Affichage des statistiques détaillées
+`Score Final: ${finalScore}`
+`Niveau Atteint: ${finalLevel}`
+`Ennemis Détruits: ${gameStats.enemiesKilled}`
+`Précision: ${gameStats.accuracy}%`
+`Tirs Effectués: ${gameStats.shotsFired}`
+`Temps de Jeu: ${minutes}:${seconds}`
+```
+
+**Persistance des données :**
+```javascript
+// Passage des statistiques au niveau suivant
+this.scene.restart({ 
+    level: nextLevel, 
+    score: finalScore, 
+    lives: currentLives,
+    gameStats: {
+        enemiesKilled: this.gameStats.enemiesKilled,
+        shotsFired: this.gameStats.shotsFired,
+        shotsHit: this.gameStats.shotsHit,
+        startTime: this.gameStats.startTime
+    }
+});
+```
+
+**Fonctionnalités ajoutées :**
+- ✅ **Score correct** : Données réelles du ScoreManager
+- ✅ **Niveau correct** : Données réelles du LevelManager
+- ✅ **Statistiques détaillées** : Ennemis, précision, tirs, temps
+- ✅ **Tracking en temps réel** : Comptage à chaque action
+- ✅ **Persistance** : Statistiques cumulatives entre niveaux
+- ✅ **Formatage** : Temps affiché en minutes:secondes
+- ✅ **Interface améliorée** : Positionnement optimisé
+
+**Tests créés (12 nouveaux) :**
+- Initialisation des statistiques
+- Comptage des tirs effectués
+- Comptage des touches sur ennemis
+- Calcul de précision
+- Comptage des ennemis détruits
+- Calcul du temps de jeu
+- Formatage du temps
+- Validation des données finales
+- Gestion des valeurs nulles
+- Persistance entre niveaux
+- Statistiques réalistes
+- Cas limites des statistiques
+- **Total : 132 tests** (120 + 12 nouveaux)
+
+**Exemple d'affichage Game Over :**
+```
+GAME OVER
+
+Score Final: 15750
+Niveau Atteint: 3
+Ennemis Détruits: 25
+Précision: 68%
+Tirs Effectués: 89
+Temps de Jeu: 3:45
+
+APPUYEZ SUR R POUR REJOUER
+APPUYEZ SUR M POUR LE MENU
+```
+
+**Résultat :**
+- ✅ **Statistiques correctes** : Score et niveau réels affichés
+- ✅ **Données détaillées** : Statistiques complètes de performance
+- ✅ **Tracking précis** : Comptage exact de toutes les actions
+- ✅ **Persistance** : Statistiques cumulatives sur toute la partie
+- ✅ **Interface informative** : Feedback complet sur la performance
+
+**Commits créés :**
+- fix: Implement accurate game statistics tracking and display in Game Over
+
+---

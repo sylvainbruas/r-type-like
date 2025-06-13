@@ -20,13 +20,29 @@ class GameScene extends Phaser.Scene {
         
         // Restaurer le score précédent APRÈS avoir initialisé le scoreManager
         if (currentScore > 0) {
-            if (this.scoreManager && typeof this.scoreManager.setScore === 'function') {
-                this.scoreManager.setScore(currentScore);
-            } else {
-                console.error('ScoreManager.setScore is not available');
-                // Fallback : ajouter le score au lieu de le définir
-                if (this.scoreManager && typeof this.scoreManager.addScore === 'function') {
-                    this.scoreManager.addScore(currentScore, 'restore');
+            try {
+                if (this.scoreManager && typeof this.scoreManager.setScore === 'function') {
+                    this.scoreManager.setScore(currentScore);
+                    console.log('Score restored successfully:', currentScore);
+                } else if (this.scoreManager && typeof this.scoreManager.restoreScore === 'function') {
+                    this.scoreManager.restoreScore(currentScore);
+                    console.log('Score restored via restoreScore:', currentScore);
+                } else {
+                    console.warn('ScoreManager.setScore not available, using addScore fallback');
+                    // Fallback : ajouter le score au lieu de le définir
+                    if (this.scoreManager && typeof this.scoreManager.addScore === 'function') {
+                        this.scoreManager.addScore(currentScore, 'restore');
+                        console.log('Score restored via addScore fallback:', currentScore);
+                    } else {
+                        console.error('No method available to restore score');
+                    }
+                }
+            } catch (error) {
+                console.error('Error restoring score:', error);
+                // Dernière tentative : définir directement la propriété
+                if (this.scoreManager) {
+                    this.scoreManager.currentScore = currentScore;
+                    console.log('Score restored via direct property assignment:', currentScore);
                 }
             }
         }

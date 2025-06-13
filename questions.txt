@@ -504,3 +504,66 @@ Le système de mouvement des boss était correctement implémenté mais n'était
 - feat: Add enemy group system with formations and coordinated movement
 
 ---
+
+## Question 11 (2025-06-11 07:00)
+**Demande :** Correction de l'erreur "Uncaught TypeError: Cannot read properties of undefined (reading 'getDifficultyMultiplier')"
+
+**Problème identifié :**
+L'erreur était causée par plusieurs problèmes dans GameScene :
+1. `this.levelManager` n'était pas initialisé, causant l'erreur lors de l'appel à `getDifficultyMultiplier()`
+2. Références à un objet global `rTypeGame` inexistant dans plusieurs endroits
+3. Méthodes manquantes dans LevelManager (`getCurrentLevel()`, `nextLevel()`)
+
+**Actions réalisées :**
+1. **Initialisation des managers dans GameScene :**
+   - Ajout de `this.levelManager = new LevelManager()` dans `create()`
+   - Ajout de `this.scoreManager = new ScoreManager()` dans `create()`
+   - Initialisation avant utilisation pour éviter les erreurs undefined
+
+2. **Correction de getGroupSpawnRate() :**
+   - Ajout de vérification de l'existence de `levelManager`
+   - Vérification du type de la méthode `getDifficultyMultiplier`
+   - Fallback vers `baseRate` si le manager n'est pas disponible
+   - Code défensif pour éviter les crashes
+
+3. **Suppression des références à rTypeGame :**
+   - Remplacement de `rTypeGame.addScore()` par `this.scoreManager.addScore()`
+   - Remplacement de `rTypeGame.gameState.level` par `this.levelManager.getCurrentLevel()`
+   - Remplacement de `rTypeGame.loseLife()` par gestion locale des vies
+   - Remplacement de `rTypeGame.nextLevel()` par `this.levelManager.nextLevel()`
+
+4. **Ajout de méthodes manquantes à LevelManager :**
+   - `getCurrentLevel()` : Retourne le niveau actuel
+   - `nextLevel()` : Incrémente le niveau et réinitialise les stats
+   - `resetLevelStats()` : Remet à zéro les compteurs du niveau
+
+5. **Amélioration de la robustesse :**
+   - Ajout de valeurs par défaut pour `bossData` et `difficulty`
+   - Gestion des cas où les tableaux de configuration sont vides
+   - Logs de debug pour tracer les problèmes potentiels
+
+**Corrections techniques :**
+- ✅ **Managers initialisés** : `levelManager` et `scoreManager` disponibles
+- ✅ **Références corrigées** : Plus de dépendance à `rTypeGame`
+- ✅ **Méthodes ajoutées** : `getCurrentLevel()` et `nextLevel()` dans LevelManager
+- ✅ **Code défensif** : Vérifications null/undefined ajoutées
+- ✅ **Fallbacks** : Valeurs par défaut pour éviter les crashes
+
+**Méthodes corrigées :**
+- `getGroupSpawnRate()` : Vérification de l'existence du manager
+- `setupCollisions()` : Utilisation du scoreManager local
+- `startEnemySpawning()` : Calcul de difficulté avec fallback
+- `spawnBoss()` : Récupération du niveau avec fallback
+- `playerHit()` : Gestion locale des vies
+- `completeLevel()` : Progression de niveau avec manager local
+
+**Résultat :**
+- ✅ **Erreur résolue** : Plus d'erreur "Cannot read properties of undefined"
+- ✅ **Jeu fonctionnel** : Tous les systèmes opérationnels
+- ✅ **Code robuste** : Gestion d'erreur et fallbacks
+- ✅ **Architecture propre** : Managers locaux au lieu de globaux
+
+**Commits créés :**
+- fix: Initialize managers and remove undefined rTypeGame references
+
+---

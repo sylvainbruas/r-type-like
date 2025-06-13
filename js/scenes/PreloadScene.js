@@ -5,29 +5,19 @@ class PreloadScene extends Phaser.Scene {
     }
     
     preload() {
-        // Charger les assets SVG depuis assets/images/
-        this.load.svg('player', 'assets/images/player.svg', { width: 64, height: 32 });
-        this.load.svg('enemy', 'assets/images/enemy.svg', { width: 32, height: 32 });
-        this.load.svg('bullet', 'assets/images/bullet.svg', { width: 8, height: 4 });
-        
-        // Créer des textures de fallback au cas où les SVG ne se chargent pas
-        this.createFallbackTextures();
+        // Essayer de charger les assets SVG depuis assets/images/
+        this.load.svg('player-svg', 'assets/images/player.svg', { width: 64, height: 32 });
+        this.load.svg('enemy-svg', 'assets/images/enemy.svg', { width: 32, height: 32 });
+        this.load.svg('bullet-svg', 'assets/images/bullet.svg', { width: 8, height: 4 });
         
         // Barre de chargement
         this.createLoadingBar();
     }
     
-    createFallbackTextures() {
-        // Textures de secours si les SVG ne se chargent pas
-        this.createPlayerTexture();
-        this.createEnemyTexture();
-        this.createBulletTexture();
-    }
-    
     createPlayerTexture() {
         const graphics = this.add.graphics();
         
-        // Vaisseau du joueur (vert)
+        // Vaisseau du joueur (vert) - fallback
         graphics.fillStyle(0x00ff00);
         graphics.fillTriangle(0, 8, 8, 0, 8, 16);
         graphics.fillRect(8, 4, 16, 8);
@@ -44,7 +34,7 @@ class PreloadScene extends Phaser.Scene {
     createEnemyTexture() {
         const graphics = this.add.graphics();
         
-        // Vaisseau ennemi (rouge)
+        // Vaisseau ennemi (rouge) - fallback
         graphics.fillStyle(0xff0000);
         graphics.fillTriangle(24, 8, 16, 0, 16, 16);
         graphics.fillRect(0, 4, 16, 8);
@@ -60,7 +50,7 @@ class PreloadScene extends Phaser.Scene {
     createBulletTexture() {
         const graphics = this.add.graphics();
         
-        // Projectile (cyan)
+        // Projectile (cyan) - fallback
         graphics.fillStyle(0x00ffff);
         graphics.fillRect(0, 0, 8, 4);
         
@@ -104,24 +94,62 @@ class PreloadScene extends Phaser.Scene {
     }
     
     create() {
-        // Vérifier si les SVG ont été chargés correctement
+        // Vérifier quels SVG ont été chargés et créer les fallbacks nécessaires
+        this.setupTextures();
+        
+        // Vérifier le statut final des assets
         this.checkAssetLoading();
         
         // Passer au menu principal
         this.scene.start('MenuScene');
     }
     
+    setupTextures() {
+        // Si le SVG player a été chargé, l'utiliser, sinon créer le fallback
+        if (this.textures.exists('player-svg')) {
+            // Copier la texture SVG vers la clé 'player'
+            const svgTexture = this.textures.get('player-svg');
+            this.textures.addCanvas('player', svgTexture.source[0].image);
+            console.log('✅ Using DeLorean SVG for player');
+        } else {
+            this.createPlayerTexture();
+            console.log('🔄 Using fallback texture for player');
+        }
+        
+        // Même logique pour enemy
+        if (this.textures.exists('enemy-svg')) {
+            const svgTexture = this.textures.get('enemy-svg');
+            this.textures.addCanvas('enemy', svgTexture.source[0].image);
+            console.log('✅ Using SVG for enemy');
+        } else {
+            this.createEnemyTexture();
+            console.log('🔄 Using fallback texture for enemy');
+        }
+        
+        // Même logique pour bullet
+        if (this.textures.exists('bullet-svg')) {
+            const svgTexture = this.textures.get('bullet-svg');
+            this.textures.addCanvas('bullet', svgTexture.source[0].image);
+            console.log('✅ Using SVG for bullet');
+        } else {
+            this.createBulletTexture();
+            console.log('🔄 Using fallback texture for bullet');
+        }
+    }
+    
     checkAssetLoading() {
-        // Vérifier si les textures SVG sont disponibles
+        // Vérifier si les textures finales sont disponibles
         const playerTexture = this.textures.exists('player');
         const enemyTexture = this.textures.exists('enemy');
         const bulletTexture = this.textures.exists('bullet');
         
-        console.log('🎮 Asset loading status:');
-        console.log('- Player (DeLorean):', playerTexture ? '✅ SVG Loaded' : '❌ Using fallback');
-        console.log('- Enemy:', enemyTexture ? '✅ SVG Loaded' : '❌ Using fallback');
-        console.log('- Bullet:', bulletTexture ? '✅ SVG Loaded' : '❌ Using fallback');
+        console.log('🎮 Final asset status:');
+        console.log('- Player:', playerTexture ? '✅ Ready' : '❌ Missing');
+        console.log('- Enemy:', enemyTexture ? '✅ Ready' : '❌ Missing');
+        console.log('- Bullet:', bulletTexture ? '✅ Ready' : '❌ Missing');
         
-        // Si les SVG n'ont pas pu être chargés, les textures procédurales seront utilisées
+        // Vérifier spécifiquement si la DeLorean SVG a été chargée
+        const deloreanLoaded = this.textures.exists('player-svg');
+        console.log('🚗 DeLorean SVG:', deloreanLoaded ? '✅ Loaded successfully' : '❌ Failed to load');
     }
 }

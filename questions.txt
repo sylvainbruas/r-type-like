@@ -815,3 +815,81 @@ VIES: 2
 - fix: Implement proper player lives system with UI display
 
 ---
+
+## Question 15 (2025-06-11 07:00)
+**Demande :** Je me retrouve avec une gestion des vies à 2 endroits, un avec le mot "Vies" et le second dans l'écran de jeu, avec le mot "VIES" et juste à côté une quantité égale à undefined. J'ai également l'erreur "this.scoreManager.getScore is not a function".
+
+**Problèmes identifiés :**
+1. **Double affichage des vies** : Il y avait un affichage HTML (`<span id="lives">`) ET un affichage dans le canvas du jeu
+2. **Erreur scoreManager** : La méthode s'appelle `getScoreData()` et non `getScore()`
+3. **Valeur undefined** : L'affichage HTML tentait d'accéder à des propriétés inexistantes
+
+**Actions réalisées :**
+1. **Suppression de l'affichage HTML des vies :**
+   - Suppression de `<div>Vies: <span id="lives">3</span></div>` dans index.html
+   - Conservation uniquement de l'affichage Score et Niveau en HTML
+   - Affichage des vies maintenant exclusivement dans le canvas du jeu
+
+2. **Nettoyage de main.js :**
+   - Suppression de la propriété `lives` du `gameState`
+   - Suppression de la méthode `loseLife()` (gestion maintenant dans Player.js)
+   - Simplification du `gameState` : `{ score, level, isGameOver }`
+   - Suppression des références à `document.getElementById('lives')`
+
+3. **Correction de l'erreur scoreManager :**
+   - Remplacement de `this.scoreManager.getScore()` par `this.scoreManager.getScoreData().score`
+   - Ajout de vérifications null pour éviter les erreurs : `if (this.scoreText && this.scoreManager)`
+   - Vérification de l'existence du player : `if (this.livesText && this.player)`
+
+4. **Amélioration de la robustesse :**
+   - Ajout de vérifications d'existence des éléments DOM dans `updateUI()`
+   - Protection contre les erreurs si les éléments HTML n'existent pas
+   - Gestion gracieuse des cas où les managers ne sont pas initialisés
+
+5. **Séparation claire des responsabilités :**
+   - **HTML** : Affichage du score global et du niveau
+   - **Canvas** : Affichage des vies, score en temps réel, et interface de jeu
+   - **Player.js** : Gestion des vies du joueur
+   - **GameScene.js** : Interface utilisateur du jeu
+
+**Architecture corrigée :**
+```
+┌─ HTML (hors jeu) ─────────┐
+│ Score: 1250               │
+│ Niveau: 2                 │
+└───────────────────────────┘
+
+┌─ Canvas (dans le jeu) ────┐
+│ NIVEAU 2        SCORE: 1250 │
+│ Champ d'Astéroïdes          │
+│                             │
+│     [Gameplay]              │
+│                             │
+│ VIES: 2                     │
+└─────────────────────────────┘
+```
+
+**Corrections techniques :**
+- ✅ **Affichage unique** : Plus de duplication des vies
+- ✅ **Méthode corrigée** : `getScoreData().score` au lieu de `getScore()`
+- ✅ **Valeurs définies** : Plus de "undefined" dans l'affichage
+- ✅ **Code robuste** : Vérifications null ajoutées partout
+- ✅ **Responsabilités claires** : Chaque système gère sa partie
+
+**Méthodes corrigées :**
+- `GameScene.updateUI()` : Utilise la bonne méthode du scoreManager
+- `main.js.updateUI()` : Vérifications d'existence des éléments DOM
+- Suppression de `main.js.loseLife()` : Plus nécessaire
+- Simplification du `gameState` : Moins de propriétés redondantes
+
+**Résultat :**
+- ✅ **Affichage propre** : Une seule indication des vies dans le jeu
+- ✅ **Plus d'erreur** : scoreManager fonctionne correctement
+- ✅ **Valeurs correctes** : Plus de "undefined" affiché
+- ✅ **Interface cohérente** : Séparation claire HTML/Canvas
+- ✅ **Code maintenable** : Responsabilités bien définies
+
+**Commits créés :**
+- fix: Remove duplicate lives display and fix scoreManager error
+
+---

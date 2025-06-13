@@ -5,13 +5,23 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
-        // Récupérer le niveau depuis les données de la scène ou initialiser à 1
-        const currentLevel = this.scene.settings.data?.level || 1;
+        // Récupérer les données depuis les paramètres de la scène
+        const sceneData = this.scene.settings.data || {};
+        const currentLevel = sceneData.level || 1;
+        const currentScore = sceneData.score || 0;
+        const currentLives = sceneData.lives || 3;
+        
+        console.log('Starting level:', currentLevel, 'Score:', currentScore, 'Lives:', currentLives);
         
         // Initialiser les managers
         this.levelManager = new LevelManager();
-        this.levelManager.setCurrentLevel(currentLevel); // Définir le niveau actuel
+        this.levelManager.setCurrentLevel(currentLevel);
         this.scoreManager = new ScoreManager();
+        
+        // Restaurer le score précédent
+        if (currentScore > 0) {
+            this.scoreManager.setScore(currentScore);
+        }
         
         // Groupes d'objets
         this.playerBullets = this.physics.add.group();
@@ -21,6 +31,11 @@ class GameScene extends Phaser.Scene {
         
         // Créer le joueur
         this.player = new Player(this, 100, GameConfig.height / 2);
+        
+        // Restaurer les vies précédentes
+        if (currentLives !== 3) {
+            this.player.lives = currentLives;
+        }
         
         // Gestion des touches
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -321,7 +336,10 @@ class GameScene extends Phaser.Scene {
         this.levelComplete = true;
         
         const currentLevel = this.levelManager.getCurrentLevel();
-        console.log('Level completed:', currentLevel); // Debug
+        const currentScore = this.scoreManager.getScoreData().score;
+        const currentLives = this.player.lives;
+        
+        console.log('Level completed:', currentLevel, 'Score:', currentScore, 'Lives:', currentLives);
         
         if (currentLevel >= GameConfig.levels.count) {
             // Jeu terminé
@@ -338,10 +356,16 @@ class GameScene extends Phaser.Scene {
         } else {
             // Niveau suivant
             const nextLevel = this.levelManager.nextLevel();
-            console.log('Moving to level:', nextLevel); // Debug
+            
+            // Bonus de fin de niveau
+            const levelBonus = GameConfig.scoring.levelComplete || 1000;
+            this.scoreManager.addScore(levelBonus, 'level');
+            const finalScore = this.scoreManager.getScoreData().score;
+            
+            console.log('Moving to level:', nextLevel, 'Final score:', finalScore, 'Lives:', currentLives);
             
             // Afficher le message de niveau suivant
-            this.add.text(GameConfig.width / 2, GameConfig.height / 2, `NIVEAU ${nextLevel}`, {
+            this.add.text(GameConfig.width / 2, GameConfig.height / 2, `NIVEAU ${nextLevel}\nBONUS: ${levelBonus}`, {
                 fontSize: '48px',
                 fill: '#00ff00',
                 fontFamily: 'Courier New',
@@ -349,8 +373,12 @@ class GameScene extends Phaser.Scene {
             }).setOrigin(0.5);
             
             this.time.delayedCall(2000, () => {
-                // Redémarrer la scène avec le nouveau niveau
-                this.scene.restart({ level: nextLevel });
+                // Redémarrer la scène avec le nouveau niveau, score et vies
+                this.scene.restart({ 
+                    level: nextLevel, 
+                    score: finalScore, 
+                    lives: currentLives 
+                });
             });
         }
     }

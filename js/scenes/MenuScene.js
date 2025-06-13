@@ -55,7 +55,7 @@ class MenuScene extends Phaser.Scene {
         
         // Gestion des touches
         this.input.keyboard.on('keydown-ENTER', () => {
-            this.scene.start('GameScene', { level: 1 }); // Commencer au niveau 1
+            this.scene.start('GameScene', { level: 1, score: 0, lives: 3 }); // Commencer avec les valeurs par défaut
         });
     }
 }

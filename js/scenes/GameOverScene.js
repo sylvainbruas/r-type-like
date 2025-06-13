@@ -53,7 +53,7 @@ class GameOverScene extends Phaser.Scene {
         // Gestion des touches
         this.input.keyboard.on('keydown-R', () => {
             rTypeGame.restart();
-            this.scene.start('GameScene');
+            this.scene.start('GameScene', { level: 1, score: 0, lives: 3 }); // Redémarrer avec les valeurs par défaut
         });
         
         this.input.keyboard.on('keydown-M', () => {

@@ -48,6 +48,11 @@ class ScoreManager {
         return Math.floor(finalPoints);
     }
     
+    setScore(score) {
+        this.currentScore = score;
+        return this.currentScore;
+    }
+    
     resetMultiplierTimer() {
         this.multiplierTimer = 5000; // 5 secondes
     }

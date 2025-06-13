@@ -166,7 +166,8 @@ python3 -m http.server 8000
 - ✅ Logique générale (15 tests)
 - ✅ Mécanique des projectiles (8 tests)
 - ✅ Mouvement des boss (12 tests)
-- **Total : 78 tests**
+- ✅ Groupes d'ennemis (12 tests)
+- **Total : 90 tests**
 
 📖 **Pour plus de détails sur les tests, consultez [tests/README.md](tests/README.md)**
 

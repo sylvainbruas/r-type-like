@@ -21,10 +21,12 @@ class GameScene extends Phaser.Scene {
         // Variables de jeu
         this.lastFired = 0;
         this.enemySpawnTimer = 0;
+        this.groupSpawnTimer = 0; // Timer pour les groupes d'ennemis
         this.levelStartTime = this.time.now;
         this.bossSpawned = false;
         this.levelComplete = false;
         this.maxPlayerBullets = 2; // Limite de projectiles simultanés
+        this.enemyGroups = []; // Tableau pour gérer les groupes d'ennemis
         
         // Collisions
         this.setupCollisions();
@@ -132,6 +134,15 @@ class GameScene extends Phaser.Scene {
             }
         });
         
+        // Mise à jour des groupes d'ennemis
+        this.updateEnemyGroups();
+        
+        // Spawn des groupes d'ennemis
+        if (time > this.groupSpawnTimer + this.getGroupSpawnRate() && !this.bossSpawned) {
+            this.spawnEnemyGroup();
+            this.groupSpawnTimer = time;
+        }
+        
         // Tir du joueur
         if (this.spaceKey.isDown && time > this.lastFired + GameConfig.player.fireRate) {
             // Vérifier le nombre de projectiles actifs
@@ -163,6 +174,41 @@ class GameScene extends Phaser.Scene {
         
         // Nettoyer les balles hors écran
         this.cleanupBullets();
+    }
+    
+    updateEnemyGroups() {
+        // Mettre à jour tous les groupes d'ennemis
+        this.enemyGroups = this.enemyGroups.filter(group => {
+            if (group.isDestroyed()) {
+                group.destroy();
+                return false;
+            }
+            group.update();
+            return true;
+        });
+    }
+    
+    getGroupSpawnRate() {
+        // Taux de spawn des groupes (plus lent que les ennemis individuels)
+        const baseRate = 8000; // 8 secondes de base
+        const levelMultiplier = this.levelManager.getDifficultyMultiplier();
+        return baseRate / levelMultiplier;
+    }
+    
+    spawnEnemyGroup() {
+        // Générer un point d'entrée aléatoire
+        const entryPoints = [
+            { x: GameConfig.width + 50, y: Phaser.Math.Between(50, GameConfig.height - 50) }, // Droite
+            { x: Phaser.Math.Between(50, GameConfig.width - 50), y: -50 }, // Haut
+            { x: Phaser.Math.Between(50, GameConfig.width - 50), y: GameConfig.height + 50 } // Bas
+        ];
+        
+        const entryPoint = Phaser.Utils.Array.GetRandom(entryPoints);
+        const group = new EnemyGroup(this, entryPoint);
+        
+        this.enemyGroups.push(group);
+        
+        console.log('Spawned enemy group at:', entryPoint);
     }
     
     fireBullet() {

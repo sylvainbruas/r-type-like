@@ -5,13 +5,23 @@ class PreloadScene extends Phaser.Scene {
     }
     
     preload() {
-        // Créer des textures procédurales pour éviter les problèmes de data URI
-        this.createPlayerTexture();
-        this.createEnemyTexture();
-        this.createBulletTexture();
+        // Charger les assets SVG depuis assets/images/
+        this.load.svg('player', 'assets/images/player.svg', { width: 64, height: 32 });
+        this.load.svg('enemy', 'assets/images/enemy.svg', { width: 32, height: 32 });
+        this.load.svg('bullet', 'assets/images/bullet.svg', { width: 8, height: 4 });
+        
+        // Créer des textures de fallback au cas où les SVG ne se chargent pas
+        this.createFallbackTextures();
         
         // Barre de chargement
         this.createLoadingBar();
+    }
+    
+    createFallbackTextures() {
+        // Textures de secours si les SVG ne se chargent pas
+        this.createPlayerTexture();
+        this.createEnemyTexture();
+        this.createBulletTexture();
     }
     
     createPlayerTexture() {
@@ -94,7 +104,24 @@ class PreloadScene extends Phaser.Scene {
     }
     
     create() {
+        // Vérifier si les SVG ont été chargés correctement
+        this.checkAssetLoading();
+        
         // Passer au menu principal
         this.scene.start('MenuScene');
+    }
+    
+    checkAssetLoading() {
+        // Vérifier si les textures SVG sont disponibles
+        const playerTexture = this.textures.exists('player');
+        const enemyTexture = this.textures.exists('enemy');
+        const bulletTexture = this.textures.exists('bullet');
+        
+        console.log('🎮 Asset loading status:');
+        console.log('- Player (DeLorean):', playerTexture ? '✅ SVG Loaded' : '❌ Using fallback');
+        console.log('- Enemy:', enemyTexture ? '✅ SVG Loaded' : '❌ Using fallback');
+        console.log('- Bullet:', bulletTexture ? '✅ SVG Loaded' : '❌ Using fallback');
+        
+        // Si les SVG n'ont pas pu être chargés, les textures procédurales seront utilisées
     }
 }

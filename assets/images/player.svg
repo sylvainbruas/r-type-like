@@ -1,4 +1,77 @@
-<svg width="32" height="16" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="0,8 8,0 24,4 32,8 24,12 8,16" fill="#00ff00"/>
-    <circle cx="28" cy="8" r="2" fill="#ffff00"/>
+<svg width="64" height="32" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- DeLorean 8-bit Style -->
+  
+  <!-- Carrosserie principale -->
+  <rect x="8" y="12" width="48" height="8" fill="#C0C0C0"/>
+  
+  <!-- Capot avant -->
+  <rect x="4" y="14" width="8" height="4" fill="#A0A0A0"/>
+  
+  <!-- Pare-brise -->
+  <rect x="16" y="10" width="12" height="4" fill="#4A90E2"/>
+  
+  <!-- Toit -->
+  <rect x="12" y="8" width="20" height="6" fill="#808080"/>
+  
+  <!-- Lunette arrière -->
+  <rect x="32" y="10" width="8" height="4" fill="#4A90E2"/>
+  
+  <!-- Coffre -->
+  <rect x="40" y="12" width="16" height="8" fill="#A0A0A0"/>
+  
+  <!-- Roues -->
+  <rect x="12" y="20" width="6" height="4" fill="#333333"/>
+  <rect x="42" y="20" width="6" height="4" fill="#333333"/>
+  
+  <!-- Jantes -->
+  <rect x="14" y="21" width="2" height="2" fill="#FFFF00"/>
+  <rect x="44" y="21" width="2" height="2" fill="#FFFF00"/>
+  
+  <!-- Phares avant -->
+  <rect x="2" y="15" width="2" height="2" fill="#FFFFFF"/>
+  <rect x="2" y="13" width="2" height="2" fill="#FFFFFF"/>
+  
+  <!-- Feux arrière -->
+  <rect x="56" y="15" width="2" height="2" fill="#FF0000"/>
+  <rect x="56" y="13" width="2" height="2" fill="#FF0000"/>
+  
+  <!-- Détails carrosserie -->
+  <rect x="20" y="14" width="16" height="1" fill="#E0E0E0"/>
+  <rect x="8" y="16" width="48" height="1" fill="#909090"/>
+  
+  <!-- Portes papillon (fermées) -->
+  <rect x="18" y="12" width="1" height="6" fill="#606060"/>
+  <rect x="28" y="12" width="1" height="6" fill="#606060"/>
+  
+  <!-- Grille avant -->
+  <rect x="6" y="15" width="2" height="1" fill="#404040"/>
+  <rect x="6" y="13" width="2" height="1" fill="#404040"/>
+  
+  <!-- Échappement -->
+  <rect x="58" y="18" width="4" height="2" fill="#606060"/>
+  
+  <!-- Antenne -->
+  <rect x="24" y="6" width="1" height="4" fill="#808080"/>
+  
+  <!-- Rétroviseurs -->
+  <rect x="16" y="11" width="2" height="1" fill="#C0C0C0"/>
+  <rect x="30" y="11" width="2" height="1" fill="#C0C0C0"/>
+  
+  <!-- Pare-chocs avant -->
+  <rect x="0" y="16" width="4" height="2" fill="#808080"/>
+  
+  <!-- Pare-chocs arrière -->
+  <rect x="56" y="16" width="4" height="2" fill="#808080"/>
+  
+  <!-- Flux Capacitor (détail spécial DeLorean) -->
+  <rect x="26" y="14" width="4" height="2" fill="#00FFFF"/>
+  <rect x="27" y="15" width="2" height="1" fill="#FFFFFF"/>
+  
+  <!-- Lignes de vitesse (effet de mouvement) -->
+  <rect x="60" y="10" width="3" height="1" fill="#FFFFFF" opacity="0.7"/>
+  <rect x="61" y="12" width="2" height="1" fill="#FFFFFF" opacity="0.5"/>
+  <rect x="60" y="14" width="3" height="1" fill="#FFFFFF" opacity="0.7"/>
+  <rect x="61" y="16" width="2" height="1" fill="#FFFFFF" opacity="0.5"/>
+  <rect x="60" y="18" width="3" height="1" fill="#FFFFFF" opacity="0.7"/>
+  <rect x="61" y="20" width="2" height="1" fill="#FFFFFF" opacity="0.5"/>
 </svg>

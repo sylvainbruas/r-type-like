@@ -121,7 +121,11 @@ Rtype/
 │   ├── test-runner.html   # Interface de test
 │   ├── *.test.js         # Fichiers de tests
 │   └── README.md         # Documentation des tests
-├── assets/                # Ressources (images, sons)
+├── assets/                # Ressources
+│   └── images/           # Images et sprites
+│       ├── player.svg    # DeLorean 8-bit (vaisseau joueur)
+│       ├── enemy.svg     # Sprites des ennemis
+│       └── bullet.svg    # Sprites des projectiles
 ├── README.md
 └── questions.txt          # Suivi du développement
 ```

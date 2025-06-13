@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test DeLorean SVG</title>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .sprite-test {
+            background: #111;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #333;
+        }
+        .sprite-display {
+            background: #222;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .sprite-info {
+            margin: 10px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 Test DeLorean 8-bit SVG</h1>
+        
+        <div class="sprite-test">
+            <h2>Version Principale (player.svg)</h2>
+            <div class="sprite-info">
+                <strong>Dimensions:</strong> 64x32px<br>
+                <strong>Usage:</strong> Sprite principal du joueur<br>
+                <strong>Chemin:</strong> assets/images/player.svg
+            </div>
+            <div class="sprite-display">
+                <img src="assets/images/player.svg" alt="DeLorean Player" style="image-rendering: pixelated; transform: scale(3);">
+            </div>
+        </div>
+        
+        <div class="sprite-test">
+            <h2>Version Alternative (delorean-alt.svg)</h2>
+            <div class="sprite-info">
+                <strong>Dimensions:</strong> 80x40px<br>
+                <strong>Usage:</strong> Version détaillée<br>
+                <strong>Chemin:</strong> assets/images/delorean-alt.svg
+            </div>
+            <div class="sprite-display">
+                <img src="assets/images/delorean-alt.svg" alt="DeLorean Alternative" style="image-rendering: pixelated; transform: scale(3);">
+            </div>
+        </div>
+        
+        <div class="sprite-test">
+            <h2>Comparaison avec les autres sprites</h2>
+            <div class="sprite-info">
+                <strong>Ennemi:</strong> assets/images/enemy.svg<br>
+                <strong>Projectile:</strong> assets/images/bullet.svg
+            </div>
+            <div class="sprite-display">
+                <img src="assets/images/player.svg" alt="Player" style="image-rendering: pixelated; transform: scale(2); margin: 10px;">
+                <img src="assets/images/enemy.svg" alt="Enemy" style="image-rendering: pixelated; transform: scale(2); margin: 10px;">
+                <img src="assets/images/bullet.svg" alt="Bullet" style="image-rendering: pixelated; transform: scale(4); margin: 10px;">
+            </div>
+        </div>
+        
+        <div class="sprite-test">
+            <h2>🎮 Instructions de Test</h2>
+            <div class="sprite-info">
+                1. <strong>Vérifiez l'affichage:</strong> Les DeLorean doivent apparaître clairement<br>
+                2. <strong>Lancez le jeu:</strong> <code>./start.sh</code> puis <code>http://localhost:8000</code><br>
+                3. <strong>Vérifiez la console:</strong> Logs de chargement des assets SVG<br>
+                4. <strong>Jouez:</strong> La DeLorean doit remplacer le vaisseau par défaut
+            </div>
+        </div>
+        
+        <div class="sprite-test">
+            <h2>🔧 Caractéristiques DeLorean</h2>
+            <div class="sprite-info">
+                ✅ <strong>Carrosserie inox:</strong> Couleur argentée authentique<br>
+                ✅ <strong>Flux Capacitor:</strong> Élément cyan central<br>
+                ✅ <strong>Portes papillon:</strong> Détails des charnières<br>
+                ✅ <strong>Jantes dorées:</strong> Style rétro années 80<br>
+                ✅ <strong>Phares/Feux:</strong> Blancs avant, rouges arrière<br>
+                ✅ <strong>Lignes de vitesse:</strong> Effet de mouvement spatial
+            </div>
+        </div>
+    </div>
+</body>
+</html>

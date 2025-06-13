@@ -167,13 +167,8 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         this.chargeStartTime = this.scene.time.now;
         this.setVelocity(0, 0); // Arrêter le mouvement
         
-        // Mémoriser la position du joueur
-        if (this.scene.player) {
-            this.chargeTarget.x = this.scene.player.x;
-            this.chargeTarget.y = this.scene.player.y;
-        }
-        
-        console.log('Boss preparing to charge!'); // Debug
+        // Plus besoin de mémoriser une position fixe car le boss va suivre en temps réel
+        console.log('Boss preparing to chase player dynamically!'); // Debug
     }
     
     handleChargePreparation(currentTime) {
@@ -186,31 +181,38 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
             this.x = this.originalX + this.trembleOffset.x;
             this.y += this.trembleOffset.y;
         } else {
-            // Commencer la charge
+            // Commencer la charge (plus besoin de capturer la position fixe)
             this.isPreparingCharge = false;
             this.isCharging = true;
-            this.chargeStartTime = currentTime;
+            this.chargeStartTime = currentTime; // Réinitialiser pour la durée de charge
             
-            // Calculer la direction vers la cible
-            const dx = this.chargeTarget.x - this.x;
-            const dy = this.chargeTarget.y - this.y;
+            console.log('Boss starting dynamic chase!'); // Debug
+        }
+    }
+    
+    handleCharging() {
+        // Le boss suit maintenant le joueur en temps réel à 80% de sa vitesse
+        if (this.scene.player) {
+            const dx = this.scene.player.x - this.x;
+            const dy = this.scene.player.y - this.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
             
             if (distance > 0) {
-                const chargeSpeed = this.playerSpeed * 0.5; // 50% de la vitesse du joueur
+                const chargeSpeed = this.playerSpeed * 0.8; // 80% de la vitesse du joueur
                 this.setVelocity(
                     (dx / distance) * chargeSpeed,
                     (dy / distance) * chargeSpeed
                 );
             }
         }
-    }
-    
-    handleCharging() {
-        // La charge continue jusqu'à ce que le boss sorte de l'écran ou touche quelque chose
-        if (this.x < -100 || this.x > GameConfig.width + 100 || 
-            this.y < -100 || this.y > GameConfig.height + 100) {
-            // Réinitialiser après la charge
+        
+        // Arrêter la charge après un certain temps ou si le boss sort trop loin
+        const chargeElapsed = this.scene.time.now - this.chargeStartTime;
+        const maxChargeDuration = 15000; // 15 secondes maximum de poursuite
+        
+        if (chargeElapsed > maxChargeDuration || 
+            this.x < -200 || this.x > GameConfig.width + 200 || 
+            this.y < -200 || this.y > GameConfig.height + 200) {
             this.resetAfterCharge();
         }
     }
@@ -229,7 +231,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         // Reprendre le mouvement normal
         this.updateMovementSpeed();
         
-        console.log('Boss charge complete, resetting'); // Debug
+        console.log('Boss chase complete, returning to zone'); // Debug
     }
     
     handleNormalMovement(currentTime) {
@@ -336,7 +338,13 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     constrainToMovementZone() {
-        // Maintenir le boss dans le tiers droit de l'écran
+        // Pendant la charge, le boss peut aller partout sur l'écran
+        if (this.isCharging) {
+            // Pas de contraintes pendant la poursuite
+            return;
+        }
+        
+        // Maintenir le boss dans le tiers droit de l'écran en temps normal
         if (this.x < this.movementZone.left) {
             this.x = this.movementZone.left;
             this.setVelocityX(Math.abs(this.body.velocity.x));

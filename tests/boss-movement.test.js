@@ -75,12 +75,12 @@ describe('Mouvement des Boss', function() {
         return true;
     });
     
-    this.it('devrait calculer la vitesse de charge à 50% de celle du joueur', () => {
+    this.it('devrait calculer la vitesse de charge à 80% de celle du joueur', () => {
         const playerSpeed = GameConfig.player.speed; // 200
-        const chargeSpeed = playerSpeed * 0.5; // 100
+        const chargeSpeed = playerSpeed * 0.8; // 160
         
-        expect(chargeSpeed).toBe(100);
-        expect(chargeSpeed).toBe(playerSpeed / 2);
+        expect(chargeSpeed).toBe(160);
+        expect(chargeSpeed).toBe(playerSpeed * 0.8);
         
         return true;
     });
@@ -132,7 +132,7 @@ describe('Mouvement des Boss', function() {
         return true;
     });
     
-    this.it('devrait calculer la direction de charge vers le joueur', () => {
+    this.it('devrait calculer la direction de poursuite vers le joueur en temps réel', () => {
         const bossPos = { x: 700, y: 200 };
         const playerPos = { x: 300, y: 400 };
         
@@ -145,13 +145,19 @@ describe('Mouvement des Boss', function() {
         expect(distance).toBeGreaterThan(440);
         expect(distance).toBeLessThan(450);
         
-        // Direction normalisée
+        // Direction normalisée pour la poursuite
         if (distance > 0) {
-            const normalizedX = dx / distance;
-            const normalizedY = dy / distance;
+            const chargeSpeed = 160; // 80% de 200
+            const velocityX = (dx / distance) * chargeSpeed;
+            const velocityY = (dy / distance) * chargeSpeed;
             
-            expect(normalizedX).toBeLessThan(0); // Vers la gauche
-            expect(normalizedY).toBeGreaterThan(0); // Vers le bas
+            expect(velocityX).toBeLessThan(0); // Vers la gauche
+            expect(velocityY).toBeGreaterThan(0); // Vers le bas
+            
+            // Vérifier que la vitesse totale est correcte
+            const totalSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+            expect(totalSpeed).toBeGreaterThan(155);
+            expect(totalSpeed).toBeLessThan(165);
         }
         
         return true;
@@ -192,6 +198,48 @@ describe('Mouvement des Boss', function() {
         // Vérifier qu'il y a de la variabilité
         const uniqueX = [...new Set(trembleResults.map(t => Math.round(t.x)))];
         expect(uniqueX.length).toBeGreaterThan(1);
+        
+        return true;
+    });
+    
+    this.it('devrait limiter la durée de poursuite à 15 secondes maximum', () => {
+        const maxChargeDuration = 15000; // 15 secondes
+        let chargeStartTime = 0;
+        let currentTime = 10000; // 10 secondes
+        
+        // Encore en poursuite
+        let shouldStop = currentTime - chargeStartTime > maxChargeDuration;
+        expect(shouldStop).toBeFalsy();
+        
+        // Après 15 secondes
+        currentTime = 16000; // 16 secondes
+        shouldStop = currentTime - chargeStartTime > maxChargeDuration;
+        expect(shouldStop).toBeTruthy();
+        
+        return true;
+    });
+    
+    this.it('devrait permettre au boss de sortir de sa zone pendant la poursuite', () => {
+        const screenWidth = GameConfig.width;
+        const movementZone = {
+            left: screenWidth * 0.67, // Zone normale
+            right: screenWidth - 50
+        };
+        
+        // Position normale (dans la zone)
+        const normalPos = { x: 700, y: 300, isCharging: false };
+        let shouldConstrain = normalPos.x < movementZone.left;
+        expect(shouldConstrain).toBeFalsy(); // Dans la zone
+        
+        // Position pendant la poursuite (hors zone)
+        const chasePos = { x: 200, y: 300, isCharging: true };
+        // Pendant la poursuite, pas de contraintes
+        if (chasePos.isCharging) {
+            shouldConstrain = false; // Pas de contraintes
+        } else {
+            shouldConstrain = chasePos.x < movementZone.left;
+        }
+        expect(shouldConstrain).toBeFalsy(); // Libre pendant la poursuite
         
         return true;
     });

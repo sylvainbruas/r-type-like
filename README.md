@@ -165,8 +165,8 @@ python3 -m http.server 8000
 - ✅ Gestionnaire de niveaux (18 tests)
 - ✅ Logique générale (15 tests)
 - ✅ Mécanique des projectiles (8 tests)
-- ✅ Mouvement des boss (10 tests)
-- **Total : 76 tests**
+- ✅ Mouvement des boss (12 tests)
+- **Total : 78 tests**
 
 📖 **Pour plus de détails sur les tests, consultez [tests/README.md](tests/README.md)**
 

@@ -567,3 +567,82 @@ L'erreur était causée par plusieurs problèmes dans GameScene :
 - fix: Initialize managers and remove undefined rTypeGame references
 
 ---
+
+## Question 12 (2025-06-11 07:00)
+**Demande :** Correction de l'erreur "Uncaught TypeError: Cannot read properties of undefined (reading 'add')" après la destruction du boss.
+
+**Problème identifié :**
+L'erreur se produisait dans la méthode `explode()` du boss (ligne 483 de Boss.js) quand les callbacks `delayedCall` tentaient d'accéder à `this.scene.add` après que le boss ait été détruit. Quand un objet Phaser est détruit, sa référence `scene` devient undefined, mais les callbacks programmés continuent de s'exécuter.
+
+**Actions réalisées :**
+1. **Sécurisation de la méthode explode() :**
+   - Capture de la référence scène avant les callbacks : `const scene = this.scene`
+   - Capture des coordonnées du boss : `const bossX = this.x, bossY = this.y`
+   - Vérification de l'existence de la scène : `if (scene && scene.add && scene.active)`
+   - Double vérification dans chaque callback pour éviter les erreurs
+
+2. **Correction des callbacks de particules :**
+   - Utilisation de la référence capturée `scene` au lieu de `this.scene`
+   - Vérification de l'existence des objets avant destruction
+   - Protection contre les appels sur des objets détruits
+
+3. **Amélioration de cleanupUI() :**
+   - Ajout de try-catch pour capturer les erreurs de destruction
+   - Vérification de l'existence des méthodes `destroy` avant appel
+   - Mise à null des références après destruction
+   - Gestion gracieuse des erreurs avec console.warn
+
+4. **Sécurisation de la méthode destroy() :**
+   - Vérification de `this.active` avant appel à `super.destroy()`
+   - Nettoyage de l'interface avant destruction
+   - Protection contre les doubles destructions
+
+5. **Correction de showBossName() :**
+   - Vérification de l'existence de `this.scene` et `this.scene.add`
+   - Protection du système de tweens avec fallback
+   - Vérification des objets avant destruction dans les callbacks
+
+6. **Remplacement des références globales :**
+   - Remplacement de `rTypeGame.addScore()` par `scene.scoreManager.addScore()`
+   - Vérification de l'existence du scoreManager avant utilisation
+   - Gestion gracieuse si le manager n'est pas disponible
+
+**Corrections techniques :**
+- ✅ **Capture de références** : Variables locales pour éviter les undefined
+- ✅ **Vérifications multiples** : Existence des objets à chaque étape
+- ✅ **Try-catch** : Gestion d'erreur pour les opérations de destruction
+- ✅ **Callbacks sécurisés** : Vérification avant chaque accès aux propriétés
+- ✅ **Fallbacks** : Solutions de repli si les systèmes ne sont pas disponibles
+
+**Code défensif ajouté :**
+```javascript
+// Avant (problématique)
+this.scene.time.delayedCall(100, () => {
+    const explosion = this.scene.add.particles(...);
+});
+
+// Après (sécurisé)
+const scene = this.scene;
+scene.time.delayedCall(100, () => {
+    if (scene && scene.add && scene.active) {
+        const explosion = scene.add.particles(...);
+    }
+});
+```
+
+**Méthodes sécurisées :**
+- `explode()` : Capture de références et vérifications multiples
+- `cleanupUI()` : Try-catch et vérifications d'existence
+- `destroy()` : Vérification active avant destruction
+- `showBossName()` : Validation de scène et fallback tweens
+
+**Résultat :**
+- ✅ **Erreur résolue** : Plus d'erreur "Cannot read properties of undefined"
+- ✅ **Destruction propre** : Boss se détruit sans crash
+- ✅ **Effets visuels** : Explosions fonctionnent correctement
+- ✅ **Code robuste** : Gestion d'erreur complète
+
+**Commits créés :**
+- fix: Prevent undefined scene errors during boss destruction
+
+---

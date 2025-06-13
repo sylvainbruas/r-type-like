@@ -93,6 +93,11 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     showBossName() {
+        // Vérifier que la scène existe
+        if (!this.scene || !this.scene.add) {
+            return;
+        }
+        
         const warningText = this.scene.add.text(GameConfig.width / 2, GameConfig.height / 2, 
             `ATTENTION!\n${this.bossData.name.toUpperCase()}`, {
             fontSize: '32px',
@@ -102,16 +107,27 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         }).setOrigin(0.5);
         
         // Animation d'apparition
-        this.scene.tweens.add({
-            targets: warningText,
-            alpha: 0,
-            duration: 200,
-            yoyo: true,
-            repeat: 5,
-            onComplete: () => {
-                warningText.destroy();
-            }
-        });
+        if (this.scene.tweens) {
+            this.scene.tweens.add({
+                targets: warningText,
+                alpha: 0,
+                duration: 200,
+                yoyo: true,
+                repeat: 5,
+                onComplete: () => {
+                    if (warningText && warningText.destroy) {
+                        warningText.destroy();
+                    }
+                }
+            });
+        } else {
+            // Fallback si tweens n'est pas disponible
+            this.scene.time.delayedCall(3000, () => {
+                if (warningText && warningText.destroy) {
+                    warningText.destroy();
+                }
+            });
+        }
     }
     
     enterScreen() {
@@ -477,45 +493,85 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     explode() {
+        // Capturer les références nécessaires avant la destruction
+        const scene = this.scene;
+        const bossX = this.x;
+        const bossY = this.y;
+        
+        // Vérifier que la scène existe
+        if (!scene || !scene.add || !scene.active) {
+            this.destroy();
+            return;
+        }
+        
         // Explosion spectaculaire
         for (let i = 0; i < 10; i++) {
-            this.scene.time.delayedCall(i * 100, () => {
-                const explosion = this.scene.add.particles(
-                    this.x + Phaser.Math.Between(-50, 50),
-                    this.y + Phaser.Math.Between(-50, 50),
-                    'bullet', {
-                    speed: { min: 100, max: 300 },
-                    scale: { start: 0.8, end: 0 },
-                    lifespan: 600,
-                    tint: 0xff4400,
-                    quantity: 15
-                });
-                
-                this.scene.time.delayedCall(600, () => {
-                    explosion.destroy();
-                });
+            scene.time.delayedCall(i * 100, () => {
+                // Double vérification que la scène existe encore
+                if (scene && scene.add && scene.active) {
+                    const explosion = scene.add.particles(
+                        bossX + Phaser.Math.Between(-50, 50),
+                        bossY + Phaser.Math.Between(-50, 50),
+                        'bullet', {
+                        speed: { min: 100, max: 300 },
+                        scale: { start: 0.8, end: 0 },
+                        lifespan: 600,
+                        tint: 0xff4400,
+                        quantity: 15
+                    });
+                    
+                    // Nettoyer l'explosion après un délai
+                    scene.time.delayedCall(600, () => {
+                        if (explosion && explosion.destroy) {
+                            explosion.destroy();
+                        }
+                    });
+                }
             });
         }
         
-        // Ajouter les points du boss
-        rTypeGame.addScore(GameConfig.scoring.boss);
+        // Ajouter les points du boss (utiliser le scoreManager local)
+        if (scene.scoreManager && scene.scoreManager.addScore) {
+            scene.scoreManager.addScore(GameConfig.scoring.boss, 'boss');
+        }
         
         // Nettoyer l'interface
         this.cleanupUI();
         
-        this.scene.time.delayedCall(1000, () => {
-            this.destroy();
+        // Programmer la destruction du boss
+        scene.time.delayedCall(1000, () => {
+            if (this.active) {
+                this.destroy();
+            }
         });
     }
     
     cleanupUI() {
-        if (this.healthBar) this.healthBar.destroy();
-        if (this.healthBarBg) this.healthBarBg.destroy();
-        if (this.bossNameText) this.bossNameText.destroy();
+        try {
+            if (this.healthBar && this.healthBar.destroy) {
+                this.healthBar.destroy();
+                this.healthBar = null;
+            }
+            if (this.healthBarBg && this.healthBarBg.destroy) {
+                this.healthBarBg.destroy();
+                this.healthBarBg = null;
+            }
+            if (this.bossNameText && this.bossNameText.destroy) {
+                this.bossNameText.destroy();
+                this.bossNameText = null;
+            }
+        } catch (error) {
+            console.warn('Error cleaning up boss UI:', error);
+        }
     }
     
     destroy() {
+        // Nettoyer l'interface avant la destruction
         this.cleanupUI();
-        super.destroy();
+        
+        // Vérifier que l'objet est encore actif avant la destruction
+        if (this.active) {
+            super.destroy();
+        }
     }
 }

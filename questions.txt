@@ -1074,3 +1074,121 @@ if (currentScore > 0) {
 - fix: Add comprehensive fallback system for score restoration
 
 ---
+
+## Question 18 (2025-06-11 07:00)
+**Demande :** start.sh ne fonctionne plus.
+
+**Problème identifié :**
+Le script `start.sh` ne fonctionnait plus à cause de conflits de port. Un serveur HTTP Python était déjà en cours d'exécution sur le port 8000, empêchant le démarrage d'un nouveau serveur.
+
+**Diagnostic effectué :**
+- ✅ Script `start.sh` présent et exécutable
+- ✅ Python3 installé et fonctionnel
+- ⚠️ Port 8000 déjà utilisé par un processus existant
+- ⚠️ Serveur HTTP Python déjà actif (PID: 21762)
+
+**Actions réalisées :**
+1. **Amélioration du script start.sh :**
+   - Ajout de détection de conflit de port avec `lsof -Pi :$PORT`
+   - Affichage des processus utilisant le port
+   - Prompt interactif pour arrêter les processus existants
+   - Gestion automatique des conflits avec options utilisateur
+   - Ajout de liens utiles (tests, diagnostics) dans l'affichage
+
+2. **Création du script stop.sh :**
+   - Arrêt automatique de tous les serveurs HTTP Python
+   - Vérification des PIDs avec `pgrep -f "python.*http.server"`
+   - Arrêt gracieux puis forcé si nécessaire
+   - Vérification des ports couramment utilisés (8000, 8001, 8080, 3000)
+   - Confirmation de l'arrêt complet
+
+3. **Création du script diagnose.sh :**
+   - Vérification complète de l'environnement (Python, fichiers, permissions)
+   - Diagnostic des ports et processus actifs
+   - Test de connectivité sur les ports
+   - Recommandations personnalisées selon la situation
+   - Rapport détaillé avec solutions
+
+4. **Gestion robuste des erreurs :**
+   - Détection automatique des conflits avant démarrage
+   - Options multiples pour résoudre les conflits
+   - Messages d'erreur clairs avec solutions
+   - Nettoyage automatique à l'arrêt (Ctrl+C)
+
+**Scripts créés/améliorés :**
+
+### **start.sh amélioré :**
+```bash
+# Détection de conflit de port
+if lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null 2>&1; then
+    echo "⚠️  Le port $PORT est déjà utilisé"
+    # Prompt interactif pour résolution
+fi
+
+# Affichage des liens utiles
+echo "🔗 Ouvrez votre navigateur sur: http://localhost:$PORT"
+echo "📖 Tests: http://localhost:$PORT/tests/test-runner.html"
+echo "🧪 ScoreManager: http://localhost:$PORT/test-scoremanager.html"
+```
+
+### **stop.sh (nouveau) :**
+```bash
+# Arrêt de tous les serveurs HTTP Python
+PIDS=$(pgrep -f "python.*http.server" 2>/dev/null)
+pkill -f "python.*http.server"
+
+# Vérification des ports
+for port in 8000 8001 8080 3000; do
+    # Vérification de disponibilité
+done
+```
+
+### **diagnose.sh (nouveau) :**
+```bash
+# Diagnostic complet
+- Vérification Python ✅
+- Vérification fichiers ✅  
+- Vérification permissions ✅
+- Vérification ports ⚠️
+- Processus actifs ⚠️
+- Recommandations 💡
+```
+
+**Fonctionnalités ajoutées :**
+- ✅ **Détection automatique** des conflits de port
+- ✅ **Résolution interactive** des conflits
+- ✅ **Arrêt propre** de tous les serveurs
+- ✅ **Diagnostic complet** de l'environnement
+- ✅ **Messages d'aide** avec solutions
+- ✅ **Gestion des signaux** (Ctrl+C)
+- ✅ **Liens utiles** affichés au démarrage
+
+**Utilisation des nouveaux scripts :**
+```bash
+# Diagnostic des problèmes
+./diagnose.sh
+
+# Arrêt des serveurs existants
+./stop.sh
+
+# Démarrage propre
+./start.sh          # Port 8000 par défaut
+./start.sh 8001     # Port personnalisé
+```
+
+**Résolution du problème :**
+1. **Diagnostic** : `./diagnose.sh` → Serveur actif détecté sur port 8000
+2. **Nettoyage** : `./stop.sh` → Tous les serveurs arrêtés
+3. **Redémarrage** : `./start.sh` → Démarrage réussi
+
+**Résultat :**
+- ✅ **Script start.sh** : Fonctionne avec détection de conflits
+- ✅ **Gestion des ports** : Automatique et interactive
+- ✅ **Outils de diagnostic** : Complets et informatifs
+- ✅ **Expérience utilisateur** : Améliorée avec messages clairs
+- ✅ **Robustesse** : Gestion de tous les cas d'erreur
+
+**Commits créés :**
+- fix: Enhance server management scripts with port conflict detection
+
+---

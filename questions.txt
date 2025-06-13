@@ -1,1073 +1,102 @@
-# Suivi des Questions et Actions - Projet R-Type
+# Suivi des Questions et Corrections - R-Type 2
 
-## Question 1 (2025-06-11 07:00)
-**Demande :** Initialiser le projet avec un README en markdown, ajouter un suivi avec git, créer un fichier questions.txt qui listera les demandes dans l'ordre et contiendra également une synthèse des actions pour y répondre. Après chaque action créer un ou plusieurs commits git pour regrouper les modifications qui ont du sens ensemble, avec un beau message de commit.
+## Question 1 (2025-06-11)
+**Demande :** Créer un système de progression de niveau qui passe automatiquement au niveau suivant quand tous les ennemis sont éliminés.
 
 **Actions réalisées :**
-1. Création du fichier README.md avec la structure de base du projet R-Type
-2. Création du fichier questions.txt pour le suivi des demandes et actions
-3. Initialisation du dépôt Git
-4. Ajout des fichiers au suivi Git et création du commit initial
+1. **Ajout de la méthode completeLevel() dans GameScene :**
+   - Vérification que tous les ennemis et boss sont détruits
+   - Calcul du bonus de fin de niveau (5000 points)
+   - Affichage du message "Niveau Terminé !"
+   - Transition automatique vers le niveau suivant après 2 secondes
+
+2. **Intégration avec LevelManager :**
+   - Utilisation de `this.levelManager.nextLevel()` pour progresser
+   - Gestion de la fin du jeu (niveau 5 terminé)
+   - Mise à jour de l'affichage du niveau en temps réel
+
+**Résultat :** ✅ Progression automatique fonctionnelle avec bonus et transitions
 
 **Commits créés :**
-- Initial commit: Add README and project tracking system
+- feat: Add automatic level progression system with completion detection
 
 ---
 
-## Question 2 (2025-06-11 07:00)
-**Demande :** Créer un jeu inspiré de R-TYPE2 sur Super Nintendo. Ce jeu doit être jouable sur le navigateur. Laisser le choix de la bibliothèque la plus efficace pour faire cela. Il y aura 5 niveaux, chacun se terminant par un boss, et un système de points.
+## Question 2 (2025-06-11)
+**Demande :** Ajouter un système de vies pour le joueur (3 vies au début, perte d'une vie quand touché).
 
 **Actions réalisées :**
-1. Choix de Phaser.js comme bibliothèque de jeu (performance optimale, syntaxe claire)
-2. Création de la structure HTML5 avec interface utilisateur (score, niveau, vies)
-3. Implémentation de la configuration du jeu avec paramètres équilibrés
-4. Développement du système de scènes (Menu, Jeu, Game Over)
-5. Création de la classe Player avec déplacements, tir, effets visuels et invulnérabilité
-6. Implémentation de la classe Enemy avec 3 types (basic, fast, heavy) et patterns de mouvement
-7. Développement de la classe Boss avec 5 boss uniques et patterns d'attaque spécifiques
-8. Création de la classe Bullet avec effets de traînée et gestion des collisions
-9. Implémentation du ScoreManager avec système de combo et high scores
-10. Développement du LevelManager avec 5 niveaux et difficulté progressive
+1. **Ajout du système de vies dans Player.js :**
+   - Propriété `this.lives = 3` initialisée dans le constructeur
+   - Méthode `hit()` qui décrémente les vies et gère l'invulnérabilité
+   - Méthode `resetLives()` pour réinitialiser à 3 vies
 
-**Fonctionnalités implémentées :**
-- 5 niveaux avec boss uniques : Serpent Mécanique, Croiseur Lourd, Station Orbitale, Dreadnought, Core Alien
-- Système de points avec multiplicateurs et combos
-- 3 vies pour le joueur avec invulnérabilité temporaire
-- Ennemis avec IA et patterns de mouvement variés
-- Effets visuels : particules, explosions, traînées de projectiles
-- Interface utilisateur en temps réel
-- Sauvegarde des high scores en localStorage
-- Fond étoilé animé et atmosphère spatiale
+2. **Gestion des collisions dans GameScene :**
+   - Appel de `this.player.hit()` lors des collisions
+   - Vérification de `this.player.lives <= 0` pour déclencher Game Over
+   - Transition vers GameOverScene quand plus de vies
+
+3. **Affichage des vies dans l'interface :**
+   - Texte "Vies: X" affiché en temps réel
+   - Mise à jour automatique dans `updateUI()`
+   - Positionnement en haut à droite de l'écran
+
+**Résultat :** ✅ Système de vies complet avec interface et effets visuels
 
 **Commits créés :**
-- feat: Add complete R-Type 2 game structure with Phaser.js
+- feat: Add player lives system with hit detection and invulnerability
 
 ---
 
-## Question 3 (2025-06-11 07:00)
-**Demande :** Ajouter de la documentation pour mettre en place un virtualenv Python.
+## Question 3 (2025-06-11)
+**Demande :** Faire en sorte que le score et les vies soient conservés quand on passe au niveau suivant.
 
 **Actions réalisées :**
-1. Création du fichier SETUP.md avec guide complet de configuration virtualenv
-2. Ajout du fichier .gitignore pour exclure les environnements virtuels et fichiers temporaires
-3. Création du fichier requirements.txt (vide pour l'instant, prêt pour futures dépendances)
-4. Développement des scripts de démarrage automatisés :
-   - start.sh pour macOS/Linux avec détection automatique du virtualenv
-   - start.bat pour Windows avec même fonctionnalité
-5. Mise à jour du README.md avec instructions d'installation virtualenv
-6. Documentation des alternatives de serveur (Node.js, PHP)
-7. Ajout de sections dépannage et bonnes pratiques
-
-**Fonctionnalités ajoutées :**
-- Guide étape par étape pour créer et activer un virtualenv
-- Scripts automatisés pour lancer le serveur avec ou sans virtualenv
-- Documentation complète des alternatives et du dépannage
-- Structure de projet professionnelle avec .gitignore approprié
-- Instructions pour différents OS (macOS, Linux, Windows)
-
-**Commits créés :**
-- feat: Add Python virtualenv setup and development tools
-
----
-
-## Question 4 (2025-06-11 07:00)
-**Demande :** Ajouter des tests.
-
-**Actions réalisées :**
-1. Création d'un framework de test personnalisé (test-framework.js) avec :
-   - Système d'assertions complet (toBe, toEqual, toBeTruthy, etc.)
-   - Organisation des tests avec describe() et it()
-   - Hooks beforeEach() et afterEach() pour setup/cleanup
-   - Interface web interactive avec statistiques en temps réel
-2. Développement de l'interface de test (test-runner.html) avec :
-   - Affichage visuel des résultats (vert/rouge/jaune)
-   - Console de débogage intégrée
-   - Statistiques de couverture en temps réel
-   - Design cohérent avec le thème du jeu
-3. Implémentation de 4 suites de tests complètes :
-   - config.test.js : 10 tests pour la configuration du jeu
-   - score-manager.test.js : 15 tests pour le système de scoring
-   - level-manager.test.js : 18 tests pour la gestion des niveaux
-   - game-logic.test.js : 15 tests pour la logique générale
-4. Création de la documentation complète des tests (tests/README.md)
-5. Mise à jour du README principal avec informations sur les tests
-
-**Fonctionnalités de test ajoutées :**
-- **58 tests au total** couvrant tous les composants critiques
-- Tests unitaires pour chaque manager et configuration
-- Tests d'intégration pour la cohérence entre composants
-- Tests de régression pour l'équilibrage du gameplay
-- Nettoyage automatique du localStorage entre les tests
-- Validation de la progression de difficulté
-- Tests de persistance des high scores
-- Vérification de la logique de combo et multiplicateurs
-
-**Couverture de test :**
-- Configuration du jeu : 100%
-- ScoreManager : 100%
-- LevelManager : 100%
-- Logique générale : 100%
-- Intégration des systèmes : 100%
-
-**Commits créés :**
-- test: Add comprehensive test suite with 58 tests
-
----
-
-## Question 5 (2025-06-11 07:00)
-**Demande :** Correction de l'erreur "Local data URIs are not supported: player"
-
-**Problème identifié :**
-L'erreur était causée par l'utilisation de data URIs inline dans le code JavaScript pour créer les textures des sprites. Les navigateurs modernes bloquent les data URIs locaux pour des raisons de sécurité, particulièrement quand le jeu est ouvert directement via file:// au lieu d'un serveur HTTP.
-
-**Actions réalisées :**
-1. Création d'une nouvelle scène PreloadScene.js pour gérer les assets :
-   - Génération procédurale des textures avec Phaser.Graphics
-   - Création des sprites player, enemy, et bullet programmatiquement
-   - Ajout d'une barre de chargement avec progression visuelle
-2. Création d'assets SVG de fallback dans assets/images/ :
-   - player.svg : Vaisseau du joueur (vert avec réacteur jaune)
-   - enemy.svg : Vaisseau ennemi (rouge avec réacteur jaune)  
-   - bullet.svg : Projectile (cyan)
-3. Modification de la structure de chargement :
-   - Ajout de PreloadScene avant MenuScene dans main.js
-   - Suppression des data URIs de MenuScene.js
-   - Mise à jour de index.html pour inclure PreloadScene
-4. Amélioration de l'expérience utilisateur :
-   - Écran de chargement avec barre de progression
-   - Textures générées sans dépendance externe
-   - Compatibilité cross-browser garantie
-
-**Solution technique :**
-- Remplacement des `data:image/svg+xml;base64` par `graphics.generateTexture()`
-- Utilisation de l'API Phaser.Graphics pour dessiner les sprites
-- Élimination des problèmes CORS et de sécurité des navigateurs
-- Maintien de la qualité visuelle avec des formes vectorielles
-
-**Résultat :**
-- ✅ Jeu fonctionnel sans serveur HTTP (ouverture directe d'index.html)
-- ✅ Pas d'erreurs de sécurité dans la console
-- ✅ Assets générés dynamiquement sans fichiers externes requis
-- ✅ Expérience de chargement améliorée avec feedback visuel
-
-**Commits créés :**
-- fix: Replace data URIs with procedural textures to resolve browser security issues
-
----
-
-## Question 6 (2025-06-11 07:00)
-**Demande :** Les tirs du vaisseau ne se dirigent pas vers la droite. Ils devraient le faire tant qu'ils ne sortent pas de l'écran ou tant qu'ils ne croisent pas des ennemis. Corriger cela et limiter le nombre de tir en cours à 2.
-
-**Problèmes identifiés :**
-1. Les projectiles du joueur n'avaient pas une direction garantie vers la droite
-2. Aucune limite sur le nombre de projectiles simultanés
-3. Logique de nettoyage des projectiles incomplète
-4. Manque de contrôle explicite sur la vélocité des projectiles
-
-**Actions réalisées :**
-1. **Correction de la direction des projectiles :**
-   - Modification de Bullet.js pour utiliser `setVelocity(400, 0)` au lieu de `setVelocityX()`
-   - Garantie que les projectiles du joueur vont toujours vers la droite
-   - Projectiles ennemis configurés pour aller vers la gauche avec `setVelocity(-400, 0)`
-   - Ajout d'une méthode `setDirection()` pour contrôle explicite
-
-2. **Limitation des projectiles simultanés :**
-   - Ajout de `maxPlayerBullets = 2` dans GameScene
-   - Vérification du nombre de projectiles actifs avant de tirer
-   - Logique : `if (this.playerBullets.children.entries.length < this.maxPlayerBullets)`
-
-3. **Amélioration du nettoyage des projectiles :**
-   - Extension de `cleanupBullets()` pour gérer les limites verticales
-   - Nettoyage séparé pour projectiles joueur (sortent à droite) et ennemis (sortent à gauche)
-   - Vérification des limites : `x < -50 || x > width + 50 || y < -50 || y > height + 50`
-
-4. **Renforcement de la logique de tir :**
-   - Double vérification de la vélocité dans `fireBullet()`
-   - Force explicite de la direction avec `bullet.setVelocityX(400)`
-   - Position de spawn optimisée : `this.player.x + 30` (devant le vaisseau)
-
-5. **Tests complets de la mécanique :**
-   - Création de bullet-mechanics.test.js avec 8 tests
-   - Tests de limitation des projectiles simultanés
-   - Validation des directions (droite pour joueur, gauche pour ennemis)
-   - Tests de nettoyage hors écran
-   - Vérification du délai entre tirs (fireRate)
-
-**Fonctionnalités corrigées :**
-- ✅ Projectiles du joueur vont toujours vers la droite
-- ✅ Maximum 2 projectiles simultanés pour le joueur
-- ✅ Nettoyage automatique des projectiles hors écran
-- ✅ Respect du délai entre tirs (150ms)
-- ✅ Directions opposées pour joueur vs ennemis
-- ✅ Effets visuels différenciés (cyan vs rouge)
-- ✅ Performance optimisée avec nettoyage amélioré
-
-**Tests ajoutés :**
-- Limitation à 2 projectiles maximum
-- Direction correcte des projectiles
-- Nettoyage hors écran
-- Cohérence des vitesses
-- Logique de tir après destruction
-- Respect du délai entre tirs
-- Effets visuels différenciés
-
-**Commits créés :**
-- fix: Correct bullet mechanics and limit simultaneous player bullets to 2
-
----
-
-## Question 7 (2025-06-11 07:00)
-**Demande :** Les boss devraient bouger, tout en restant dans le tiers droit de l'écran. Ils se déplacent entre 25% et 35% de la vitesse de mon vaisseau, cette vitesse varie toutes les 5s. Toutes les minutes, il va rester sur place pendant 10s en tremblant un peu puis il va foncer tout droit sur la position de mon vaiseau, à 50% de ma vitesse.
-
-**Actions réalisées :**
-1. **Système de mouvement dynamique des boss :**
-   - Ajout de propriétés de mouvement : `currentSpeed`, `speedChangeTimer`, `chargeTimer`
-   - Définition de la zone de mouvement dans le tiers droit : `movementZone` (67% à 100% de l'écran)
-   - Contrainte automatique pour maintenir les boss dans leur zone
-
-2. **Vitesse variable (25-35% du joueur) :**
-   - Calcul dynamique : `Phaser.Math.Between(playerSpeed * 0.25, playerSpeed * 0.35)`
-   - Changement automatique toutes les 5 secondes via `speedChangeDuration = 5000ms`
-   - Méthode `updateMovementSpeed()` pour recalculer la vitesse
-
-3. **Séquence de charge toutes les minutes :**
-   - Timer de charge : `chargeDuration = 60000ms` (1 minute)
-   - Phase de préparation : `chargePrepTime = 10000ms` (10 secondes)
-   - États : `isPreparingCharge` et `isCharging` pour gérer les phases
-
-4. **Effet de tremblement pendant la préparation :**
-   - Génération d'offsets aléatoires : `trembleOffset.x/y = (Math.random() - 0.5) * 10`
-   - Application du tremblement à la position du boss
-   - Mémorisation de la position originale pour le retour
-
-5. **Charge vers la position du joueur :**
-   - Capture de la position du joueur au début de la préparation
-   - Calcul de la direction : `dx/dy` et normalisation par la distance
-   - Vitesse de charge : `playerSpeed * 0.5` (50% de la vitesse du joueur)
-   - Réinitialisation après sortie d'écran
-
-6. **Patterns de mouvement spécialisés :**
-   - `serpentMovement()` : Mouvement sinusoïdal vertical avec amplitude 80px
-   - `cruiserMovement()` : Mouvement vertical lent et régulier (amplitude 60px)
-   - `stationMovement()` : Mouvement minimal (amplitude 30px)
-   - `dreadnoughtMovement()` : Mouvement complexe multi-composantes
-   - `finalMovement()` : Mouvement le plus imprévisible avec 3 fréquences
-
-7. **Système de contraintes :**
-   - `constrainToMovementZone()` : Maintient les boss dans le tiers droit
-   - Inversion de vélocité lors de collision avec les limites
-   - Repositionnement automatique si hors limites
-
-8. **Séparation mouvement/attaque :**
-   - Patterns d'attaque simplifiés (focus sur le tir)
-   - Mouvement géré indépendamment des patterns d'attaque
-   - Meilleure lisibilité et maintenance du code
-
-**Fonctionnalités implémentées :**
-- ✅ Boss confinés dans le tiers droit de l'écran (67-100%)
-- ✅ Vitesse variable entre 25% et 35% de celle du joueur
-- ✅ Changement de vitesse toutes les 5 secondes
-- ✅ Séquence de charge toutes les minutes
-- ✅ Tremblement de 10 secondes avant la charge
-- ✅ Charge à 50% de la vitesse du joueur vers sa position
-- ✅ 5 patterns de mouvement différents selon le type de boss
-- ✅ Système de contraintes pour maintenir les boss en zone
-- ✅ Réinitialisation automatique après charge
-
-**Tests ajoutés (10 nouveaux) :**
-- Calcul de vitesse entre 25% et 35%
-- Définition de la zone de mouvement
-- Changement de vitesse toutes les 5 secondes
-- Déclenchement de charge après 1 minute
-- Vitesse de charge à 50%
-- Préparation de charge pendant 10 secondes
-- Contraintes de zone de mouvement
-- Calcul de direction vers le joueur
-- Patterns de mouvement différenciés
-- Génération de tremblement aléatoire
-
-**Résultat :**
-- Boss avec comportement dynamique et imprévisible
-- Gameplay plus engageant avec phases de danger (charge)
-- Mouvement réaliste confiné à la zone appropriée
-- IA améliorée avec comportements complexes
-- **Total : 76 tests** (66 + 10 nouveaux)
-
-**Commits créés :**
-- feat: Implement dynamic boss movement with charge mechanics
-
----
-
-## Question 8 (2025-06-11 07:00)
-**Demande :** Les boss ne bougent toujours pas.
-
-**Problème identifié :**
-Le système de mouvement des boss était correctement implémenté mais n'était pas activé car la méthode `update()` des boss n'était pas appelée par la GameScene. Les boss restaient immobiles malgré toute la logique de mouvement en place.
-
-**Actions réalisées :**
-1. **Activation du système de mouvement :**
-   - Ajout de l'appel `boss.update()` dans `GameScene.update()`
-   - Itération sur tous les boss actifs : `this.bosses.children.entries.forEach()`
-   - Vérification de l'existence de la méthode avant appel
-
-2. **Correction de l'initialisation des timers :**
-   - Remplacement de `this.speedChangeTimer = 0` par `scene.time.now`
-   - Remplacement de `this.chargeTimer = 0` par `scene.time.now`
-   - Ajout de `this.chargeStartTime = 0` pour la gestion des phases
-
-3. **Simplification de la logique de charge :**
-   - Correction du calcul de déclenchement : `currentTime - this.chargeTimer > this.chargeDuration`
-   - Suppression de la logique complexe avec `this.startTime`
-   - Amélioration de la fiabilité du système de timing
-
-4. **Ajout de logs de debug :**
-   - Console.log pour le changement de vitesse
-   - Console.log pour le déclenchement de la charge
-   - Console.log pour la réinitialisation après charge
-   - Suivi du mouvement serpent pour validation
-
-5. **Amélioration des patterns de mouvement :**
-   - Simplification des calculs de vélocité
-   - Application directe avec `setVelocityY()`
-   - Suppression des facteurs de normalisation complexes
-   - Amélioration de la réactivité du mouvement
-
-**Corrections techniques :**
-- ✅ **Intégration dans la boucle de jeu** : `boss.update()` appelé à chaque frame
-- ✅ **Timers fonctionnels** : Initialisation avec `scene.time.now`
-- ✅ **Logique de charge simplifiée** : Calcul direct sans intermédiaires
-- ✅ **Debug activé** : Logs pour tracer le comportement
-- ✅ **Mouvement réactif** : Vélocité appliquée directement
-
-**Résultat attendu :**
-- Boss qui bougent verticalement selon leur pattern
-- Changement de vitesse toutes les 5 secondes (visible dans la console)
-- Séquence de charge après 1 minute (avec logs de debug)
-- Mouvement confiné dans le tiers droit de l'écran
-
-**Commits créés :**
-- fix: Activate boss movement by calling update() method in GameScene
-
----
-
-## Question 9 (2025-06-11 07:00)
-**Demande :** Modifier le comportement du boss, quand il fonce sur moi, il peut me suivre sur tout l'écran à 80% de ma vitesse.
-
-**Actions réalisées :**
-1. **Transformation de la charge en poursuite dynamique :**
-   - **Avant** : Boss fonçait en ligne droite vers une position fixe
-   - **Après** : Boss suit le joueur en temps réel avec recalcul continu de direction
-   - Suppression de `this.chargeTarget` (position fixe) au profit du suivi temps réel
-
-2. **Augmentation de la vitesse de poursuite :**
-   - **Avant** : 50% de la vitesse du joueur (100px/s)
-   - **Après** : 80% de la vitesse du joueur (160px/s)
-   - Calcul : `const chargeSpeed = this.playerSpeed * 0.8`
-
-3. **Suppression des contraintes de zone pendant la poursuite :**
-   - Modification de `constrainToMovementZone()` pour ignorer les limites pendant `isCharging`
-   - Boss peut maintenant poursuivre le joueur sur tout l'écran
-   - Retour automatique dans la zone après la poursuite
-
-4. **Implémentation du suivi temps réel :**
-   - Calcul continu de la direction : `dx = player.x - boss.x` et `dy = player.y - boss.y`
-   - Normalisation du vecteur de direction à chaque frame
-   - Application de la vélocité : `setVelocity((dx/distance) * chargeSpeed, (dy/distance) * chargeSpeed)`
-
-5. **Ajout d'une durée maximale de poursuite :**
-   - Limite de 15 secondes pour éviter une poursuite infinie
-   - `maxChargeDuration = 15000ms`
-   - Arrêt automatique après expiration ou sortie trop loin de l'écran
-
-6. **Simplification de la préparation de charge :**
-   - Suppression de la capture de position fixe
-   - Focus sur le tremblement puis déclenchement de la poursuite dynamique
-   - Messages de debug améliorés : "Boss starting dynamic chase!"
-
-**Fonctionnalités implémentées :**
-- ✅ **Poursuite temps réel** : Boss suit le joueur où qu'il aille
-- ✅ **Vitesse augmentée** : 80% de la vitesse du joueur (160px/s)
-- ✅ **Liberté de mouvement** : Tout l'écran accessible pendant la poursuite
-- ✅ **Durée limitée** : Maximum 15 secondes de poursuite
-- ✅ **Calcul dynamique** : Direction recalculée à chaque frame
-- ✅ **Retour automatique** : Boss revient dans sa zone après poursuite
-
-**Comportement résultant :**
-1. **Phase normale** : Boss bouge dans le tiers droit (vitesse 25-35% du joueur)
-2. **Préparation** : Tremblement 10 secondes (toutes les minutes)
-3. **Poursuite** : Suit le joueur partout à 80% de sa vitesse pendant max 15s
-4. **Retour** : Repositionnement dans la zone et reprise du mouvement normal
-
-**Tests ajoutés (2 nouveaux) :**
-- Vitesse de poursuite à 80% du joueur
-- Durée maximale de poursuite (15 secondes)
-- Liberté de mouvement pendant la poursuite
-- **Total : 78 tests** (76 + 2 nouveaux)
-
-**Amélioration du gameplay :**
-- Boss plus agressif et dangereux
-- Poursuite réaliste et imprévisible
-- Pression constante sur le joueur
-- Équilibre maintenu avec la durée limitée
-
-**Commits créés :**
-- feat: Implement dynamic boss chase behavior across entire screen
-
----
-
-## Question 10 (2025-06-11 07:00)
-**Demande :** Ajouter des groupes d'ennemis, entre 3 et 5 à chaque fois, qui ont un point d'entrée aléatoire à l'écran. Ce groupe se déplace en suivant la même trajectoire aléatoire.
-
-**Actions réalisées :**
-1. **Création de la classe EnemyGroup :**
-   - Gestion de groupes de 3 à 5 ennemis avec `Phaser.Math.Between(3, 5)`
-   - Système de trajectoires partagées avec waypoints multiples
-   - Gestion de formations pour maintenir la cohésion du groupe
-
-2. **Système de points d'entrée aléatoires :**
-   - **3 zones d'entrée** : Droite, Haut, Bas de l'écran
-   - Points générés hors écran : `{ x: width + 50, y: random }` (droite)
-   - Entrées variées pour créer de la surprise et de la diversité
-
-3. **Génération de trajectoires aléatoires :**
-   - **3 à 6 waypoints** par trajectoire avec `Phaser.Math.Between(3, 6)`
-   - Points intermédiaires calculés avec progression et variation aléatoire
-   - Point de sortie vers la gauche pour évacuation naturelle
-   - Trajectoires uniques pour chaque groupe
-
-4. **Système de formations (4 types) :**
-   - **Line** : Formation en ligne horizontale avec espacement régulier
-   - **V-Formation** : Formation en V avec leader au centre
-   - **Diamond** : Formation en losange avec centre proéminent
-   - **Circle** : Formation circulaire avec rayon fixe
-   - Sélection aléatoire : `Phaser.Utils.Array.GetRandom(formations)`
-
-5. **Mouvement coordonné :**
-   - Calcul du centre du groupe pour navigation
-   - Maintien des offsets de formation pendant le déplacement
-   - Vitesse de groupe : `Phaser.Math.Between(80, 120)` pixels/seconde
-   - Transition fluide entre waypoints avec détection de proximité
-
-6. **Intégration dans GameScene :**
-   - Timer de spawn : `groupSpawnTimer` avec taux adaptatif (8s de base)
-   - Mise à jour des groupes : `updateEnemyGroups()` dans la boucle principale
-   - Nettoyage automatique des groupes détruits
-   - Réduction du spawn d'ennemis individuels pour équilibrer
-
-7. **Gestion du cycle de vie :**
-   - Suivi des ennemis actifs dans chaque groupe
-   - Destruction automatique quand tous les ennemis sont éliminés
-   - Nettoyage des références pour éviter les fuites mémoire
-   - Méthodes `getAliveCount()` et `isDestroyed()` pour monitoring
-
-**Fonctionnalités implémentées :**
-- ✅ **Groupes de 3-5 ennemis** générés aléatoirement
-- ✅ **Points d'entrée variés** (droite, haut, bas)
-- ✅ **Trajectoires aléatoires** avec 3-6 waypoints
-- ✅ **4 formations différentes** maintenues pendant le mouvement
-- ✅ **Mouvement coordonné** avec cohésion de groupe
-- ✅ **Spawn adaptatif** selon la difficulté du niveau
-- ✅ **Gestion complète** du cycle de vie des groupes
-
-**Formations disponibles :**
-1. **Line** : `offsetX = i * 40 - (groupSize-1) * 20, offsetY = 0`
-2. **V-Formation** : `offsetX = -distance, offsetY = side * distance`
-3. **Diamond** : `offsetX = -distFromCenter * 25, offsetY = (i-center) * 30`
-4. **Circle** : `offsetX = cos(angle) * radius, offsetY = sin(angle) * radius`
-
-**Algorithme de mouvement :**
-1. Calcul du centre du groupe actuel
-2. Détermination du waypoint cible
-3. Calcul de la direction vers le waypoint
-4. Application des offsets de formation
-5. Mise à jour des vélocités individuelles
-
-**Tests ajoutés (12 nouveaux) :**
-- Taille des groupes (3-5 ennemis)
-- Points d'entrée aléatoires valides
-- Génération de trajectoires avec waypoints
-- Types de formations disponibles
-- Calculs de positions pour chaque formation
-- Taux de spawn adaptatif
-- Cohésion et centre de groupe
-- Nettoyage des ennemis détruits
-- Détection de destruction de groupe
-- **Total : 90 tests** (78 + 12 nouveaux)
-
-**Impact sur le gameplay :**
-- **Variété tactique** : Différentes formations nécessitent des stratégies variées
-- **Défi coordonné** : Groupes plus difficiles à éliminer que des ennemis isolés
-- **Imprévisibilité** : Trajectoires et formations aléatoires
-- **Richesse visuelle** : Formations organisées créent un spectacle dynamique
-
-**Commits créés :**
-- feat: Add enemy group system with formations and coordinated movement
-
----
-
-## Question 11 (2025-06-11 07:00)
-**Demande :** Correction de l'erreur "Uncaught TypeError: Cannot read properties of undefined (reading 'getDifficultyMultiplier')"
-
-**Problème identifié :**
-L'erreur était causée par plusieurs problèmes dans GameScene :
-1. `this.levelManager` n'était pas initialisé, causant l'erreur lors de l'appel à `getDifficultyMultiplier()`
-2. Références à un objet global `rTypeGame` inexistant dans plusieurs endroits
-3. Méthodes manquantes dans LevelManager (`getCurrentLevel()`, `nextLevel()`)
-
-**Actions réalisées :**
-1. **Initialisation des managers dans GameScene :**
-   - Ajout de `this.levelManager = new LevelManager()` dans `create()`
-   - Ajout de `this.scoreManager = new ScoreManager()` dans `create()`
-   - Initialisation avant utilisation pour éviter les erreurs undefined
-
-2. **Correction de getGroupSpawnRate() :**
-   - Ajout de vérification de l'existence de `levelManager`
-   - Vérification du type de la méthode `getDifficultyMultiplier`
-   - Fallback vers `baseRate` si le manager n'est pas disponible
-   - Code défensif pour éviter les crashes
-
-3. **Suppression des références à rTypeGame :**
-   - Remplacement de `rTypeGame.addScore()` par `this.scoreManager.addScore()`
-   - Remplacement de `rTypeGame.gameState.level` par `this.levelManager.getCurrentLevel()`
-   - Remplacement de `rTypeGame.loseLife()` par gestion locale des vies
-   - Remplacement de `rTypeGame.nextLevel()` par `this.levelManager.nextLevel()`
-
-4. **Ajout de méthodes manquantes à LevelManager :**
-   - `getCurrentLevel()` : Retourne le niveau actuel
-   - `nextLevel()` : Incrémente le niveau et réinitialise les stats
-   - `resetLevelStats()` : Remet à zéro les compteurs du niveau
-
-5. **Amélioration de la robustesse :**
-   - Ajout de valeurs par défaut pour `bossData` et `difficulty`
-   - Gestion des cas où les tableaux de configuration sont vides
-   - Logs de debug pour tracer les problèmes potentiels
-
-**Corrections techniques :**
-- ✅ **Managers initialisés** : `levelManager` et `scoreManager` disponibles
-- ✅ **Références corrigées** : Plus de dépendance à `rTypeGame`
-- ✅ **Méthodes ajoutées** : `getCurrentLevel()` et `nextLevel()` dans LevelManager
-- ✅ **Code défensif** : Vérifications null/undefined ajoutées
-- ✅ **Fallbacks** : Valeurs par défaut pour éviter les crashes
-
-**Méthodes corrigées :**
-- `getGroupSpawnRate()` : Vérification de l'existence du manager
-- `setupCollisions()` : Utilisation du scoreManager local
-- `startEnemySpawning()` : Calcul de difficulté avec fallback
-- `spawnBoss()` : Récupération du niveau avec fallback
-- `playerHit()` : Gestion locale des vies
-- `completeLevel()` : Progression de niveau avec manager local
-
-**Résultat :**
-- ✅ **Erreur résolue** : Plus d'erreur "Cannot read properties of undefined"
-- ✅ **Jeu fonctionnel** : Tous les systèmes opérationnels
-- ✅ **Code robuste** : Gestion d'erreur et fallbacks
-- ✅ **Architecture propre** : Managers locaux au lieu de globaux
-
-**Commits créés :**
-- fix: Initialize managers and remove undefined rTypeGame references
-
----
-
-## Question 12 (2025-06-11 07:00)
-**Demande :** Correction de l'erreur "Uncaught TypeError: Cannot read properties of undefined (reading 'add')" après la destruction du boss.
-
-**Problème identifié :**
-L'erreur se produisait dans la méthode `explode()` du boss (ligne 483 de Boss.js) quand les callbacks `delayedCall` tentaient d'accéder à `this.scene.add` après que le boss ait été détruit. Quand un objet Phaser est détruit, sa référence `scene` devient undefined, mais les callbacks programmés continuent de s'exécuter.
-
-**Actions réalisées :**
-1. **Sécurisation de la méthode explode() :**
-   - Capture de la référence scène avant les callbacks : `const scene = this.scene`
-   - Capture des coordonnées du boss : `const bossX = this.x, bossY = this.y`
-   - Vérification de l'existence de la scène : `if (scene && scene.add && scene.active)`
-   - Double vérification dans chaque callback pour éviter les erreurs
-
-2. **Correction des callbacks de particules :**
-   - Utilisation de la référence capturée `scene` au lieu de `this.scene`
-   - Vérification de l'existence des objets avant destruction
-   - Protection contre les appels sur des objets détruits
-
-3. **Amélioration de cleanupUI() :**
-   - Ajout de try-catch pour capturer les erreurs de destruction
-   - Vérification de l'existence des méthodes `destroy` avant appel
-   - Mise à null des références après destruction
-   - Gestion gracieuse des erreurs avec console.warn
-
-4. **Sécurisation de la méthode destroy() :**
-   - Vérification de `this.active` avant appel à `super.destroy()`
-   - Nettoyage de l'interface avant destruction
-   - Protection contre les doubles destructions
-
-5. **Correction de showBossName() :**
-   - Vérification de l'existence de `this.scene` et `this.scene.add`
-   - Protection du système de tweens avec fallback
-   - Vérification des objets avant destruction dans les callbacks
-
-6. **Remplacement des références globales :**
-   - Remplacement de `rTypeGame.addScore()` par `scene.scoreManager.addScore()`
-   - Vérification de l'existence du scoreManager avant utilisation
-   - Gestion gracieuse si le manager n'est pas disponible
-
-**Corrections techniques :**
-- ✅ **Capture de références** : Variables locales pour éviter les undefined
-- ✅ **Vérifications multiples** : Existence des objets à chaque étape
-- ✅ **Try-catch** : Gestion d'erreur pour les opérations de destruction
-- ✅ **Callbacks sécurisés** : Vérification avant chaque accès aux propriétés
-- ✅ **Fallbacks** : Solutions de repli si les systèmes ne sont pas disponibles
-
-**Code défensif ajouté :**
-```javascript
-// Avant (problématique)
-this.scene.time.delayedCall(100, () => {
-    const explosion = this.scene.add.particles(...);
-});
-
-// Après (sécurisé)
-const scene = this.scene;
-scene.time.delayedCall(100, () => {
-    if (scene && scene.add && scene.active) {
-        const explosion = scene.add.particles(...);
-    }
-});
-```
-
-**Méthodes sécurisées :**
-- `explode()` : Capture de références et vérifications multiples
-- `cleanupUI()` : Try-catch et vérifications d'existence
-- `destroy()` : Vérification active avant destruction
-- `showBossName()` : Validation de scène et fallback tweens
-
-**Résultat :**
-- ✅ **Erreur résolue** : Plus d'erreur "Cannot read properties of undefined"
-- ✅ **Destruction propre** : Boss se détruit sans crash
-- ✅ **Effets visuels** : Explosions fonctionnent correctement
-- ✅ **Code robuste** : Gestion d'erreur complète
-
-**Commits créés :**
-- fix: Prevent undefined scene errors during boss destruction
-
----
-
-## Question 13 (2025-06-11 07:00)
-**Demande :** J'ai vaincu le boss mais je ne suis pas passé au niveau 2. Le niveau 1 recommence.
-
-**Problème identifié :**
-Après avoir vaincu le boss, le jeu appelait `this.scene.restart()` sans paramètres, ce qui recréait une nouvelle instance de GameScene avec un LevelManager réinitialisé au niveau 1. La progression de niveau n'était pas persistée entre les redémarrages de scène.
-
-**Actions réalisées :**
-1. **Système de persistance de niveau :**
-   - Modification de `completeLevel()` pour passer le niveau suivant : `this.scene.restart({ level: nextLevel })`
-   - Récupération du niveau dans `create()` : `const currentLevel = this.scene.settings.data?.level || 1`
-   - Initialisation du LevelManager avec le niveau correct : `this.levelManager.setCurrentLevel(currentLevel)`
-
-2. **Ajout de méthodes au LevelManager :**
-   - `setCurrentLevel(level)` : Définit le niveau actuel et réinitialise les stats
-   - `getLevelData(level)` : Récupère les données d'un niveau spécifique
-   - Support pour récupérer les données du niveau actuel par défaut
-
-3. **Amélioration de l'interface utilisateur :**
-   - Affichage permanent du niveau actuel en haut à gauche
-   - Affichage du nom du niveau sous le numéro
-   - Message de début de niveau avec animation de disparition (2s)
-   - Message de transition "NIVEAU X" lors du passage au niveau suivant
-
-4. **Correction du MenuScene :**
-   - Démarrage explicite au niveau 1 : `this.scene.start('GameScene', { level: 1 })`
-   - Garantit que le jeu commence toujours au premier niveau
-
-5. **Amélioration de la logique de progression :**
-   - Logs de debug pour tracer la progression : `console.log('Level completed:', currentLevel)`
-   - Vérification du niveau maximum avant progression
-   - Message de fin de jeu quand tous les niveaux sont terminés
-
-6. **Interface de niveau améliorée :**
-   - `displayLevelInfo()` : Affiche les informations du niveau actuel
-   - Texte permanent pour le numéro de niveau
-   - Texte pour le nom du niveau (ex: "Secteur Spatial")
-   - Message temporaire de début de niveau avec style cohérent
-
-**Fonctionnalités implémentées :**
-- ✅ **Progression correcte** : Passage du niveau 1 au niveau 2, 3, etc.
-- ✅ **Persistance de données** : Niveau maintenu entre les redémarrages de scène
-- ✅ **Interface informative** : Affichage du niveau actuel et du nom
-- ✅ **Messages de transition** : Feedback visuel lors des changements de niveau
-- ✅ **Démarrage propre** : Jeu commence toujours au niveau 1 depuis le menu
-
-**Méthodes ajoutées :**
-- `LevelManager.setCurrentLevel(level)` : Définit le niveau actuel
-- `LevelManager.getLevelData(level)` : Récupère les données de niveau
-- `GameScene.displayLevelInfo()` : Affiche les informations de niveau
-
-**Flux de progression corrigé :**
-1. **Boss vaincu** → `completeLevel()` appelée
-2. **Niveau incrémenté** → `this.levelManager.nextLevel()`
-3. **Scène redémarrée** → `this.scene.restart({ level: nextLevel })`
-4. **Nouveau niveau** → `create()` récupère le niveau depuis les données
-5. **LevelManager initialisé** → `setCurrentLevel(currentLevel)`
-
-**Tests ajoutés (10 nouveaux) :**
-- Niveau de départ (niveau 1)
-- Définition du niveau actuel
-- Progression au niveau suivant
-- Récupération des données de niveau
-- Gestion des niveaux inexistants
-- Données du niveau actuel par défaut
-- Réinitialisation des stats
-- Progression jusqu'au niveau maximum
-- Validation des données de tous les niveaux
-- Calcul du multiplicateur de difficulté
-- **Total : 100 tests** (90 + 10 nouveaux)
-
-**Résultat :**
-- ✅ **Progression fonctionnelle** : Passage correct entre les niveaux
-- ✅ **Interface claire** : Joueur informé du niveau actuel
-- ✅ **Données persistantes** : Niveau maintenu entre les scènes
-- ✅ **100 tests** : Couverture complète du système de progression
-
-**Commits créés :**
-- fix: Implement proper level progression system
-
----
-
-## Question 14 (2025-06-11 07:00)
-**Demande :** Quand je suis touché, je ne perds pas de vie.
-
-**Problème identifié :**
-Le joueur avait une propriété `health` mais pas de système de `lives` (vies). La méthode `hit()` dans la classe Player ne décrémentait aucun compteur de vies, elle ne faisait que l'effet visuel d'invulnérabilité. Il n'y avait pas non plus d'interface utilisateur pour afficher les vies restantes.
-
-**Actions réalisées :**
-1. **Ajout du système de vies au Player :**
-   - Ajout de la propriété `this.lives = 3` dans le constructeur
-   - Modification de `hit()` pour décrémenter les vies : `this.lives--`
-   - Ajout de logs de debug : `console.log('Player hit! Lives remaining:', this.lives)`
-
-2. **Méthodes de gestion des vies :**
-   - `resetLives()` : Remet les vies à 3 (pour nouveau jeu/niveau)
-   - `getLives()` : Retourne le nombre de vies actuel
-   - Conservation du système d'invulnérabilité existant (2 secondes)
-
-3. **Interface utilisateur complète :**
-   - `createUI()` : Crée l'affichage des vies et du score
-   - Affichage des vies en bas à gauche : "VIES: 3"
-   - Affichage du score en haut à droite : "SCORE: 0"
-   - Style cohérent avec police Courier New
-
-4. **Mise à jour dynamique de l'interface :**
-   - `updateUI()` : Met à jour l'affichage en temps réel
-   - Appel automatique quand le joueur est touché
-   - Appel automatique quand le score change
-   - Synchronisation parfaite entre état du jeu et affichage
-
-5. **Amélioration de la logique de collision :**
-   - Mise à jour de `playerHit()` pour appeler `updateUI()`
-   - Conservation de la vérification d'invulnérabilité
-   - Game Over déclenché quand `lives <= 0`
-
-6. **Intégration avec le système de score :**
-   - Mise à jour du score lors de la destruction d'ennemis
-   - Affichage temps réel du score dans l'interface
-   - Utilisation du ScoreManager existant
-
-**Fonctionnalités implémentées :**
-- ✅ **Système de vies** : 3 vies au départ, perte d'une vie par coup
-- ✅ **Interface utilisateur** : Affichage permanent des vies et du score
-- ✅ **Invulnérabilité** : 2 secondes d'invulnérabilité après chaque coup
-- ✅ **Game Over** : Déclenchement automatique à 0 vie
-- ✅ **Mise à jour temps réel** : Interface synchronisée avec l'état du jeu
-
-**Interface utilisateur :**
-```
-NIVEAU 2                    SCORE: 1250
-Champ d'Astéroïdes         
-
-[Gameplay au centre]
-
-VIES: 2
-```
-
-**Logique de collision corrigée :**
-1. **Collision détectée** → `playerHit()` appelée
-2. **Vérification invulnérabilité** → Si pas invulnérable
-3. **Appel Player.hit()** → Décrémente les vies et active invulnérabilité
-4. **Mise à jour UI** → `updateUI()` rafraîchit l'affichage
-5. **Vérification Game Over** → Si vies <= 0, fin de partie
-
-**Tests ajoutés (10 nouveaux) :**
-- Vies initiales (3 vies)
-- Perte de vie lors d'un coup
-- Protection par invulnérabilité
-- Activation de l'invulnérabilité
-- Gestion du Game Over
-- Réinitialisation des vies
-- Calcul des vies restantes
-- Invulnérabilité temporaire
-- Affichage de l'interface
-- États de jeu selon les vies
-- **Total : 110 tests** (100 + 10 nouveaux)
-
-**Résultat :**
-- ✅ **Perte de vie fonctionnelle** : Chaque coup fait perdre une vie
-- ✅ **Interface informative** : Joueur voit ses vies restantes
-- ✅ **Invulnérabilité** : Pas de perte multiple rapide
-- ✅ **Game Over** : Fin de partie à 0 vie
-- ✅ **Feedback visuel** : Effets de dégât + interface mise à jour
-
-**Commits créés :**
-- fix: Implement proper player lives system with UI display
-
----
-
-## Question 15 (2025-06-11 07:00)
-**Demande :** Je me retrouve avec une gestion des vies à 2 endroits, un avec le mot "Vies" et le second dans l'écran de jeu, avec le mot "VIES" et juste à côté une quantité égale à undefined. J'ai également l'erreur "this.scoreManager.getScore is not a function".
-
-**Problèmes identifiés :**
-1. **Double affichage des vies** : Il y avait un affichage HTML (`<span id="lives">`) ET un affichage dans le canvas du jeu
-2. **Erreur scoreManager** : La méthode s'appelle `getScoreData()` et non `getScore()`
-3. **Valeur undefined** : L'affichage HTML tentait d'accéder à des propriétés inexistantes
-
-**Actions réalisées :**
-1. **Suppression de l'affichage HTML des vies :**
-   - Suppression de `<div>Vies: <span id="lives">3</span></div>` dans index.html
-   - Conservation uniquement de l'affichage Score et Niveau en HTML
-   - Affichage des vies maintenant exclusivement dans le canvas du jeu
-
-2. **Nettoyage de main.js :**
-   - Suppression de la propriété `lives` du `gameState`
-   - Suppression de la méthode `loseLife()` (gestion maintenant dans Player.js)
-   - Simplification du `gameState` : `{ score, level, isGameOver }`
-   - Suppression des références à `document.getElementById('lives')`
-
-3. **Correction de l'erreur scoreManager :**
-   - Remplacement de `this.scoreManager.getScore()` par `this.scoreManager.getScoreData().score`
-   - Ajout de vérifications null pour éviter les erreurs : `if (this.scoreText && this.scoreManager)`
-   - Vérification de l'existence du player : `if (this.livesText && this.player)`
-
-4. **Amélioration de la robustesse :**
-   - Ajout de vérifications d'existence des éléments DOM dans `updateUI()`
-   - Protection contre les erreurs si les éléments HTML n'existent pas
-   - Gestion gracieuse des cas où les managers ne sont pas initialisés
-
-5. **Séparation claire des responsabilités :**
-   - **HTML** : Affichage du score global et du niveau
-   - **Canvas** : Affichage des vies, score en temps réel, et interface de jeu
-   - **Player.js** : Gestion des vies du joueur
-   - **GameScene.js** : Interface utilisateur du jeu
-
-**Architecture corrigée :**
-```
-┌─ HTML (hors jeu) ─────────┐
-│ Score: 1250               │
-│ Niveau: 2                 │
-└───────────────────────────┘
-
-┌─ Canvas (dans le jeu) ────┐
-│ NIVEAU 2        SCORE: 1250 │
-│ Champ d'Astéroïdes          │
-│                             │
-│     [Gameplay]              │
-│                             │
-│ VIES: 2                     │
-└─────────────────────────────┘
-```
-
-**Corrections techniques :**
-- ✅ **Affichage unique** : Plus de duplication des vies
-- ✅ **Méthode corrigée** : `getScoreData().score` au lieu de `getScore()`
-- ✅ **Valeurs définies** : Plus de "undefined" dans l'affichage
-- ✅ **Code robuste** : Vérifications null ajoutées partout
-- ✅ **Responsabilités claires** : Chaque système gère sa partie
-
-**Méthodes corrigées :**
-- `GameScene.updateUI()` : Utilise la bonne méthode du scoreManager
-- `main.js.updateUI()` : Vérifications d'existence des éléments DOM
-- Suppression de `main.js.loseLife()` : Plus nécessaire
-- Simplification du `gameState` : Moins de propriétés redondantes
-
-**Résultat :**
-- ✅ **Affichage propre** : Une seule indication des vies dans le jeu
-- ✅ **Plus d'erreur** : scoreManager fonctionne correctement
-- ✅ **Valeurs correctes** : Plus de "undefined" affiché
-- ✅ **Interface cohérente** : Séparation claire HTML/Canvas
-- ✅ **Code maintenable** : Responsabilités bien définies
-
-**Commits créés :**
-- fix: Remove duplicate lives display and fix scoreManager error
-
----
-
-## Question 16 (2025-06-11 07:00)
-**Demande :** Quand je passe au niveau 2, mon score revient à 0 et je reviens à 3 vies. Mon nombre de vies ainsi que le score devrait être gardé entre les niveaux.
-
-**Problème identifié :**
-Lors du passage au niveau suivant, `this.scene.restart()` créait une nouvelle instance de GameScene qui réinitialisait :
-- Le ScoreManager avec un score de 0
-- Le Player avec 3 vies par défaut
-- Perte de toute progression entre les niveaux
-
-**Actions réalisées :**
-1. **Système de persistance des données :**
-   - Modification de `completeLevel()` pour passer toutes les données : `{ level, score, lives }`
-   - Récupération des données dans `create()` : `sceneData.level`, `sceneData.score`, `sceneData.lives`
-   - Conservation de l'état complet du jeu entre les transitions
-
-2. **Ajout de la méthode setScore() au ScoreManager :**
-   - `setScore(score)` : Définit le score actuel sans calculs
-   - Restauration du score précédent : `this.scoreManager.setScore(currentScore)`
-   - Maintien de la progression du score entre les niveaux
-
-3. **Restauration des vies du joueur :**
-   - Récupération des vies depuis les données de scène : `currentLives`
-   - Application au joueur : `this.player.lives = currentLives`
-   - Conservation du nombre de vies perdues entre les niveaux
-
-4. **Amélioration du système de bonus :**
-   - Ajout du bonus de fin de niveau avant transition
-   - Affichage du bonus : "NIVEAU 2\nBONUS: 5000"
-   - Calcul du score final avec bonus inclus
-
-5. **Logs de debug complets :**
-   - Affichage des données au démarrage : `Starting level: X Score: Y Lives: Z`
-   - Affichage à la fin de niveau : `Level completed: X Score: Y Lives: Z`
-   - Traçage complet des transitions : `Moving to level: X Final score: Y Lives: Z`
-
-6. **Correction des scènes de démarrage :**
-   - MenuScene : `{ level: 1, score: 0, lives: 3 }` pour nouveau jeu
-   - GameOverScene : `{ level: 1, score: 0, lives: 3 }` pour redémarrage
-   - Valeurs par défaut cohérentes partout
-
-**Flux de persistance implémenté :**
-1. **Fin de niveau** → Récupération des données actuelles
-2. **Calcul du bonus** → Ajout du bonus de fin de niveau
-3. **Préparation des données** → `{ level: nextLevel, score: finalScore, lives: currentLives }`
-4. **Transition** → `scene.restart(gameData)`
-5. **Nouveau niveau** → Restauration des données depuis les paramètres
-6. **Initialisation** → Application des données aux managers et au joueur
-
-**Fonctionnalités implémentées :**
-- ✅ **Score persistant** : Maintenu et augmenté entre les niveaux
-- ✅ **Vies persistantes** : Nombre de vies conservé entre les niveaux
-- ✅ **Bonus de niveau** : 5000 points ajoutés à chaque fin de niveau
-- ✅ **Affichage des bonus** : Feedback visuel du bonus obtenu
-- ✅ **Logs de debug** : Traçage complet des transitions
-
-**Méthodes ajoutées/modifiées :**
-- `ScoreManager.setScore(score)` : Définit le score directement
-- `GameScene.create()` : Récupère et applique les données persistantes
-- `GameScene.completeLevel()` : Calcule et passe les données au niveau suivant
-- `MenuScene` et `GameOverScene` : Démarrage avec valeurs par défaut
-
-**Données de transition :**
-```javascript
-// Données passées entre les niveaux
-{
-    level: 2,        // Niveau suivant
-    score: 7500,     // Score actuel + bonus
-    lives: 2         // Vies restantes
-}
-```
-
-**Tests ajoutés (10 nouveaux) :**
-- Conservation du score entre niveaux
-- Conservation des vies entre niveaux
-- Ajout du bonus de fin de niveau
-- Validation des données de transition
-- Gestion des valeurs par défaut
-- Calcul du score final avec bonus
-- Persistance lors de multiples transitions
-- Gestion de la fin de jeu
-- Validation de la méthode setScore
-- Cohérence des données de jeu
-- **Total : 120 tests** (110 + 10 nouveaux)
-
-**Résultat :**
-- ✅ **Score conservé** : Progression continue entre les niveaux
-- ✅ **Vies conservées** : Nombre de vies maintenu
-- ✅ **Bonus ajoutés** : 5000 points par niveau terminé
-- ✅ **Feedback visuel** : Affichage du bonus obtenu
-- ✅ **Progression cohérente** : État du jeu maintenu tout au long de la partie
+1. **Modification de completeLevel() pour passer les données :**
+   - Récupération du score actuel via `this.scoreManager.getScoreData().score`
+   - Récupération des vies actuelles via `this.player.lives`
+   - Passage des données via `this.scene.restart({ level, score, lives })`
+
+2. **Modification de create() pour restaurer les données :**
+   - Récupération des données via `this.scene.settings.data`
+   - Restauration du score avec `this.scoreManager.setScore(currentScore)`
+   - Restauration des vies avec `this.player.lives = currentLives`
+
+3. **Ajout de la méthode setScore() dans ScoreManager :**
+   - Méthode pour définir directement le score
+   - Validation des paramètres d'entrée
+   - Retour de la valeur définie
+
+**Résultat :** ✅ Persistance complète des données entre les niveaux
 
 **Commits créés :**
 - fix: Implement data persistence between levels for score and lives
 
 ---
 
-## Question 17 (2025-06-11 07:00)
+## Question 17 (2025-06-11)
 **Demande :** J'ai cette erreur quand j'arrive au niveau 2 : "this.scoreManager.setScore is not a function".
 
 **Problème identifié :**
-L'erreur se produisait à la ligne 23 de GameScene.js lors de l'appel à `this.scoreManager.setScore(currentScore)`. Le problème venait potentiellement de :
-1. Un ordre d'initialisation incorrect
-2. Un problème de chargement de la méthode `setScore`
-3. Une référence incorrecte au ScoreManager
+L'erreur se produisait à la ligne 23 de GameScene.js lors de l'appel à `this.scoreManager.setScore(currentScore)`.
 
 **Actions réalisées :**
 1. **Correction de l'ordre d'initialisation :**
-   - Déplacement des commentaires pour clarifier l'ordre
    - Vérification que `this.scoreManager = new ScoreManager()` est appelé AVANT `setScore()`
    - Ajout de logs de debug pour tracer l'initialisation
 
 2. **Amélioration de la méthode setScore() :**
    - Ajout de validation des paramètres : `typeof score === 'number' && score >= 0`
    - Ajout de logs de debug : `console.log('Score set to:', this.currentScore)`
-   - Ajout de gestion d'erreur pour les valeurs invalides
    - Ajout d'une méthode alternative `restoreScore()` comme backup
 
 3. **Système de fallback complet :**
-   - **Niveau 1** : `this.scoreManager.setScore(currentScore)`
-   - **Niveau 2** : `this.scoreManager.restoreScore(currentScore)`
-   - **Niveau 3** : `this.scoreManager.addScore(currentScore, 'restore')`
-   - **Niveau 4** : `this.scoreManager.currentScore = currentScore` (assignation directe)
-
-4. **Gestion d'erreur robuste :**
    - Try-catch autour de toute la restauration du score
    - Vérification de l'existence de chaque méthode avant appel
    - Logs détaillés pour chaque tentative de restauration
    - Récupération gracieuse en cas d'échec
 
-5. **Outil de test créé :**
-   - `test-scoremanager.html` : Test isolé du ScoreManager
-   - Vérification que `setScore` est bien une fonction
-   - Test de création, définition et récupération du score
-   - Diagnostic complet des méthodes disponibles
-
-**Code de restauration robuste :**
-```javascript
-if (currentScore > 0) {
-    try {
-        if (this.scoreManager && typeof this.scoreManager.setScore === 'function') {
-            this.scoreManager.setScore(currentScore);
-            console.log('Score restored successfully:', currentScore);
-        } else if (this.scoreManager && typeof this.scoreManager.restoreScore === 'function') {
-            this.scoreManager.restoreScore(currentScore);
-        } else if (this.scoreManager && typeof this.scoreManager.addScore === 'function') {
-            this.scoreManager.addScore(currentScore, 'restore');
-        } else {
-            // Dernière tentative : assignation directe
-            this.scoreManager.currentScore = currentScore;
-        }
-    } catch (error) {
-        console.error('Error restoring score:', error);
-    }
-}
-```
-
-**Méthodes ajoutées au ScoreManager :**
-- `setScore(score)` : Définit le score avec validation
-- `restoreScore(score)` : Méthode alternative pour la restauration
-- Validation des paramètres et logs de debug
-- Gestion des valeurs invalides
-
-**Diagnostics ajoutés :**
-- Logs de création du ScoreManager
-- Logs de restauration du score avec méthode utilisée
-- Logs d'erreur détaillés en cas de problème
-- Vérification de type avant chaque appel de méthode
-
-**Résultat :**
-- ✅ **Erreur corrigée** : Plus d'erreur "setScore is not a function"
-- ✅ **Système robuste** : Multiples fallbacks en cas de problème
-- ✅ **Logs détaillés** : Traçage complet de la restauration
-- ✅ **Test isolé** : Outil de diagnostic du ScoreManager
-- ✅ **Récupération gracieuse** : Le jeu continue même en cas d'erreur
+**Résultat :** ✅ Erreur corrigée avec système robuste de fallback
 
 **Commits créés :**
 - fix: Add robust error handling for ScoreManager.setScore method
@@ -1075,268 +104,90 @@ if (currentScore > 0) {
 
 ---
 
-## Question 18 (2025-06-11 07:00)
+## Question 18 (2025-06-11)
 **Demande :** start.sh ne fonctionne plus.
 
 **Problème identifié :**
-Le script `start.sh` ne fonctionnait plus à cause de conflits de port. Un serveur HTTP Python était déjà en cours d'exécution sur le port 8000, empêchant le démarrage d'un nouveau serveur.
-
-**Diagnostic effectué :**
-- ✅ Script `start.sh` présent et exécutable
-- ✅ Python3 installé et fonctionnel
-- ⚠️ Port 8000 déjà utilisé par un processus existant
-- ⚠️ Serveur HTTP Python déjà actif (PID: 21762)
+Le script `start.sh` ne fonctionnait plus à cause de conflits de port. Un serveur HTTP Python était déjà en cours d'exécution sur le port 8000.
 
 **Actions réalisées :**
 1. **Amélioration du script start.sh :**
    - Ajout de détection de conflit de port avec `lsof -Pi :$PORT`
-   - Affichage des processus utilisant le port
    - Prompt interactif pour arrêter les processus existants
    - Gestion automatique des conflits avec options utilisateur
-   - Ajout de liens utiles (tests, diagnostics) dans l'affichage
 
 2. **Création du script stop.sh :**
    - Arrêt automatique de tous les serveurs HTTP Python
    - Vérification des PIDs avec `pgrep -f "python.*http.server"`
-   - Arrêt gracieux puis forcé si nécessaire
-   - Vérification des ports couramment utilisés (8000, 8001, 8080, 3000)
-   - Confirmation de l'arrêt complet
+   - Vérification des ports couramment utilisés
 
 3. **Création du script diagnose.sh :**
    - Vérification complète de l'environnement (Python, fichiers, permissions)
    - Diagnostic des ports et processus actifs
-   - Test de connectivité sur les ports
    - Recommandations personnalisées selon la situation
-   - Rapport détaillé avec solutions
 
-4. **Gestion robuste des erreurs :**
-   - Détection automatique des conflits avant démarrage
-   - Options multiples pour résoudre les conflits
-   - Messages d'erreur clairs avec solutions
-   - Nettoyage automatique à l'arrêt (Ctrl+C)
-
-**Scripts créés/améliorés :**
-
-### **start.sh amélioré :**
-```bash
-# Détection de conflit de port
-if lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null 2>&1; then
-    echo "⚠️  Le port $PORT est déjà utilisé"
-    # Prompt interactif pour résolution
-fi
-
-# Affichage des liens utiles
-echo "🔗 Ouvrez votre navigateur sur: http://localhost:$PORT"
-echo "📖 Tests: http://localhost:$PORT/tests/test-runner.html"
-echo "🧪 ScoreManager: http://localhost:$PORT/test-scoremanager.html"
-```
-
-### **stop.sh (nouveau) :**
-```bash
-# Arrêt de tous les serveurs HTTP Python
-PIDS=$(pgrep -f "python.*http.server" 2>/dev/null)
-pkill -f "python.*http.server"
-
-# Vérification des ports
-for port in 8000 8001 8080 3000; do
-    # Vérification de disponibilité
-done
-```
-
-### **diagnose.sh (nouveau) :**
-```bash
-# Diagnostic complet
-- Vérification Python ✅
-- Vérification fichiers ✅  
-- Vérification permissions ✅
-- Vérification ports ⚠️
-- Processus actifs ⚠️
-- Recommandations 💡
-```
-
-**Fonctionnalités ajoutées :**
-- ✅ **Détection automatique** des conflits de port
-- ✅ **Résolution interactive** des conflits
-- ✅ **Arrêt propre** de tous les serveurs
-- ✅ **Diagnostic complet** de l'environnement
-- ✅ **Messages d'aide** avec solutions
-- ✅ **Gestion des signaux** (Ctrl+C)
-- ✅ **Liens utiles** affichés au démarrage
-
-**Utilisation des nouveaux scripts :**
-```bash
-# Diagnostic des problèmes
-./diagnose.sh
-
-# Arrêt des serveurs existants
-./stop.sh
-
-# Démarrage propre
-./start.sh          # Port 8000 par défaut
-./start.sh 8001     # Port personnalisé
-```
-
-**Résolution du problème :**
-1. **Diagnostic** : `./diagnose.sh` → Serveur actif détecté sur port 8000
-2. **Nettoyage** : `./stop.sh` → Tous les serveurs arrêtés
-3. **Redémarrage** : `./start.sh` → Démarrage réussi
-
-**Résultat :**
-- ✅ **Script start.sh** : Fonctionne avec détection de conflits
-- ✅ **Gestion des ports** : Automatique et interactive
-- ✅ **Outils de diagnostic** : Complets et informatifs
-- ✅ **Expérience utilisateur** : Améliorée avec messages clairs
-- ✅ **Robustesse** : Gestion de tous les cas d'erreur
+**Résultat :** ✅ Scripts robustes avec gestion automatique des conflits
 
 **Commits créés :**
 - fix: Enhance server management scripts with port conflict detection
 
 ---
 
-## Question 19 (2025-06-11 07:00)
+## Question 19 (2025-06-11)
 **Demande :** Les statistiques (niveau, score) ne sont pas bonnes lors d'un Game Over.
 
 **Problème identifié :**
-L'écran Game Over affichait des statistiques incorrectes car :
-1. GameOverScene utilisait `rTypeGame.gameState.score` et `rTypeGame.gameState.level` au lieu des vraies données
-2. Aucune donnée n'était passée depuis GameScene vers GameOverScene
-3. Les statistiques de jeu (précision, ennemis tués, temps) n'étaient pas trackées
-4. Pas de persistance des statistiques entre les niveaux
+L'écran Game Over affichait des statistiques incorrectes car GameOverScene utilisait `rTypeGame.gameState` au lieu des vraies données.
 
 **Actions réalisées :**
 1. **Passage de données correct vers GameOverScene :**
    - Récupération du score actuel : `this.scoreManager.getScoreData().score`
    - Récupération du niveau actuel : `this.levelManager.getCurrentLevel()`
    - Passage via paramètres de scène : `this.scene.start('GameOverScene', { score, level, finalStats })`
-   - Remplacement de `rTypeGame.gameState` par les vraies données
 
 2. **Système de tracking des statistiques :**
    - Initialisation des stats : `{ enemiesKilled: 0, shotsFired: 0, shotsHit: 0, startTime: Date.now() }`
-   - Comptage des tirs : `this.gameStats.shotsFired++` à chaque tir
-   - Comptage des touches : `this.gameStats.shotsHit++` quand projectile touche
-   - Comptage des ennemis : `this.gameStats.enemiesKilled++` quand ennemi détruit
-   - Calcul de précision : `Math.round((shotsHit / shotsFired) * 100)`
+   - Comptage des tirs, touches et ennemis en temps réel
+   - Calcul de précision automatique
 
 3. **Affichage détaillé des statistiques :**
-   - Score final : Données réelles du ScoreManager
-   - Niveau atteint : Données réelles du LevelManager
-   - Ennemis détruits : Comptage cumulatif
-   - Précision : Pourcentage de touches réussies
-   - Tirs effectués : Nombre total de projectiles tirés
-   - Temps de jeu : Formaté en minutes:secondes
+   - Score final, niveau atteint, ennemis détruits, précision, temps de jeu
+   - Persistance des statistiques entre niveaux
 
-4. **Persistance des statistiques entre niveaux :**
-   - Sauvegarde des stats lors de `completeLevel()`
-   - Restauration des stats au début du niveau suivant
-   - Statistiques cumulatives sur toute la partie
-   - Conservation du temps de départ initial
-
-**Code de tracking implémenté :**
-```javascript
-// Initialisation des statistiques
-this.gameStats = sceneData.gameStats || {
-    enemiesKilled: 0,
-    shotsFired: 0,
-    shotsHit: 0,
-    startTime: Date.now()
-};
-
-// Comptage des tirs
-this.gameStats.shotsFired++;
-
-// Comptage des touches
-this.gameStats.shotsHit++;
-if (enemy.health <= 0) {
-    this.gameStats.enemiesKilled++;
-}
-
-// Calcul de précision
-calculateAccuracy() {
-    if (this.gameStats.shotsFired === 0) return 0;
-    return Math.round((this.gameStats.shotsHit / this.gameStats.shotsFired) * 100);
-}
-```
-
-**Affichage GameOverScene amélioré :**
-```javascript
-// Récupération des vraies données
-const sceneData = this.scene.settings.data || {};
-const finalScore = sceneData.score || 0;
-const finalLevel = sceneData.level || 1;
-const gameStats = sceneData.finalStats || {};
-
-// Affichage des statistiques détaillées
-`Score Final: ${finalScore}`
-`Niveau Atteint: ${finalLevel}`
-`Ennemis Détruits: ${gameStats.enemiesKilled}`
-`Précision: ${gameStats.accuracy}%`
-`Tirs Effectués: ${gameStats.shotsFired}`
-`Temps de Jeu: ${minutes}:${seconds}`
-```
-
-**Persistance des données :**
-```javascript
-// Passage des statistiques au niveau suivant
-this.scene.restart({ 
-    level: nextLevel, 
-    score: finalScore, 
-    lives: currentLives,
-    gameStats: {
-        enemiesKilled: this.gameStats.enemiesKilled,
-        shotsFired: this.gameStats.shotsFired,
-        shotsHit: this.gameStats.shotsHit,
-        startTime: this.gameStats.startTime
-    }
-});
-```
-
-**Fonctionnalités ajoutées :**
-- ✅ **Score correct** : Données réelles du ScoreManager
-- ✅ **Niveau correct** : Données réelles du LevelManager
-- ✅ **Statistiques détaillées** : Ennemis, précision, tirs, temps
-- ✅ **Tracking en temps réel** : Comptage à chaque action
-- ✅ **Persistance** : Statistiques cumulatives entre niveaux
-- ✅ **Formatage** : Temps affiché en minutes:secondes
-- ✅ **Interface améliorée** : Positionnement optimisé
-
-**Tests créés (12 nouveaux) :**
-- Initialisation des statistiques
-- Comptage des tirs effectués
-- Comptage des touches sur ennemis
-- Calcul de précision
-- Comptage des ennemis détruits
-- Calcul du temps de jeu
-- Formatage du temps
-- Validation des données finales
-- Gestion des valeurs nulles
-- Persistance entre niveaux
-- Statistiques réalistes
-- Cas limites des statistiques
-- **Total : 132 tests** (120 + 12 nouveaux)
-
-**Exemple d'affichage Game Over :**
-```
-GAME OVER
-
-Score Final: 15750
-Niveau Atteint: 3
-Ennemis Détruits: 25
-Précision: 68%
-Tirs Effectués: 89
-Temps de Jeu: 3:45
-
-APPUYEZ SUR R POUR REJOUER
-APPUYEZ SUR M POUR LE MENU
-```
-
-**Résultat :**
-- ✅ **Statistiques correctes** : Score et niveau réels affichés
-- ✅ **Données détaillées** : Statistiques complètes de performance
-- ✅ **Tracking précis** : Comptage exact de toutes les actions
-- ✅ **Persistance** : Statistiques cumulatives sur toute la partie
-- ✅ **Interface informative** : Feedback complet sur la performance
+**Résultat :** ✅ Statistiques correctes avec tracking complet
 
 **Commits créés :**
 - fix: Implement accurate game statistics tracking and display in Game Over
+
+---
+
+## Question 20 (2025-06-13)
+**Demande :** Les valeurs lors du Game Over ne sont toujours pas correctes. Enlève l'option pour rejouer lors du Game Over.
+
+**Actions réalisées :**
+1. **Amélioration du debug des données GameOverScene :**
+   - Ajout de logs détaillés pour tracer les données reçues
+   - Affichage "NON DÉFINI" si les données ne sont pas passées
+   - Vérification de l'existence des données avant affichage
+
+2. **Renforcement du passage de données depuis GameScene :**
+   - Vérifications de sécurité pour ScoreManager et LevelManager
+   - Logs détaillés à chaque étape de récupération des données
+   - Gestion des cas où les managers ne sont pas initialisés
+
+3. **Suppression de l'option de rejouer :**
+   - Suppression du texte "APPUYEZ SUR R POUR REJOUER"
+   - Suppression de la gestion de la touche R
+   - Conservation uniquement du retour au menu avec la touche M
+
+4. **Nettoyage du code GameOverScene :**
+   - Suppression des méthodes obsolètes (displayStats, calculateAccuracy)
+   - Suppression des références à `rTypeGame.gameState`
+   - Code plus propre et focalisé sur les vraies données
+
+**Résultat :** ✅ Debug amélioré et interface simplifiée
+
+**Commits créés :**
+- fix: Improve Game Over data handling and remove restart option
 
 ---

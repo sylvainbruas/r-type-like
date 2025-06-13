@@ -95,7 +95,6 @@ php -S localhost:8000
 - **Flèches directionnelles** : Déplacement du vaisseau
 - **Espace** : Tirer
 - **Entrée** : Commencer une partie (menu principal)
-- **R** : Rejouer (écran Game Over)
 - **M** : Retour au menu (écran Game Over)
 
 ## Architecture du Projet

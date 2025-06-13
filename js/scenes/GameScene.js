@@ -267,27 +267,49 @@ class GameScene extends Phaser.Scene {
             console.log('Player hit! Lives remaining:', this.player.lives);
             
             if (this.player.lives <= 0) {
-                // Récupérer les données actuelles du jeu
-                const currentScore = this.scoreManager.getScoreData().score;
-                const currentLevel = this.levelManager.getCurrentLevel();
+                console.log('Player died - preparing Game Over data...');
+                
+                // Récupérer les données actuelles du jeu avec vérifications
+                let currentScore = 0;
+                let currentLevel = 1;
+                
+                if (this.scoreManager) {
+                    const scoreData = this.scoreManager.getScoreData();
+                    currentScore = scoreData ? scoreData.score : 0;
+                    console.log('ScoreManager data:', scoreData);
+                } else {
+                    console.warn('ScoreManager not available');
+                }
+                
+                if (this.levelManager) {
+                    currentLevel = this.levelManager.getCurrentLevel();
+                    console.log('LevelManager current level:', currentLevel);
+                } else {
+                    console.warn('LevelManager not available');
+                }
+                
                 const accuracy = this.calculateAccuracy();
                 
-                console.log('Game Over - Score:', currentScore, 'Level:', currentLevel, 'Stats:', this.gameStats);
+                console.log('Game Over - Final Score:', currentScore, 'Final Level:', currentLevel);
+                console.log('Game Over - Game Stats:', this.gameStats);
                 
                 // Passer les données à GameOverScene
-                this.scene.start('GameOverScene', { 
+                const gameOverData = { 
                     score: currentScore, 
                     level: currentLevel,
                     finalStats: {
                         score: currentScore,
                         level: currentLevel,
-                        enemiesKilled: this.gameStats.enemiesKilled,
-                        shotsFired: this.gameStats.shotsFired,
-                        shotsHit: this.gameStats.shotsHit,
+                        enemiesKilled: this.gameStats ? this.gameStats.enemiesKilled : 0,
+                        shotsFired: this.gameStats ? this.gameStats.shotsFired : 0,
+                        shotsHit: this.gameStats ? this.gameStats.shotsHit : 0,
                         accuracy: accuracy,
-                        playTime: Math.round((Date.now() - this.gameStats.startTime) / 1000)
+                        playTime: this.gameStats ? Math.round((Date.now() - this.gameStats.startTime) / 1000) : 0
                     }
-                });
+                };
+                
+                console.log('Sending to GameOverScene:', gameOverData);
+                this.scene.start('GameOverScene', gameOverData);
             }
         }
     }

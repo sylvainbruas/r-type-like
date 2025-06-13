@@ -13,14 +13,22 @@ class GameScene extends Phaser.Scene {
         
         console.log('Starting level:', currentLevel, 'Score:', currentScore, 'Lives:', currentLives);
         
-        // Initialiser les managers
+        // Initialiser les managers AVANT de les utiliser
         this.levelManager = new LevelManager();
         this.levelManager.setCurrentLevel(currentLevel);
         this.scoreManager = new ScoreManager();
         
-        // Restaurer le score précédent
+        // Restaurer le score précédent APRÈS avoir initialisé le scoreManager
         if (currentScore > 0) {
-            this.scoreManager.setScore(currentScore);
+            if (this.scoreManager && typeof this.scoreManager.setScore === 'function') {
+                this.scoreManager.setScore(currentScore);
+            } else {
+                console.error('ScoreManager.setScore is not available');
+                // Fallback : ajouter le score au lieu de le définir
+                if (this.scoreManager && typeof this.scoreManager.addScore === 'function') {
+                    this.scoreManager.addScore(currentScore, 'restore');
+                }
+            }
         }
         
         // Groupes d'objets

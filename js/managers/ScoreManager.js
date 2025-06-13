@@ -49,8 +49,19 @@ class ScoreManager {
     }
     
     setScore(score) {
-        this.currentScore = score;
-        return this.currentScore;
+        if (typeof score === 'number' && score >= 0) {
+            this.currentScore = score;
+            console.log('Score set to:', this.currentScore);
+            return this.currentScore;
+        } else {
+            console.warn('Invalid score value:', score);
+            return this.currentScore;
+        }
+    }
+    
+    // Méthode alternative pour restaurer le score
+    restoreScore(score) {
+        return this.setScore(score);
     }
     
     resetMultiplierTimer() {

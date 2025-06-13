@@ -349,3 +349,68 @@ Le système de mouvement des boss était correctement implémenté mais n'était
 - fix: Activate boss movement by calling update() method in GameScene
 
 ---
+
+## Question 9 (2025-06-11 07:00)
+**Demande :** Modifier le comportement du boss, quand il fonce sur moi, il peut me suivre sur tout l'écran à 80% de ma vitesse.
+
+**Actions réalisées :**
+1. **Transformation de la charge en poursuite dynamique :**
+   - **Avant** : Boss fonçait en ligne droite vers une position fixe
+   - **Après** : Boss suit le joueur en temps réel avec recalcul continu de direction
+   - Suppression de `this.chargeTarget` (position fixe) au profit du suivi temps réel
+
+2. **Augmentation de la vitesse de poursuite :**
+   - **Avant** : 50% de la vitesse du joueur (100px/s)
+   - **Après** : 80% de la vitesse du joueur (160px/s)
+   - Calcul : `const chargeSpeed = this.playerSpeed * 0.8`
+
+3. **Suppression des contraintes de zone pendant la poursuite :**
+   - Modification de `constrainToMovementZone()` pour ignorer les limites pendant `isCharging`
+   - Boss peut maintenant poursuivre le joueur sur tout l'écran
+   - Retour automatique dans la zone après la poursuite
+
+4. **Implémentation du suivi temps réel :**
+   - Calcul continu de la direction : `dx = player.x - boss.x` et `dy = player.y - boss.y`
+   - Normalisation du vecteur de direction à chaque frame
+   - Application de la vélocité : `setVelocity((dx/distance) * chargeSpeed, (dy/distance) * chargeSpeed)`
+
+5. **Ajout d'une durée maximale de poursuite :**
+   - Limite de 15 secondes pour éviter une poursuite infinie
+   - `maxChargeDuration = 15000ms`
+   - Arrêt automatique après expiration ou sortie trop loin de l'écran
+
+6. **Simplification de la préparation de charge :**
+   - Suppression de la capture de position fixe
+   - Focus sur le tremblement puis déclenchement de la poursuite dynamique
+   - Messages de debug améliorés : "Boss starting dynamic chase!"
+
+**Fonctionnalités implémentées :**
+- ✅ **Poursuite temps réel** : Boss suit le joueur où qu'il aille
+- ✅ **Vitesse augmentée** : 80% de la vitesse du joueur (160px/s)
+- ✅ **Liberté de mouvement** : Tout l'écran accessible pendant la poursuite
+- ✅ **Durée limitée** : Maximum 15 secondes de poursuite
+- ✅ **Calcul dynamique** : Direction recalculée à chaque frame
+- ✅ **Retour automatique** : Boss revient dans sa zone après poursuite
+
+**Comportement résultant :**
+1. **Phase normale** : Boss bouge dans le tiers droit (vitesse 25-35% du joueur)
+2. **Préparation** : Tremblement 10 secondes (toutes les minutes)
+3. **Poursuite** : Suit le joueur partout à 80% de sa vitesse pendant max 15s
+4. **Retour** : Repositionnement dans la zone et reprise du mouvement normal
+
+**Tests ajoutés (2 nouveaux) :**
+- Vitesse de poursuite à 80% du joueur
+- Durée maximale de poursuite (15 secondes)
+- Liberté de mouvement pendant la poursuite
+- **Total : 78 tests** (76 + 2 nouveaux)
+
+**Amélioration du gameplay :**
+- Boss plus agressif et dangereux
+- Poursuite réaliste et imprévisible
+- Pression constante sur le joueur
+- Équilibre maintenu avec la durée limitée
+
+**Commits créés :**
+- feat: Implement dynamic boss chase behavior across entire screen
+
+---

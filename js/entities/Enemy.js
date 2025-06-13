@@ -61,18 +61,39 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
     
     setupAppearance() {
-        switch (this.enemyType) {
-            case 'fast':
-                this.setTint(0x00ff00);
-                this.setScale(0.8);
-                break;
-            case 'heavy':
-                this.setTint(0xff8800);
-                this.setScale(1.3);
-                break;
-            default:
-                this.setTint(0xff0000);
-                this.setScale(1);
+        // Si on utilise un sprite SVG coloré, préserver les couleurs originales
+        if (this.textureUsed && (this.textureUsed === 'enemy1' || this.textureUsed === 'enemy2' || this.textureUsed === 'enemy3')) {
+            console.log(`🎨 Preserving original colors for ${this.textureUsed}`);
+            // Pas de teinte, garder les couleurs SVG originales
+            this.clearTint();
+            
+            // Ajuster seulement la taille selon le type
+            switch (this.enemyType) {
+                case 'fast':
+                    this.setScale(0.8);
+                    break;
+                case 'heavy':
+                    this.setScale(1.3);
+                    break;
+                default:
+                    this.setScale(1);
+            }
+        } else {
+            // Pour le sprite fallback procédural, utiliser les teintes comme avant
+            console.log(`🎨 Applying tint to fallback sprite`);
+            switch (this.enemyType) {
+                case 'fast':
+                    this.setTint(0x00ff00);
+                    this.setScale(0.8);
+                    break;
+                case 'heavy':
+                    this.setTint(0xff8800);
+                    this.setScale(1.3);
+                    break;
+                default:
+                    this.setTint(0xff0000);
+                    this.setScale(1);
+            }
         }
     }
     

@@ -1,0 +1,44 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Vaisseau Ennemi Type 3 - Chasseur Vert -->
+  
+  <!-- Corps triangulaire -->
+  <polygon points="8,16 20,10 20,22" fill="#00AA00"/>
+  <polygon points="9,16 19,11 19,21" fill="#33CC33"/>
+  
+  <!-- Nez effilé -->
+  <polygon points="20,12 20,20 26,16" fill="#006600"/>
+  <polygon points="21,13 21,19 25,16" fill="#00AA00"/>
+  
+  <!-- Ailes delta -->
+  <polygon points="6,14 6,18 12,16" fill="#008800"/>
+  <polygon points="7,15 7,17 11,16" fill="#22BB22"/>
+  
+  <!-- Réacteur central -->
+  <rect x="4" y="14" width="4" height="4" fill="#FF4400"/>
+  <rect x="5" y="15" width="2" height="2" fill="#FFAA00"/>
+  
+  <!-- Cockpit triangulaire -->
+  <polygon points="12,14 12,18 16,16" fill="#0088CC"/>
+  <polygon points="13,15 13,17 15,16" fill="#44AAFF"/>
+  
+  <!-- Détails de surface -->
+  <rect x="10" y="13" width="8" height="1" fill="#55DD55"/>
+  <rect x="10" y="18" width="8" height="1" fill="#55DD55"/>
+  <rect x="14" y="12" width="1" height="8" fill="#006600"/>
+  
+  <!-- Canon avant -->
+  <rect x="26" y="15" width="4" height="2" fill="#777777"/>
+  <rect x="27" y="15" width="2" height="2" fill="#AAAAAA"/>
+  
+  <!-- Stabilisateurs -->
+  <rect x="18" y="8" width="2" height="2" fill="#008800"/>
+  <rect x="18" y="22" width="2" height="2" fill="#008800"/>
+  
+  <!-- Effet de propulsion -->
+  <rect x="2" y="15" width="2" height="2" fill="#FFFF00" opacity="0.8"/>
+  <rect x="1" y="15" width="1" height="2" fill="#FFFFFF" opacity="0.6"/>
+  
+  <!-- Marquages -->
+  <rect x="11" y="15" width="6" height="2" fill="#FFFF00"/>
+  <rect x="12" y="15" width="4" height="2" fill="#FFAA00"/>
+</svg>

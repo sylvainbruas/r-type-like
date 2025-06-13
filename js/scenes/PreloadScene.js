@@ -10,9 +10,15 @@ class PreloadScene extends Phaser.Scene {
         this.createEnemyTexture();
         this.createBulletTexture();
         
-        // Ensuite, essayer de charger les SVG qui remplaceront les fallbacks
+        // Charger la DeLorean pour le joueur
         this.load.svg('player-delorean', 'assets/images/player.svg', { width: 64, height: 32 });
-        this.load.svg('enemy-svg', 'assets/images/enemy.svg', { width: 32, height: 32 });
+        
+        // Charger les 3 types d'ennemis
+        this.load.svg('enemy1', 'assets/images/enemy1.svg', { width: 32, height: 32 });
+        this.load.svg('enemy2', 'assets/images/enemy2.svg', { width: 32, height: 32 });
+        this.load.svg('enemy3', 'assets/images/enemy3.svg', { width: 32, height: 32 });
+        
+        // Charger les autres assets
         this.load.svg('bullet-svg', 'assets/images/bullet.svg', { width: 8, height: 4 });
         
         // Barre de chargement
@@ -120,6 +126,19 @@ class PreloadScene extends Phaser.Scene {
         // Vérifier spécifiquement si la DeLorean SVG a été chargée
         const deloreanLoaded = this.textures.exists('player-delorean');
         console.log('🚗 DeLorean SVG:', deloreanLoaded ? '✅ Loaded successfully' : '❌ Failed to load, using fallback');
+        
+        // Vérifier les 3 types d'ennemis
+        const enemy1Loaded = this.textures.exists('enemy1');
+        const enemy2Loaded = this.textures.exists('enemy2');
+        const enemy3Loaded = this.textures.exists('enemy3');
+        
+        console.log('👾 Enemy Ships:');
+        console.log('- Enemy 1 (Intercepteur Rouge):', enemy1Loaded ? '✅ Loaded' : '❌ Failed');
+        console.log('- Enemy 2 (Croiseur Violet):', enemy2Loaded ? '✅ Loaded' : '❌ Failed');
+        console.log('- Enemy 3 (Chasseur Vert):', enemy3Loaded ? '✅ Loaded' : '❌ Failed');
+        
+        const totalEnemiesLoaded = [enemy1Loaded, enemy2Loaded, enemy3Loaded].filter(Boolean).length;
+        console.log(`🎯 ${totalEnemiesLoaded}/3 enemy types loaded successfully`);
         
         if (deloreanLoaded) {
             console.log('🎯 La DeLorean sera utilisée comme sprite du joueur !');

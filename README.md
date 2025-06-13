@@ -124,7 +124,10 @@ Rtype/
 ├── assets/                # Ressources
 │   └── images/           # Images et sprites
 │       ├── player.svg    # DeLorean 8-bit (vaisseau joueur)
-│       ├── enemy.svg     # Sprites des ennemis
+│       ├── enemy1.svg    # Intercepteur Rouge (ennemi type 1)
+│       ├── enemy2.svg    # Croiseur Violet (ennemi type 2)
+│       ├── enemy3.svg    # Chasseur Vert (ennemi type 3)
+│       ├── enemy.svg     # Ennemi fallback (procédural)
 │       └── bullet.svg    # Sprites des projectiles
 ├── README.md
 └── questions.txt          # Suivi du développement

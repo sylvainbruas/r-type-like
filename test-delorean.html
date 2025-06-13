@@ -62,25 +62,49 @@
         </div>
         
         <div class="sprite-test">
-            <h2>Comparaison avec les autres sprites</h2>
+            <h2>Comparaison avec les sprites ennemis</h2>
             <div class="sprite-info">
-                <strong>Ennemi:</strong> assets/images/enemy.svg<br>
+                <strong>Ennemi 1:</strong> assets/images/enemy1.svg (Intercepteur Rouge)<br>
+                <strong>Ennemi 2:</strong> assets/images/enemy2.svg (Croiseur Violet)<br>
+                <strong>Ennemi 3:</strong> assets/images/enemy3.svg (Chasseur Vert)<br>
                 <strong>Projectile:</strong> assets/images/bullet.svg
             </div>
             <div class="sprite-display">
                 <img src="assets/images/player.svg" alt="Player" style="image-rendering: pixelated; transform: scale(2); margin: 10px;">
-                <img src="assets/images/enemy.svg" alt="Enemy" style="image-rendering: pixelated; transform: scale(2); margin: 10px;">
+                <img src="assets/images/enemy1.svg" alt="Enemy 1" style="image-rendering: pixelated; transform: scale(2); margin: 10px;">
+                <img src="assets/images/enemy2.svg" alt="Enemy 2" style="image-rendering: pixelated; transform: scale(2); margin: 10px;">
+                <img src="assets/images/enemy3.svg" alt="Enemy 3" style="image-rendering: pixelated; transform: scale(2); margin: 10px;">
                 <img src="assets/images/bullet.svg" alt="Bullet" style="image-rendering: pixelated; transform: scale(4); margin: 10px;">
+            </div>
+        </div>
+        
+        <div class="sprite-test">
+            <h2>👾 Types d'Ennemis</h2>
+            <div class="sprite-info">
+                <strong>🔴 Intercepteur Rouge (enemy1.svg):</strong><br>
+                - Vaisseau rapide et agile<br>
+                - Nez pointu pour les attaques directes<br>
+                - Réacteurs orange pour la vitesse<br><br>
+                
+                <strong>🟣 Croiseur Violet (enemy2.svg):</strong><br>
+                - Vaisseau lourd avec double réacteur<br>
+                - Canons multiples pour les attaques soutenues<br>
+                - Blindage renforcé (plus large)<br><br>
+                
+                <strong>🟢 Chasseur Vert (enemy3.svg):</strong><br>
+                - Design triangulaire furtif<br>
+                - Ailes delta pour la manœuvrabilité<br>
+                - Marquages jaunes distinctifs
             </div>
         </div>
         
         <div class="sprite-test">
             <h2>🎮 Instructions de Test</h2>
             <div class="sprite-info">
-                1. <strong>Vérifiez l'affichage:</strong> Les DeLorean doivent apparaître clairement<br>
+                1. <strong>Vérifiez l'affichage:</strong> La DeLorean et les 3 types d'ennemis doivent apparaître clairement<br>
                 2. <strong>Lancez le jeu:</strong> <code>./start.sh</code> puis <code>http://localhost:8000</code><br>
-                3. <strong>Vérifiez la console:</strong> Logs de chargement des assets SVG<br>
-                4. <strong>Jouez:</strong> La DeLorean doit remplacer le vaisseau par défaut
+                3. <strong>Vérifiez la console:</strong> Logs de chargement des assets SVG et sélection aléatoire<br>
+                4. <strong>Jouez:</strong> Les ennemis doivent apparaître avec des sprites variés aléatoirement
             </div>
         </div>
         

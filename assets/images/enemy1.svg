@@ -1,0 +1,37 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Vaisseau Ennemi Type 1 - Intercepteur Rouge -->
+  
+  <!-- Corps principal -->
+  <rect x="8" y="12" width="16" height="8" fill="#CC0000"/>
+  <rect x="9" y="13" width="14" height="6" fill="#FF3333"/>
+  
+  <!-- Nez pointu -->
+  <polygon points="24,14 24,18 28,16" fill="#990000"/>
+  <polygon points="25,15 25,17 27,16" fill="#CC0000"/>
+  
+  <!-- Ailes -->
+  <rect x="6" y="10" width="4" height="4" fill="#AA0000"/>
+  <rect x="6" y="18" width="4" height="4" fill="#AA0000"/>
+  <rect x="22" y="10" width="4" height="4" fill="#AA0000"/>
+  <rect x="22" y="18" width="4" height="4" fill="#AA0000"/>
+  
+  <!-- Réacteurs -->
+  <rect x="4" y="14" width="4" height="4" fill="#FF6600"/>
+  <rect x="5" y="15" width="2" height="2" fill="#FFAA00"/>
+  
+  <!-- Cockpit -->
+  <rect x="12" y="14" width="8" height="4" fill="#0066CC"/>
+  <rect x="13" y="15" width="6" height="2" fill="#3399FF"/>
+  
+  <!-- Détails -->
+  <rect x="10" y="16" width="12" height="1" fill="#FF6666"/>
+  <rect x="16" y="12" width="2" height="8" fill="#990000"/>
+  
+  <!-- Canons -->
+  <rect x="28" y="13" width="3" height="2" fill="#666666"/>
+  <rect x="28" y="17" width="3" height="2" fill="#666666"/>
+  
+  <!-- Effet de propulsion -->
+  <rect x="2" y="15" width="2" height="2" fill="#FFFF00" opacity="0.8"/>
+  <rect x="1" y="15" width="1" height="2" fill="#FFFFFF" opacity="0.6"/>
+</svg>

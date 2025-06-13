@@ -1,7 +1,12 @@
 // Classe des ennemis
 class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, type = 'basic') {
-        super(scene, x, y, 'enemy');
+        // Choisir un sprite d'ennemi aléatoire
+        const textureKey = Enemy.getRandomEnemyTexture(scene);
+        super(scene, x, y, textureKey);
+        
+        // Log pour debug
+        console.log(`👾 Enemy created with texture: ${textureKey}`);
         
         // Ajouter à la scène et activer la physique
         scene.add.existing(this);
@@ -9,6 +14,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         
         // Propriétés de l'ennemi
         this.enemyType = type;
+        this.textureUsed = textureKey; // Stocker la texture utilisée
         this.health = this.getHealthByType(type);
         this.maxHealth = this.health;
         this.speed = this.getSpeedByType(type);
@@ -147,6 +153,46 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     checkBounds() {
         if (this.x < -50 || this.y < -50 || this.y > GameConfig.height + 50) {
             this.destroy();
+        }
+    }
+    
+    // Méthode statique pour choisir aléatoirement un sprite d'ennemi
+    static getRandomEnemyTexture(scene) {
+        // Liste des sprites d'ennemis disponibles
+        const enemyTextures = [];
+        
+        // Vérifier quels sprites SVG sont disponibles
+        if (scene.textures.exists('enemy1')) {
+            enemyTextures.push('enemy1');
+        }
+        if (scene.textures.exists('enemy2')) {
+            enemyTextures.push('enemy2');
+        }
+        if (scene.textures.exists('enemy3')) {
+            enemyTextures.push('enemy3');
+        }
+        
+        // Si aucun sprite SVG n'est disponible, utiliser le fallback
+        if (enemyTextures.length === 0) {
+            console.log('⚠️ No enemy SVG sprites loaded, using fallback');
+            return 'enemy';
+        }
+        
+        // Choisir aléatoirement parmi les sprites disponibles
+        const randomIndex = Math.floor(Math.random() * enemyTextures.length);
+        const selectedTexture = enemyTextures[randomIndex];
+        
+        console.log(`🎲 Selected enemy texture: ${selectedTexture} (${randomIndex + 1}/${enemyTextures.length})`);
+        return selectedTexture;
+    }
+    
+    // Méthode pour obtenir le nom du type d'ennemi selon la texture
+    static getEnemyTypeName(textureKey) {
+        switch(textureKey) {
+            case 'enemy1': return 'Intercepteur Rouge';
+            case 'enemy2': return 'Croiseur Violet';
+            case 'enemy3': return 'Chasseur Vert';
+            default: return 'Ennemi Standard';
         }
     }
 }

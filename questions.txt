@@ -414,3 +414,93 @@ Le système de mouvement des boss était correctement implémenté mais n'était
 - feat: Implement dynamic boss chase behavior across entire screen
 
 ---
+
+## Question 10 (2025-06-11 07:00)
+**Demande :** Ajouter des groupes d'ennemis, entre 3 et 5 à chaque fois, qui ont un point d'entrée aléatoire à l'écran. Ce groupe se déplace en suivant la même trajectoire aléatoire.
+
+**Actions réalisées :**
+1. **Création de la classe EnemyGroup :**
+   - Gestion de groupes de 3 à 5 ennemis avec `Phaser.Math.Between(3, 5)`
+   - Système de trajectoires partagées avec waypoints multiples
+   - Gestion de formations pour maintenir la cohésion du groupe
+
+2. **Système de points d'entrée aléatoires :**
+   - **3 zones d'entrée** : Droite, Haut, Bas de l'écran
+   - Points générés hors écran : `{ x: width + 50, y: random }` (droite)
+   - Entrées variées pour créer de la surprise et de la diversité
+
+3. **Génération de trajectoires aléatoires :**
+   - **3 à 6 waypoints** par trajectoire avec `Phaser.Math.Between(3, 6)`
+   - Points intermédiaires calculés avec progression et variation aléatoire
+   - Point de sortie vers la gauche pour évacuation naturelle
+   - Trajectoires uniques pour chaque groupe
+
+4. **Système de formations (4 types) :**
+   - **Line** : Formation en ligne horizontale avec espacement régulier
+   - **V-Formation** : Formation en V avec leader au centre
+   - **Diamond** : Formation en losange avec centre proéminent
+   - **Circle** : Formation circulaire avec rayon fixe
+   - Sélection aléatoire : `Phaser.Utils.Array.GetRandom(formations)`
+
+5. **Mouvement coordonné :**
+   - Calcul du centre du groupe pour navigation
+   - Maintien des offsets de formation pendant le déplacement
+   - Vitesse de groupe : `Phaser.Math.Between(80, 120)` pixels/seconde
+   - Transition fluide entre waypoints avec détection de proximité
+
+6. **Intégration dans GameScene :**
+   - Timer de spawn : `groupSpawnTimer` avec taux adaptatif (8s de base)
+   - Mise à jour des groupes : `updateEnemyGroups()` dans la boucle principale
+   - Nettoyage automatique des groupes détruits
+   - Réduction du spawn d'ennemis individuels pour équilibrer
+
+7. **Gestion du cycle de vie :**
+   - Suivi des ennemis actifs dans chaque groupe
+   - Destruction automatique quand tous les ennemis sont éliminés
+   - Nettoyage des références pour éviter les fuites mémoire
+   - Méthodes `getAliveCount()` et `isDestroyed()` pour monitoring
+
+**Fonctionnalités implémentées :**
+- ✅ **Groupes de 3-5 ennemis** générés aléatoirement
+- ✅ **Points d'entrée variés** (droite, haut, bas)
+- ✅ **Trajectoires aléatoires** avec 3-6 waypoints
+- ✅ **4 formations différentes** maintenues pendant le mouvement
+- ✅ **Mouvement coordonné** avec cohésion de groupe
+- ✅ **Spawn adaptatif** selon la difficulté du niveau
+- ✅ **Gestion complète** du cycle de vie des groupes
+
+**Formations disponibles :**
+1. **Line** : `offsetX = i * 40 - (groupSize-1) * 20, offsetY = 0`
+2. **V-Formation** : `offsetX = -distance, offsetY = side * distance`
+3. **Diamond** : `offsetX = -distFromCenter * 25, offsetY = (i-center) * 30`
+4. **Circle** : `offsetX = cos(angle) * radius, offsetY = sin(angle) * radius`
+
+**Algorithme de mouvement :**
+1. Calcul du centre du groupe actuel
+2. Détermination du waypoint cible
+3. Calcul de la direction vers le waypoint
+4. Application des offsets de formation
+5. Mise à jour des vélocités individuelles
+
+**Tests ajoutés (12 nouveaux) :**
+- Taille des groupes (3-5 ennemis)
+- Points d'entrée aléatoires valides
+- Génération de trajectoires avec waypoints
+- Types de formations disponibles
+- Calculs de positions pour chaque formation
+- Taux de spawn adaptatif
+- Cohésion et centre de groupe
+- Nettoyage des ennemis détruits
+- Détection de destruction de groupe
+- **Total : 90 tests** (78 + 12 nouveaux)
+
+**Impact sur le gameplay :**
+- **Variété tactique** : Différentes formations nécessitent des stratégies variées
+- **Défi coordonné** : Groupes plus difficiles à éliminer que des ennemis isolés
+- **Imprévisibilité** : Trajectoires et formations aléatoires
+- **Richesse visuelle** : Formations organisées créent un spectacle dynamique
+
+**Commits créés :**
+- feat: Add enemy group system with formations and coordinated movement
+
+---

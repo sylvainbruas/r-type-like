@@ -893,3 +893,99 @@ VIES: 2
 - fix: Remove duplicate lives display and fix scoreManager error
 
 ---
+
+## Question 16 (2025-06-11 07:00)
+**Demande :** Quand je passe au niveau 2, mon score revient à 0 et je reviens à 3 vies. Mon nombre de vies ainsi que le score devrait être gardé entre les niveaux.
+
+**Problème identifié :**
+Lors du passage au niveau suivant, `this.scene.restart()` créait une nouvelle instance de GameScene qui réinitialisait :
+- Le ScoreManager avec un score de 0
+- Le Player avec 3 vies par défaut
+- Perte de toute progression entre les niveaux
+
+**Actions réalisées :**
+1. **Système de persistance des données :**
+   - Modification de `completeLevel()` pour passer toutes les données : `{ level, score, lives }`
+   - Récupération des données dans `create()` : `sceneData.level`, `sceneData.score`, `sceneData.lives`
+   - Conservation de l'état complet du jeu entre les transitions
+
+2. **Ajout de la méthode setScore() au ScoreManager :**
+   - `setScore(score)` : Définit le score actuel sans calculs
+   - Restauration du score précédent : `this.scoreManager.setScore(currentScore)`
+   - Maintien de la progression du score entre les niveaux
+
+3. **Restauration des vies du joueur :**
+   - Récupération des vies depuis les données de scène : `currentLives`
+   - Application au joueur : `this.player.lives = currentLives`
+   - Conservation du nombre de vies perdues entre les niveaux
+
+4. **Amélioration du système de bonus :**
+   - Ajout du bonus de fin de niveau avant transition
+   - Affichage du bonus : "NIVEAU 2\nBONUS: 5000"
+   - Calcul du score final avec bonus inclus
+
+5. **Logs de debug complets :**
+   - Affichage des données au démarrage : `Starting level: X Score: Y Lives: Z`
+   - Affichage à la fin de niveau : `Level completed: X Score: Y Lives: Z`
+   - Traçage complet des transitions : `Moving to level: X Final score: Y Lives: Z`
+
+6. **Correction des scènes de démarrage :**
+   - MenuScene : `{ level: 1, score: 0, lives: 3 }` pour nouveau jeu
+   - GameOverScene : `{ level: 1, score: 0, lives: 3 }` pour redémarrage
+   - Valeurs par défaut cohérentes partout
+
+**Flux de persistance implémenté :**
+1. **Fin de niveau** → Récupération des données actuelles
+2. **Calcul du bonus** → Ajout du bonus de fin de niveau
+3. **Préparation des données** → `{ level: nextLevel, score: finalScore, lives: currentLives }`
+4. **Transition** → `scene.restart(gameData)`
+5. **Nouveau niveau** → Restauration des données depuis les paramètres
+6. **Initialisation** → Application des données aux managers et au joueur
+
+**Fonctionnalités implémentées :**
+- ✅ **Score persistant** : Maintenu et augmenté entre les niveaux
+- ✅ **Vies persistantes** : Nombre de vies conservé entre les niveaux
+- ✅ **Bonus de niveau** : 5000 points ajoutés à chaque fin de niveau
+- ✅ **Affichage des bonus** : Feedback visuel du bonus obtenu
+- ✅ **Logs de debug** : Traçage complet des transitions
+
+**Méthodes ajoutées/modifiées :**
+- `ScoreManager.setScore(score)` : Définit le score directement
+- `GameScene.create()` : Récupère et applique les données persistantes
+- `GameScene.completeLevel()` : Calcule et passe les données au niveau suivant
+- `MenuScene` et `GameOverScene` : Démarrage avec valeurs par défaut
+
+**Données de transition :**
+```javascript
+// Données passées entre les niveaux
+{
+    level: 2,        // Niveau suivant
+    score: 7500,     // Score actuel + bonus
+    lives: 2         // Vies restantes
+}
+```
+
+**Tests ajoutés (10 nouveaux) :**
+- Conservation du score entre niveaux
+- Conservation des vies entre niveaux
+- Ajout du bonus de fin de niveau
+- Validation des données de transition
+- Gestion des valeurs par défaut
+- Calcul du score final avec bonus
+- Persistance lors de multiples transitions
+- Gestion de la fin de jeu
+- Validation de la méthode setScore
+- Cohérence des données de jeu
+- **Total : 120 tests** (110 + 10 nouveaux)
+
+**Résultat :**
+- ✅ **Score conservé** : Progression continue entre les niveaux
+- ✅ **Vies conservées** : Nombre de vies maintenu
+- ✅ **Bonus ajoutés** : 5000 points par niveau terminé
+- ✅ **Feedback visuel** : Affichage du bonus obtenu
+- ✅ **Progression cohérente** : État du jeu maintenu tout au long de la partie
+
+**Commits créés :**
+- fix: Implement data persistence between levels for score and lives
+
+---

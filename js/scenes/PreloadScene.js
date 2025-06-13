@@ -5,8 +5,13 @@ class PreloadScene extends Phaser.Scene {
     }
     
     preload() {
-        // Essayer de charger les assets SVG depuis assets/images/
-        this.load.svg('player-svg', 'assets/images/player.svg', { width: 64, height: 32 });
+        // Créer d'abord les textures de fallback avec les bonnes clés
+        this.createPlayerTexture();
+        this.createEnemyTexture();
+        this.createBulletTexture();
+        
+        // Ensuite, essayer de charger les SVG qui remplaceront les fallbacks
+        this.load.svg('player-delorean', 'assets/images/player.svg', { width: 64, height: 32 });
         this.load.svg('enemy-svg', 'assets/images/enemy.svg', { width: 32, height: 32 });
         this.load.svg('bullet-svg', 'assets/images/bullet.svg', { width: 8, height: 4 });
         
@@ -94,47 +99,11 @@ class PreloadScene extends Phaser.Scene {
     }
     
     create() {
-        // Vérifier quels SVG ont été chargés et créer les fallbacks nécessaires
-        this.setupTextures();
-        
-        // Vérifier le statut final des assets
+        // Vérifier le statut des assets et utiliser la DeLorean si disponible
         this.checkAssetLoading();
         
         // Passer au menu principal
         this.scene.start('MenuScene');
-    }
-    
-    setupTextures() {
-        // Si le SVG player a été chargé, l'utiliser, sinon créer le fallback
-        if (this.textures.exists('player-svg')) {
-            // Copier la texture SVG vers la clé 'player'
-            const svgTexture = this.textures.get('player-svg');
-            this.textures.addCanvas('player', svgTexture.source[0].image);
-            console.log('✅ Using DeLorean SVG for player');
-        } else {
-            this.createPlayerTexture();
-            console.log('🔄 Using fallback texture for player');
-        }
-        
-        // Même logique pour enemy
-        if (this.textures.exists('enemy-svg')) {
-            const svgTexture = this.textures.get('enemy-svg');
-            this.textures.addCanvas('enemy', svgTexture.source[0].image);
-            console.log('✅ Using SVG for enemy');
-        } else {
-            this.createEnemyTexture();
-            console.log('🔄 Using fallback texture for enemy');
-        }
-        
-        // Même logique pour bullet
-        if (this.textures.exists('bullet-svg')) {
-            const svgTexture = this.textures.get('bullet-svg');
-            this.textures.addCanvas('bullet', svgTexture.source[0].image);
-            console.log('✅ Using SVG for bullet');
-        } else {
-            this.createBulletTexture();
-            console.log('🔄 Using fallback texture for bullet');
-        }
     }
     
     checkAssetLoading() {
@@ -149,7 +118,11 @@ class PreloadScene extends Phaser.Scene {
         console.log('- Bullet:', bulletTexture ? '✅ Ready' : '❌ Missing');
         
         // Vérifier spécifiquement si la DeLorean SVG a été chargée
-        const deloreanLoaded = this.textures.exists('player-svg');
-        console.log('🚗 DeLorean SVG:', deloreanLoaded ? '✅ Loaded successfully' : '❌ Failed to load');
+        const deloreanLoaded = this.textures.exists('player-delorean');
+        console.log('🚗 DeLorean SVG:', deloreanLoaded ? '✅ Loaded successfully' : '❌ Failed to load, using fallback');
+        
+        if (deloreanLoaded) {
+            console.log('🎯 La DeLorean sera utilisée comme sprite du joueur !');
+        }
     }
 }

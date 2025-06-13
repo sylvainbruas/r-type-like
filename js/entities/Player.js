@@ -1,7 +1,16 @@
 // Classe du joueur
 class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y) {
-        super(scene, x, y, 'player');
+        // Choisir la texture : DeLorean si disponible, sinon fallback
+        const textureKey = scene.textures.exists('player-delorean') ? 'player-delorean' : 'player';
+        super(scene, x, y, textureKey);
+        
+        // Log pour debug
+        if (textureKey === 'player-delorean') {
+            console.log('🚗 Player using DeLorean sprite!');
+        } else {
+            console.log('🚀 Player using fallback sprite');
+        }
         
         // Ajouter à la scène et activer la physique
         scene.add.existing(this);

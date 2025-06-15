@@ -99,7 +99,17 @@ php -S localhost:8000
 - **Entrée** : Commencer une partie (menu principal)
 - **M** : Retour au menu (écran Game Over)
 
-## Architecture du Projet
+## Architecture
+
+Le projet utilise une architecture modulaire avec séparation claire des responsabilités :
+
+- **Scènes** : Gestion des différents états du jeu
+- **Entités** : Classes pour les objets du jeu (joueur, ennemis, projectiles)
+- **Managers** : Gestion des systèmes (scores, niveaux)
+
+📐 **Pour les schémas d'architecture détaillés, consultez [architecture/README.md](architecture/README.md)**
+
+## Structure du Projet
 
 ```
 Rtype/
@@ -132,6 +142,13 @@ Rtype/
 │       ├── enemy3.svg    # Chasseur Vert (ennemi type 3)
 │       ├── enemy.svg     # Ennemi fallback (procédural)
 │       └── bullet.svg    # Sprites des projectiles
+├── architecture/          # Schémas d'architecture
+│   ├── README.md         # Documentation des schémas
+│   ├── 01-architecture-generale.drawio
+│   ├── 02-scenes-navigation.drawio
+│   ├── 03-entites-relations.drawio
+│   ├── 04-gestion-assets.drawio
+│   └── 05-systeme-tests.drawio
 ├── README.md
 └── questions.txt          # Suivi du développement
 ```

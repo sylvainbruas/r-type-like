@@ -1,0 +1,164 @@
+<mxfile host="app.diagrams.net" modified="2024-01-15T10:00:00.000Z" agent="5.0" etag="ghi789" version="22.1.16" type="device">
+  <diagram name="Entités et Relations" id="entities-relations">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Titre -->
+        <mxCell id="title" value="R-Type 2 - Entités et Relations" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="469" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Player -->
+        <mxCell id="player-entity" value="Player" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="100" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="player-props" value="Properties:&#xa;• lives: 3&#xa;• health: 1&#xa;• invulnerable: boolean&#xa;• textureKey: 'player-delorean'&#xa;&#xa;Methods:&#xa;• update(cursors)&#xa;• fire()&#xa;• takeDamage()&#xa;• respawn()" style="text;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="80" y="170" width="150" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Enemy -->
+        <mxCell id="enemy-entity" value="Enemy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="100" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="enemy-props" value="Properties:&#xa;• enemyType: 'basic'|'fast'|'heavy'&#xa;• health: 1-3&#xa;• speed: 50-150&#xa;• fireRate: 5000ms&#xa;• textureUsed: 'enemy1'|'enemy2'|'enemy3'&#xa;&#xa;Methods:&#xa;• update()&#xa;• fire()&#xa;• takeDamage()&#xa;• getRandomEnemyTexture()" style="text;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="300" y="170" width="150" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Boss -->
+        <mxCell id="boss-entity" value="Boss" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="100" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="boss-props" value="Properties:&#xa;• level: 1-5&#xa;• health: 50-200&#xa;• phase: 1-3&#xa;• attackPattern: string&#xa;• movementPattern: string&#xa;&#xa;Methods:&#xa;• update()&#xa;• changePhase()&#xa;• specialAttack()&#xa;• takeDamage()" style="text;html=1;strokeColor=#d6b656;fillColor=#fff2cc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="520" y="170" width="150" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Bullet -->
+        <mxCell id="bullet-entity" value="Bullet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="740" y="100" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="bullet-props" value="Properties:&#xa;• owner: 'player'|'enemy'|'boss'&#xa;• speed: 400&#xa;• damage: 1&#xa;• angle: 0 (degrees)&#xa;&#xa;Methods:&#xa;• setupByOwner()&#xa;• update()&#xa;• destroy()&#xa;• checkBounds()" style="text;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="740" y="170" width="150" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- AlienTerrain -->
+        <mxCell id="terrain-entity" value="AlienTerrain" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="350" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="terrain-props" value="Properties:&#xa;• terrainHeight: 10% screen&#xa;• segments: 8&#xa;• colors: alien palette&#xa;&#xa;Methods:&#xa;• createTopTerrain()&#xa;• createBottomTerrain()&#xa;• regenerate()&#xa;• getTerrainHeightAt()" style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="300" y="420" width="150" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Relations de tir -->
+        <mxCell id="player-bullet-relation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#2D7600;" edge="1" parent="1" source="player-entity" target="bullet-entity">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="player-bullet-label" value="fire()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=1;color=#2D7600;" vertex="1" parent="1">
+          <mxGeometry x="500" y="110" width="40" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="enemy-bullet-relation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#D20100;" edge="1" parent="1" source="enemy-entity" target="bullet-entity">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="enemy-bullet-label" value="fire()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=1;color=#D20100;" vertex="1" parent="1">
+          <mxGeometry x="500" y="90" width="40" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="boss-bullet-relation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#FF8000;" edge="1" parent="1" source="boss-entity" target="bullet-entity">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="boss-bullet-label" value="specialAttack()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=1;color=#FF8000;" vertex="1" parent="1">
+          <mxGeometry x="600" y="70" width="80" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Relations de collision -->
+        <mxCell id="player-terrain-collision" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#7F00FF;strokeStyle=dashed;" edge="1" parent="1" source="player-entity" target="terrain-entity">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="player-terrain-label" value="collision&#xa;(lose life)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=1;color=#7F00FF;" vertex="1" parent="1">
+          <mxGeometry x="180" y="320" width="60" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Groupes Phaser -->
+        <mxCell id="groups-title" value="GROUPES PHASER" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="580" width="200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="player-bullets-group" value="playerBullets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="620" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="enemy-bullets-group" value="enemyBullets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="620" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="enemies-group" value="enemies" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="620" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="bosses-group" value="bosses" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="620" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="alien-terrain-group" value="alienTerrain" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="620" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Collisions Matrix -->
+        <mxCell id="collisions-title" value="MATRICE DES COLLISIONS" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="350" width="200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="collision-matrix" value="Player ↔ Enemy Bullets → Damage&#xa;Player ↔ Enemies → Damage&#xa;Player ↔ Bosses → Damage&#xa;Player ↔ Alien Terrain → Damage&#xa;&#xa;Player Bullets ↔ Enemies → Destroy&#xa;Player Bullets ↔ Bosses → Damage&#xa;&#xa;Enemy Bullets ↔ Alien Terrain → Destroy&#xa;Player Bullets ↔ Alien Terrain → Destroy" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="700" y="390" width="250" height="130" as="geometry" />
+        </mxCell>
+        
+        <!-- Sprite System -->
+        <mxCell id="sprites-title" value="SYSTÈME DE SPRITES" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="700" width="200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="player-sprites" value="Player Sprites" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="740" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="player-sprites-detail" value="• player-delorean (SVG)&#xa;• player (fallback)" style="text;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="80" y="775" width="100" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="enemy-sprites" value="Enemy Sprites" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="740" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="enemy-sprites-detail" value="• enemy1 (Rouge)&#xa;• enemy2 (Violet)&#xa;• enemy3 (Vert)&#xa;• enemy (fallback)" style="text;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="190" y="775" width="100" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="bullet-sprites" value="Bullet Sprites" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="740" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bullet-sprites-detail" value="• bullet-svg (SVG)&#xa;• bullet (fallback)&#xa;• Tinted by owner" style="text;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="300" y="775" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Update Cycle -->
+        <mxCell id="update-title" value="CYCLE DE MISE À JOUR" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="700" width="200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="update-order" value="1. Player.update(cursors)&#xa;2. Enemies.forEach(enemy.update)&#xa;3. Bosses.forEach(boss.update)&#xa;4. EnemyGroups.update()&#xa;5. Collision Detection&#xa;6. UI Update&#xa;7. Bounds Checking" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="500" y="740" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Performance Notes -->
+        <mxCell id="performance-notes" value="OPTIMISATIONS:&#xa;• Object pooling pour bullets&#xa;• Efficient collision detection&#xa;• Sprite texture caching&#xa;• Automatic cleanup&#xa;• Memory management" style="text;html=1;strokeColor=#d79b00;fillColor=#ffe6cc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="750" y="740" width="170" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

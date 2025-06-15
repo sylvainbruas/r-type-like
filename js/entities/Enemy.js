@@ -53,10 +53,11 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
     
     getFireRateByType(type) {
+        // Tous les ennemis tirent toutes les 5 secondes (5000ms)
         switch (type) {
-            case 'fast': return 1500;
-            case 'heavy': return 3000;
-            default: return 2000;
+            case 'fast': return 5000;
+            case 'heavy': return 5000;
+            default: return 5000;
         }
     }
     

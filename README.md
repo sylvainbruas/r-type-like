@@ -14,6 +14,8 @@ Ce projet recrée l'expérience du jeu R-Type 2 de Super Nintendo avec des fonct
 - **Système de points** avec multiplicateurs et combos
 - **3 types d'ennemis** : Basic, Fast, Heavy avec IA et patterns de mouvement
 - **Système de vies** avec invulnérabilité temporaire après dégât
+- **Décors aliens interactifs** : Terrain extraterrestre avec collisions mortelles
+- **Cadence de tir équilibrée** : Ennemis tirent toutes les 5 secondes
 
 ### Effets Visuels
 - Effets de particules pour explosions et traînées de projectiles
@@ -113,7 +115,8 @@ Rtype/
 │   │   ├── Player.js      # Vaisseau du joueur
 │   │   ├── Enemy.js       # Ennemis
 │   │   ├── Boss.js        # Boss
-│   │   └── Bullet.js      # Projectiles
+│   │   ├── Bullet.js      # Projectiles
+│   │   └── AlienTerrain.js # Décors de planète alien
 │   └── managers/          # Gestionnaires
 │       ├── ScoreManager.js # Gestion des scores
 │       └── LevelManager.js # Gestion des niveaux

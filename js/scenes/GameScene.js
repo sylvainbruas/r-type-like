@@ -53,6 +53,9 @@ class GameScene extends Phaser.Scene {
         this.enemies = this.physics.add.group();
         this.bosses = this.physics.add.group();
         
+        // Créer le terrain alien (décors)
+        this.alienTerrain = new AlienTerrain(this);
+        
         // Créer le joueur
         this.player = new Player(this, 100, GameConfig.height / 2);
         
@@ -209,6 +212,12 @@ class GameScene extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.bosses, (player, boss) => {
             this.playerHit();
         });
+        
+        // Joueur vs terrain alien (perte de vie)
+        this.physics.add.overlap(this.player, this.alienTerrain, (player, terrain) => {
+            console.log('💥 Player hit alien terrain!');
+            this.playerHit();
+        });
     }
     
     createStarfield() {
@@ -240,8 +249,16 @@ class GameScene extends Phaser.Scene {
     
     spawnEnemy() {
         if (!this.bossSpawned && this.enemies.children.entries.length < 5) {
-            const enemy = new Enemy(this, GameConfig.width + 50, Phaser.Math.Between(50, GameConfig.height - 50));
+            // Calculer la zone sûre pour éviter le terrain alien (10% haut et bas)
+            const terrainHeight = Math.floor(GameConfig.height * 0.1);
+            const safeZoneTop = terrainHeight + 20; // Marge de sécurité
+            const safeZoneBottom = GameConfig.height - terrainHeight - 20;
+            
+            const enemy = new Enemy(this, GameConfig.width + 50, 
+                                  Phaser.Math.Between(safeZoneTop, safeZoneBottom));
             this.enemies.add(enemy);
+            
+            console.log(`👾 Enemy spawned in safe zone: ${safeZoneTop}-${safeZoneBottom}`);
         }
     }
     

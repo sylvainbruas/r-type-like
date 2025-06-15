@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Terrain Alien</title>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .feature-test {
+            background: #111;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #333;
+        }
+        .color-palette {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .game-preview {
+            background: #222;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid #444;
+        }
+        .terrain-mockup {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to bottom, #001122 0%, #000033 50%, #001122 100%);
+            border: 1px solid #666;
+            overflow: hidden;
+        }
+        .terrain-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(45deg, #6600CC, #00AA44, #0088CC);
+        }
+        .terrain-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(45deg, #AA0066, #0066AA, #66AA00);
+        }
+        .safe-zone {
+            position: absolute;
+            top: 20px;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            border: 2px dashed #00ff00;
+            opacity: 0.3;
+        }
+        .player-mockup {
+            position: absolute;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 15px;
+            background: #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Test du Terrain Alien</h1>
+        
+        <div class="feature-test">
+            <h2>🎯 Fonctionnalités Implémentées</h2>
+            <ul>
+                <li>✅ <strong>Cadence de tir :</strong> Ennemis tirent toutes les 5 secondes</li>
+                <li>✅ <strong>Terrain haut :</strong> 10% de l'écran avec formations rocheuses</li>
+                <li>✅ <strong>Terrain bas :</strong> 10% de l'écran avec geysers et spores</li>
+                <li>✅ <strong>Collisions mortelles :</strong> Contact terrain = perte de vie</li>
+                <li>✅ <strong>Zone sûre :</strong> Ennemis apparaissent entre les terrains</li>
+                <li>✅ <strong>Génération procédurale :</strong> Terrain aléatoire à chaque partie</li>
+            </ul>
+        </div>
+        
+        <div class="game-preview">
+            <h2>🎮 Aperçu du Gameplay</h2>
+            <div class="terrain-mockup">
+                <div class="terrain-top"></div>
+                <div class="terrain-bottom"></div>
+                <div class="safe-zone"></div>
+                <div class="player-mockup"></div>
+                <div style="position: absolute; top: 5px; left: 10px; font-size: 10px;">Terrain Alien (Mortel)</div>
+                <div style="position: absolute; bottom: 5px; left: 10px; font-size: 10px;">Terrain Alien (Mortel)</div>
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; color: #00ff00;">Zone Sûre (80%)</div>
+            </div>
+            <p><strong>🚗 DeLorean :</strong> Évitez les terrains alien en haut et en bas !</p>
+        </div>
+        
+        <div class="feature-test">
+            <h2>🎨 Palette de Couleurs Alien</h2>
+            <h3>Terrain du Haut :</h3>
+            <div class="color-palette">
+                <div class="color-swatch" style="background: #6600CC;" title="Violet profond">🟣</div>
+                <div class="color-swatch" style="background: #00AA44;" title="Vert alien">🟢</div>
+                <div class="color-swatch" style="background: #0088CC;" title="Cyan">🔵</div>
+                <div class="color-swatch" style="background: #8800CC;" title="Magenta">🟪</div>
+                <div class="color-swatch" style="background: #00FFFF;" title="Cristaux">💎</div>
+            </div>
+            
+            <h3>Terrain du Bas :</h3>
+            <div class="color-palette">
+                <div class="color-swatch" style="background: #AA0066;" title="Rose alien">🌸</div>
+                <div class="color-swatch" style="background: #0066AA;" title="Bleu profond">🔷</div>
+                <div class="color-swatch" style="background: #66AA00;" title="Vert lime">🍃</div>
+                <div class="color-swatch" style="background: #00AAFF;" title="Geysers">💧</div>
+                <div class="color-swatch" style="background: #FFAA00;" title="Spores">✨</div>
+            </div>
+        </div>
+        
+        <div class="feature-test">
+            <h2>🔥 Cadence de Tir des Ennemis</h2>
+            <div style="background: #333; padding: 15px; margin: 10px 0;">
+                <h3>Avant :</h3>
+                <ul>
+                    <li>Fast: 1.5 secondes (trop rapide)</li>
+                    <li>Heavy: 3 secondes</li>
+                    <li>Default: 2 secondes</li>
+                </ul>
+                
+                <h3>Maintenant :</h3>
+                <ul style="color: #00ff00;">
+                    <li>Tous les ennemis: <strong>5 secondes</strong></li>
+                    <li>Gameplay plus équilibré</li>
+                    <li>Plus de temps pour manœuvrer</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feature-test">
+            <h2>🌟 Éléments du Terrain</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h3>🔺 Terrain du Haut</h3>
+                    <ul>
+                        <li>💎 <strong>Cristaux aliens :</strong> Formations cyan brillantes</li>
+                        <li>🌿 <strong>Végétation :</strong> Plantes magenta exotiques</li>
+                        <li>🗿 <strong>Roches :</strong> Formations rocheuses colorées</li>
+                        <li>✨ <strong>Reflets :</strong> Surfaces brillantes</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>🔻 Terrain du Bas</h3>
+                    <ul>
+                        <li>💧 <strong>Geysers :</strong> Jets d'eau alien bleus</li>
+                        <li>✨ <strong>Spores :</strong> Particules lumineuses orange</li>
+                        <li>🌋 <strong>Formations :</strong> Structures géologiques</li>
+                        <li>🌟 <strong>Surfaces :</strong> Zones éclairées</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="feature-test">
+            <h2>🧪 Instructions de Test</h2>
+            <ol>
+                <li><strong>Lancez le jeu :</strong> <code>./start.sh</code> puis <code>http://localhost:8007</code></li>
+                <li><strong>Observez le terrain :</strong> Décors colorés en haut et en bas</li>
+                <li><strong>Testez les collisions :</strong> Touchez le terrain → perte de vie</li>
+                <li><strong>Vérifiez les ennemis :</strong> Apparaissent dans la zone centrale</li>
+                <li><strong>Chronométrez les tirs :</strong> Ennemis tirent toutes les 5 secondes</li>
+                <li><strong>Console (F12) :</strong> Vérifiez les logs de terrain et collisions</li>
+            </ol>
+            
+            <h3>🔍 Logs Attendus</h3>
+            <pre style="background: #333; padding: 10px; margin: 10px 0;">
+🌍 Alien terrain created - Height: 48px (10% of 480px)
+👾 Enemy spawned in safe zone: 68-412
+💥 Player hit alien terrain!
+            </pre>
+        </div>
+        
+        <div class="feature-test">
+            <h2>⚠️ Points d'Attention</h2>
+            <ul>
+                <li>🎯 <strong>Zone de jeu réduite :</strong> 80% de l'écran utilisable</li>
+                <li>⚡ <strong>Difficulté accrue :</strong> Navigation plus précise requise</li>
+                <li>🎨 <strong>Immersion :</strong> Environnement alien authentique</li>
+                <li>⚖️ <strong>Équilibrage :</strong> Tir ennemi moins fréquent</li>
+                <li>🔄 <strong>Variété :</strong> Terrain différent à chaque partie</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

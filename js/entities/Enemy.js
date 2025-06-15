@@ -20,6 +20,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.speed = this.getSpeedByType(type);
         this.fireRate = this.getFireRateByType(type);
         this.lastFired = 0;
+        this.lastLoggedTime = -1; // Pour éviter les logs répétitifs
         
         // Apparence selon le type
         this.setupAppearance();
@@ -128,6 +129,13 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (currentTime > this.lastFired + this.fireRate && this.x < GameConfig.width - 100) {
             this.fire();
             this.lastFired = currentTime;
+        } else if (currentTime <= this.lastFired + this.fireRate) {
+            // Debug: temps restant avant le prochain tir
+            const timeLeft = (this.lastFired + this.fireRate - currentTime) / 1000;
+            if (Math.floor(timeLeft) !== this.lastLoggedTime) {
+                console.log(`⏰ Enemy waiting to fire: ${timeLeft.toFixed(1)}s remaining`);
+                this.lastLoggedTime = Math.floor(timeLeft);
+            }
         }
         
         // Vérifier les limites
@@ -138,6 +146,9 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (this.scene && this.scene.enemyBullets) {
             const bullet = new Bullet(this.scene, this.x - 20, this.y, 'enemy');
             this.scene.enemyBullets.add(bullet);
+            console.log(`🔫 Enemy fired! Position: (${Math.round(this.x)}, ${Math.round(this.y)})`);
+        } else {
+            console.warn('⚠️ Enemy cannot fire: scene or enemyBullets missing');
         }
     }
     

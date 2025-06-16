@@ -444,6 +444,35 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 
 ---
 
+## Question 29 (2025-06-16)
+**Demande :** Enlever tous les messages de debug dans la console, et corriger le problème suivant : Uncaught ReferenceError: Bullet is not defined
+
+**Actions réalisées :**
+1. **Correction de l'erreur Bullet is not defined :**
+   - Problème identifié : Enemy.js chargé avant Bullet.js dans index.html
+   - Correction : Réorganisation de l'ordre de chargement des scripts
+   - Nouveau ordre : Player.js → Bullet.js → Enemy.js → EnemyGroup.js → Boss.js
+   - Résolution de la référence manquante dans Enemy.fire()
+
+2. **Suppression complète des messages de debug console :**
+   - Enemy.js : Suppression de 8 console.log (création, couleurs, tir, sélection texture)
+   - Player.js : Suppression de 3 console.log (sprite selection, player hit)
+   - GameScene.js : Suppression de 15+ console.log (level start, score, collisions, game over)
+   - AlienTerrain.js : Suppression de 2 console.log (création et régénération terrain)
+
+3. **Optimisation performance :**
+   - Suppression de l'overhead des logs en production
+   - Console propre pour debugging futur
+   - Maintien de toutes les fonctionnalités sans les messages verbeux
+   - Amélioration de l'expérience utilisateur (pas de spam console)
+
+**Résultat :** ✅ Jeu fonctionnel sans erreurs, console propre, performance optimisée
+
+**Commits créés :**
+- fix: Resolve Bullet reference error and remove debug console messages
+
+---
+
 ## Question 28 (2025-06-16)
 **Demande :** Faire un nouveau fichier draw.io qui n'utilise que des icônes AWS pour montrer les composants de l'architecture de prod.
 
@@ -494,10 +523,11 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 - ✅ 3 vaisseaux ennemis colorés avec sélection aléatoire
 - ✅ Terrain alien interactif avec collisions mortelles
 - ✅ Cadence de tir équilibrée (5 secondes)
-- ✅ Système de tir des ennemis fonctionnel
+- ✅ Système de tir des ennemis fonctionnel et corrigé
 - ✅ Documentation architecture complète (10 schémas)
 - ✅ Infrastructure AWS complète (S3 + CloudFront)
 - ✅ Réorganisation projet professionnelle
+- ✅ Console propre sans messages de debug
 
 **Outils et scripts créés :**
 - ✅ Scripts de serveur robustes (start.sh, stop.sh, diagnose.sh)
@@ -509,13 +539,15 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 
 **Qualité et robustesse :**
 - ✅ Gestion d'erreurs complète avec fallbacks
-- ✅ Logs de debug détaillés pour diagnostic
+- ✅ Logs de debug détaillés pour diagnostic (supprimés en production)
 - ✅ Système de chargement d'assets intelligent
 - ✅ Architecture modulaire et maintenable
 - ✅ Documentation technique professionnelle
 - ✅ Déploiement cloud automatisé et sécurisé
 - ✅ Diagrammes techniques avec icônes AWS officielles
+- ✅ Ordre de chargement des scripts optimisé
+- ✅ Performance optimisée (pas d'overhead console)
 
-**Total des commits créés :** 20+ commits avec fonctionnalités majeures et corrections
+**Total des commits créés :** 21+ commits avec fonctionnalités majeures et corrections
 
-Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle, un déploiement cloud automatisé, et une documentation technique complète avec diagrammes AWS officiels ! 🚀🎮☁️✨
+Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle, un déploiement cloud automatisé, une documentation technique complète avec diagrammes AWS officiels, et une console propre optimisée pour la production ! 🚀🎮☁️✨

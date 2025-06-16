@@ -100,6 +100,18 @@ Ce répertoire contient les schémas d'architecture logicielle du jeu R-Type 2 a
   - Conformité et audit (GDPR, SOC 2, ISO 27001)
   - **FONCTIONNEL** : Testé et validé dans draw.io
 
+### 11. **11-evolution-projet.drawio**
+- **Description** : Évolution complète du projet R-Type 2 à travers les 29 questions
+- **Contenu** :
+  - 8 phases de développement chronologiques
+  - Progression des fonctionnalités par phase
+  - Métriques finales du projet (29 questions, 21+ commits, 182 tests)
+  - Technologies utilisées et architecture
+  - Indicateurs de qualité et robustesse
+  - Perspectives d'évolution futures
+  - Timeline visuelle du développement itératif
+  - **HISTORIQUE COMPLET** : De la conception à la production
+
 ## 🛠️ Utilisation des Schémas
 
 ### **Ouverture avec draw.io**

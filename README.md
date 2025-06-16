@@ -122,6 +122,21 @@ Le projet utilise une architecture modulaire avec séparation claire des respons
 
 📐 **Pour les schémas d'architecture détaillés, consultez [architecture/README.md](architecture/README.md)**
 
+### Évolution du Projet
+
+Le développement du jeu R-Type 2 s'est déroulé en **8 phases distinctes** à travers **29 questions documentées** :
+
+1. **Fondations** (Q1-5) : Structure de base, Phaser.js, scènes principales
+2. **Gameplay Core** (Q6-12) : Progression, vies, persistance, statistiques
+3. **Assets & Visuals** (Q13-18) : Sprites, terrain alien, tests visuels
+4. **Combat System** (Q19-22) : Tir des ennemis, cadence, groupes
+5. **Testing & Quality** (Q23-25) : 182 tests automatisés, validation
+6. **Architecture & Docs** (Q26-27) : 11 schémas, documentation complète
+7. **AWS & Deployment** (Q28) : Infrastructure cloud, monitoring
+8. **Production Ready** (Q29) : Corrections finales, console propre
+
+📈 **Voir le schéma complet d'évolution : [11-evolution-projet.drawio](architecture/11-evolution-projet.drawio)**
+
 ### Diagrammes AWS Disponibles
 
 Le projet inclut plusieurs diagrammes AWS pour différents usages :
@@ -134,6 +149,11 @@ Le projet inclut plusieurs diagrammes AWS pour différents usages :
   - Coûts détaillés : $1.67/mois
   - Sécurité renforcée : WAF, CloudTrail, compliance
   - **Testé et fonctionnel dans draw.io**
+- **11-evolution-projet.drawio** : **Historique complet du développement** 📈
+  - 8 phases de développement (29 questions)
+  - Timeline visuelle des fonctionnalités
+  - Métriques finales et technologies utilisées
+  - Perspectives d'évolution futures
 
 ## Structure du Projet
 
@@ -195,7 +215,8 @@ Rtype/
 │   ├── 07-processus-build.drawio
 │   ├── 08-pipeline-cicd.drawio
 │   ├── 09-architecture-aws-icons.drawio
-│   └── 10-aws-production-icons.drawio
+│   ├── 10-aws-production-icons.drawio
+│   └── 11-evolution-projet.drawio
 ├── cloudformation/        # Déploiement AWS
 │   ├── README.md         # Documentation déploiement
 │   ├── main-stack.yaml   # Infrastructure S3 + CloudFront

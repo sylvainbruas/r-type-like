@@ -444,6 +444,44 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 
 ---
 
+## Question 30 (2025-06-16)
+**Demande :** Fait moi un schéma qui montre les différentes évolutions du jeux au fil des questions. génère moi un draw.io
+
+**Actions réalisées :**
+1. **Création du diagramme d'évolution du projet :**
+   - 11-evolution-projet.drawio : Timeline complète des 29 questions
+   - 8 phases de développement chronologiques avec détails
+   - Progression visuelle des fonctionnalités par phase
+   - Flux de développement itératif avec flèches colorées
+
+2. **Contenu détaillé par phase :**
+   - Phase 1 (Q1-5) : Fondations - Structure, Phaser.js, scènes de base
+   - Phase 2 (Q6-12) : Gameplay Core - Progression, vies, persistance, stats
+   - Phase 3 (Q13-18) : Assets & Visuals - Sprites, terrain alien, tests visuels
+   - Phase 4 (Q19-22) : Combat System - Tir ennemis, cadence, groupes
+   - Phase 5 (Q23-25) : Testing & Quality - 182 tests, validation
+   - Phase 6 (Q26-27) : Architecture & Docs - 11 schémas, documentation
+   - Phase 7 (Q28) : AWS & Deployment - Infrastructure cloud, monitoring
+   - Phase 8 (Q29) : Production Ready - Corrections, console propre
+
+3. **Métriques et informations finales :**
+   - Métriques finales : 29 questions, 21+ commits, 182 tests, 11 schémas
+   - Technologies utilisées : Phaser.js, HTML5, JavaScript ES6+, AWS
+   - Qualité & robustesse : Gestion erreurs, fallbacks, tests, documentation
+   - Perspectives futures : Multijoueur, nouveaux niveaux, mobile, PWA
+
+4. **Mise à jour documentation :**
+   - architecture/README.md : Ajout du 11ème diagramme
+   - README.md principal : Section "Évolution du Projet" avec 8 phases
+   - Référence au schéma complet d'évolution
+
+**Résultat :** ✅ Diagramme complet montrant l'évolution du projet de la conception à la production
+
+**Commits créés :**
+- feat: Add complete project evolution timeline diagram
+
+---
+
 ## Question 29 (2025-06-16)
 **Demande :** Enlever tous les messages de debug dans la console, et corriger le problème suivant : Uncaught ReferenceError: Bullet is not defined
 
@@ -524,16 +562,17 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 - ✅ Terrain alien interactif avec collisions mortelles
 - ✅ Cadence de tir équilibrée (5 secondes)
 - ✅ Système de tir des ennemis fonctionnel et corrigé
-- ✅ Documentation architecture complète (10 schémas)
+- ✅ Documentation architecture complète (11 schémas)
 - ✅ Infrastructure AWS complète (S3 + CloudFront)
 - ✅ Réorganisation projet professionnelle
 - ✅ Console propre sans messages de debug
+- ✅ Historique complet d'évolution documenté
 
 **Outils et scripts créés :**
 - ✅ Scripts de serveur robustes (start.sh, stop.sh, diagnose.sh)
 - ✅ Interfaces de test visuelles (DeLorean, couleurs, terrain)
 - ✅ Suite de tests automatisés (182 tests)
-- ✅ Schémas d'architecture techniques (10 diagrammes draw.io)
+- ✅ Schémas d'architecture techniques (11 diagrammes draw.io)
 - ✅ Infrastructure AWS (CloudFormation, build, deploy)
 - ✅ Structure projet organisée (scripts/, docs/, visual-tests/, etc.)
 
@@ -547,7 +586,8 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 - ✅ Diagrammes techniques avec icônes AWS officielles
 - ✅ Ordre de chargement des scripts optimisé
 - ✅ Performance optimisée (pas d'overhead console)
+- ✅ Timeline d'évolution complète et visuelle
 
-**Total des commits créés :** 21+ commits avec fonctionnalités majeures et corrections
+**Total des commits créés :** 22+ commits avec fonctionnalités majeures et corrections
 
-Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle, un déploiement cloud automatisé, une documentation technique complète avec diagrammes AWS officiels, et une console propre optimisée pour la production ! 🚀🎮☁️✨
+Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle, un déploiement cloud automatisé, une documentation technique complète avec diagrammes AWS officiels, une console propre optimisée pour la production, et un historique d'évolution complet documenté visuellement ! 🚀🎮☁️✨📈

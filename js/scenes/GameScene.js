@@ -11,8 +11,6 @@ class GameScene extends Phaser.Scene {
         const currentScore = sceneData.score || 0;
         const currentLives = sceneData.lives || 3;
         
-        console.log('Starting level:', currentLevel, 'Score:', currentScore, 'Lives:', currentLives);
-        
         // Initialiser les managers AVANT de les utiliser
         this.levelManager = new LevelManager();
         this.levelManager.setCurrentLevel(currentLevel);
@@ -23,10 +21,8 @@ class GameScene extends Phaser.Scene {
             try {
                 if (this.scoreManager && typeof this.scoreManager.setScore === 'function') {
                     this.scoreManager.setScore(currentScore);
-                    console.log('Score restored successfully:', currentScore);
                 } else if (this.scoreManager && typeof this.scoreManager.restoreScore === 'function') {
                     this.scoreManager.restoreScore(currentScore);
-                    console.log('Score restored via restoreScore:', currentScore);
                 } else {
                     console.warn('ScoreManager.setScore not available, using addScore fallback');
                     // Fallback : ajouter le score au lieu de le définir
@@ -215,7 +211,6 @@ class GameScene extends Phaser.Scene {
         
         // Joueur vs terrain alien (perte de vie)
         this.physics.add.overlap(this.player, this.alienTerrain, (player, terrain) => {
-            console.log('💥 Player hit alien terrain!');
             this.playerHit();
         });
     }

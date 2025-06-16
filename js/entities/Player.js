@@ -5,13 +5,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         const textureKey = scene.textures.exists('player-delorean') ? 'player-delorean' : 'player';
         super(scene, x, y, textureKey);
         
-        // Log pour debug
-        if (textureKey === 'player-delorean') {
-            console.log('🚗 Player using DeLorean sprite!');
-        } else {
-            console.log('🚀 Player using fallback sprite');
-        }
-        
         // Ajouter à la scène et activer la physique
         scene.add.existing(this);
         scene.physics.add.existing(this);
@@ -72,7 +65,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             
             // Perdre une vie
             this.lives--;
-            console.log('Player hit! Lives remaining:', this.lives);
             
             // Effet visuel de dégât
             this.setTint(0xff0000);

@@ -5,9 +5,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         const textureKey = Enemy.getRandomEnemyTexture(scene);
         super(scene, x, y, textureKey);
         
-        // Log pour debug
-        console.log(`👾 Enemy created with texture: ${textureKey}`);
-        
         // Ajouter à la scène et activer la physique
         scene.add.existing(this);
         scene.physics.add.existing(this);
@@ -65,7 +62,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     setupAppearance() {
         // Si on utilise un sprite SVG coloré, préserver les couleurs originales
         if (this.textureUsed && (this.textureUsed === 'enemy1' || this.textureUsed === 'enemy2' || this.textureUsed === 'enemy3')) {
-            console.log(`🎨 Preserving original colors for ${this.textureUsed}`);
             // Pas de teinte, garder les couleurs SVG originales
             this.clearTint();
             
@@ -82,7 +78,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             }
         } else {
             // Pour le sprite fallback procédural, utiliser les teintes comme avant
-            console.log(`🎨 Applying tint to fallback sprite`);
             switch (this.enemyType) {
                 case 'fast':
                     this.setTint(0x00ff00);
@@ -134,13 +129,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (currentTime > this.lastFired + this.fireRate && this.x < GameConfig.width - 100) {
             this.fire();
             this.lastFired = currentTime;
-        } else if (currentTime <= this.lastFired + this.fireRate) {
-            // Debug: temps restant avant le prochain tir
-            const timeLeft = (this.lastFired + this.fireRate - currentTime) / 1000;
-            if (Math.floor(timeLeft) !== this.lastLoggedTime) {
-                console.log(`⏰ Enemy waiting to fire: ${timeLeft.toFixed(1)}s remaining`);
-                this.lastLoggedTime = Math.floor(timeLeft);
-            }
         }
         
         // Vérifier les limites
@@ -151,9 +139,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (this.scene && this.scene.enemyBullets) {
             const bullet = new Bullet(this.scene, this.x - 20, this.y, 'enemy');
             this.scene.enemyBullets.add(bullet);
-            console.log(`🔫 Enemy fired! Position: (${Math.round(this.x)}, ${Math.round(this.y)})`);
-            console.log(`📊 Enemy bullets count: ${this.scene.enemyBullets.children.entries.length}`);
-            console.log(`🎯 Bullet created at: (${bullet.x}, ${bullet.y}) with velocity: (${bullet.body.velocity.x}, ${bullet.body.velocity.y})`);
         } else {
             console.warn('⚠️ Enemy cannot fire: scene or enemyBullets missing');
         }
@@ -214,7 +199,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         
         // Si aucun sprite SVG n'est disponible, utiliser le fallback
         if (enemyTextures.length === 0) {
-            console.log('⚠️ No enemy SVG sprites loaded, using fallback');
             return 'enemy';
         }
         
@@ -222,7 +206,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         const randomIndex = Math.floor(Math.random() * enemyTextures.length);
         const selectedTexture = enemyTextures[randomIndex];
         
-        console.log(`🎲 Selected enemy texture: ${selectedTexture} (${randomIndex + 1}/${enemyTextures.length})`);
         return selectedTexture;
     }
     

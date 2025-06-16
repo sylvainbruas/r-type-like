@@ -8,8 +8,6 @@ class AlienTerrain extends Phaser.Physics.Arcade.StaticGroup {
         
         this.createTopTerrain();
         this.createBottomTerrain();
-        
-        console.log(`🌍 Alien terrain created - Height: ${this.terrainHeight}px (10% of ${GameConfig.height}px)`);
     }
     
     createTopTerrain() {
@@ -131,7 +129,6 @@ class AlienTerrain extends Phaser.Physics.Arcade.StaticGroup {
         this.clear(true, true);
         this.createTopTerrain();
         this.createBottomTerrain();
-        console.log('🌍 Alien terrain regenerated');
     }
     
     // Obtenir la hauteur du terrain à une position X donnée

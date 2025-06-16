@@ -180,7 +180,8 @@ Rtype/
 │   ├── 05-systeme-tests.drawio
 │   ├── 06-architecture-aws.drawio
 │   ├── 07-processus-build.drawio
-│   └── 08-pipeline-cicd.drawio
+│   ├── 08-pipeline-cicd.drawio
+│   └── 09-architecture-aws-icons.drawio
 ├── cloudformation/        # Déploiement AWS
 │   ├── README.md         # Documentation déploiement
 │   ├── main-stack.yaml   # Infrastructure S3 + CloudFront

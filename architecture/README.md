@@ -77,6 +77,16 @@ Ce répertoire contient les schémas d'architecture logicielle du jeu R-Type 2 a
   - Stratégies de rollback
   - Métriques et KPIs
 
+### 9. **09-architecture-aws-icons.drawio**
+- **Description** : Architecture AWS avec icônes officielles AWS
+- **Contenu** :
+  - Icônes AWS officielles (S3, CloudFront, Route 53, etc.)
+  - Flux de données colorés et légendés
+  - Informations détaillées sur coûts et sécurité
+  - Métriques de performance et monitoring
+  - Multi-environnements avec configurations
+  - Représentation professionnelle pour présentations
+
 ## 🛠️ Utilisation des Schémas
 
 ### **Ouverture avec draw.io**

@@ -24,7 +24,6 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
     }
     
     setupByOwner(owner, angle) {
-        console.log(`🎯 Setting up bullet for owner: "${owner}", angle: ${angle}`);
         
         if (owner === 'player') {
             // Projectile du joueur - TOUJOURS vers la droite
@@ -32,7 +31,6 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
             this.setVelocity(this.speed, 0); // Vitesse horizontale positive, verticale nulle
             this.setScale(1, 0.5);
             
-            console.log(`🔵 Player bullet created with velocity: (${this.body.velocity.x}, ${this.body.velocity.y})`);
             
             // Effet de traînée
             this.trail = this.scene.add.particles(this.x, this.y, 'bullet', {
@@ -50,22 +48,8 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
             this.setTint(0xff0000);
             this.setScale(0.8);
             
-            console.log(`🔴 Enemy bullet created, angle: ${angle}`);
-            
             if (angle !== 0) {
                 // Projectile avec angle
-                const radians = Phaser.Math.DegToRad(angle);
-                this.setVelocity(
-                    Math.cos(radians) * -this.speed,
-                    Math.sin(radians) * this.speed
-                );
-                this.setRotation(radians);
-                console.log(`🔴 Angled enemy bullet velocity: (${this.body.velocity.x}, ${this.body.velocity.y})`);
-            } else {
-                // Projectile droit vers la gauche
-                this.setVelocity(-this.speed, 0);
-                console.log(`🔴 Straight enemy bullet velocity: (${this.body.velocity.x}, ${this.body.velocity.y})`);
-            }
                 const radians = Phaser.Math.DegToRad(angle);
                 this.setVelocity(
                     Math.cos(radians) * -this.speed,

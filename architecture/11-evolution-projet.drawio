@@ -1,115 +1,88 @@
-<mxfile host="app.diagrams.net" version="22.1.16" type="device">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36" version="27.0.9">
   <diagram name="Evolution R-Type 2" id="evolution">
-    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="946" dy="644" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        
-        <mxCell id="2" value="R-Type 2 - Evolution du Projet (30 Questions)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#232F3E;" vertex="1" parent="1">
+        <mxCell id="2" value="R-Type 2 - Evolution du Projet (30 Questions)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#232F3E;" parent="1" vertex="1">
           <mxGeometry x="300" y="20" width="500" height="30" as="geometry" />
         </mxCell>
-        
-        <mxCell id="3" value="PHASE 1: FONDATIONS&#xa;Questions 1-5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="3" value="PHASE 1: FONDATIONS&#xa;Questions 1-5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=14;fontStyle=1;" parent="1" vertex="1">
           <mxGeometry x="80" y="80" width="200" height="50" as="geometry" />
         </mxCell>
-        
-        <mxCell id="4" value="Structure projet de base&#xa;Configuration Phaser.js&#xa;Scenes principales&#xa;Entites de base&#xa;Systeme de score initial" style="text;html=1;strokeColor=#9673A6;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
-          <mxGeometry x="80" y="140" width="200" height="80" as="geometry" />
+        <mxCell id="4" value="Structure projet de base&#xa;Configuration Phaser.js&#xa;Scenes principales&#xa;Entites de base&#xa;Systeme de score initial" style="text;html=1;strokeColor=#9673A6;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;spacingLeft=9;" parent="1" vertex="1">
+          <mxGeometry x="80" y="140" width="200" height="100" as="geometry" />
         </mxCell>
-        
-        <mxCell id="5" value="PHASE 2: GAMEPLAY CORE&#xa;Questions 6-12" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="5" value="PHASE 2: GAMEPLAY CORE&#xa;Questions 6-12" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=14;fontStyle=1;" parent="1" vertex="1">
           <mxGeometry x="320" y="80" width="200" height="50" as="geometry" />
         </mxCell>
-        
-        <mxCell id="6" value="Systeme de progression niveaux&#xa;Systeme de vies (3 vies)&#xa;Persistance donnees&#xa;Statistiques de jeu&#xa;Gestion collisions&#xa;Invulnerabilite temporaire&#xa;Boss avec patterns" style="text;html=1;strokeColor=#6C8EBF;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="6" value="Systeme de progression niveaux&#xa;Systeme de vies (3 vies)&#xa;Persistance donnees&#xa;Statistiques de jeu&#xa;Gestion collisions&#xa;Invulnerabilite temporaire&#xa;Boss avec patterns" style="text;html=1;strokeColor=#6C8EBF;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;spacingLeft=9;" parent="1" vertex="1">
           <mxGeometry x="320" y="140" width="200" height="100" as="geometry" />
         </mxCell>
-        
-        <mxCell id="7" value="PHASE 3: ASSETS ET VISUALS&#xa;Questions 13-18" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="7" value="PHASE 3: ASSETS ET VISUALS&#xa;Questions 13-18" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=14;fontStyle=1;" parent="1" vertex="1">
           <mxGeometry x="560" y="80" width="200" height="50" as="geometry" />
         </mxCell>
-        
-        <mxCell id="8" value="Sprite DeLorean 8-bit&#xa;3 vaisseaux ennemis colores&#xa;Systeme de fallback assets&#xa;Terrain alien interactif&#xa;Collisions mortelles terrain&#xa;Selection aleatoire sprites&#xa;Tests visuels complets" style="text;html=1;strokeColor=#82B366;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="8" value="Sprite DeLorean 8-bit&#xa;3 vaisseaux ennemis colores&#xa;Systeme de fallback assets&#xa;Terrain alien interactif&#xa;Collisions mortelles terrain&#xa;Selection aleatoire sprites&#xa;Tests visuels complets" style="text;html=1;strokeColor=#82B366;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;spacingLeft=9;" parent="1" vertex="1">
           <mxGeometry x="560" y="140" width="200" height="100" as="geometry" />
         </mxCell>
-        
-        <mxCell id="9" value="PHASE 4: COMBAT SYSTEM&#xa;Questions 19-22" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="9" value="PHASE 4: COMBAT SYSTEM&#xa;Questions 19-22" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=14;fontStyle=1;" parent="1" vertex="1">
           <mxGeometry x="800" y="80" width="200" height="50" as="geometry" />
         </mxCell>
-        
-        <mxCell id="10" value="Cadence de tir equilibree (5s)&#xa;Systeme de tir des ennemis&#xa;Groupes d'ennemis organises&#xa;Patterns de mouvement&#xa;Collision bullets/entities&#xa;Balance gameplay" style="text;html=1;strokeColor=#D6B656;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="10" value="Cadence de tir equilibree (5s)&#xa;Systeme de tir des ennemis&#xa;Groupes d&#39;ennemis organises&#xa;Patterns de mouvement&#xa;Collision bullets/entities&#xa;Balance gameplay" style="text;html=1;strokeColor=#D6B656;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;spacingLeft=9;" parent="1" vertex="1">
           <mxGeometry x="800" y="140" width="200" height="90" as="geometry" />
         </mxCell>
-        
-        <mxCell id="11" value="PHASE 5: TESTING ET QUALITY&#xa;Questions 23-25" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="11" value="PHASE 5: TESTING ET QUALITY&#xa;Questions 23-25" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=14;fontStyle=1;" parent="1" vertex="1">
           <mxGeometry x="80" y="280" width="200" height="50" as="geometry" />
         </mxCell>
-        
-        <mxCell id="12" value="Suite de tests automatises (182)&#xa;Tests unitaires complets&#xa;Interfaces de test visuelles&#xa;Validation fonctionnalites&#xa;Couverture de code elevee&#xa;Scripts de test robustes" style="text;html=1;strokeColor=#B85450;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="12" value="Suite de tests automatises (182)&#xa;Tests unitaires complets&#xa;Interfaces de test visuelles&#xa;Validation fonctionnalites&#xa;Couverture de code elevee&#xa;Scripts de test robustes" style="text;html=1;strokeColor=#B85450;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;spacingLeft=9;" parent="1" vertex="1">
           <mxGeometry x="80" y="340" width="200" height="90" as="geometry" />
         </mxCell>
-        
-        <mxCell id="13" value="PHASE 6: ARCHITECTURE ET DOCS&#xa;Questions 26-27" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="13" value="PHASE 6: ARCHITECTURE ET DOCS&#xa;Questions 26-27" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=14;fontStyle=1;" parent="1" vertex="1">
           <mxGeometry x="320" y="280" width="200" height="50" as="geometry" />
         </mxCell>
-        
-        <mxCell id="14" value="11 schemas d'architecture&#xa;Documentation technique complete&#xa;Diagrammes draw.io&#xa;Structure projet organisee&#xa;Scripts utilitaires&#xa;Reorganisation professionnelle" style="text;html=1;strokeColor=#9673A6;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="14" value="11 schemas d&#39;architecture&#xa;Documentation technique complete&#xa;Diagrammes draw.io&#xa;Structure projet organisee&#xa;Scripts utilitaires&#xa;Reorganisation professionnelle" style="text;html=1;strokeColor=#9673A6;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;spacingLeft=10;" parent="1" vertex="1">
           <mxGeometry x="320" y="340" width="200" height="90" as="geometry" />
         </mxCell>
-        
-        <mxCell id="15" value="PHASE 7: AWS ET DEPLOYMENT&#xa;Question 28" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="15" value="PHASE 7: AWS ET DEPLOYMENT&#xa;Question 28" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=14;fontStyle=1;" parent="1" vertex="1">
           <mxGeometry x="560" y="280" width="200" height="50" as="geometry" />
         </mxCell>
-        
-        <mxCell id="16" value="Infrastructure AWS complete&#xa;S3 + CloudFront + Route 53&#xa;Diagrammes AWS avec icones&#xa;CloudFormation IaC&#xa;Monitoring CloudWatch + SNS&#xa;Couts optimises (1.67$/mois)&#xa;Securite production" style="text;html=1;strokeColor=#6C8EBF;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="16" value="Infrastructure AWS complete&#xa;S3 + CloudFront + Route 53&#xa;Diagrammes AWS avec icones&#xa;CloudFormation IaC&#xa;Monitoring CloudWatch + SNS&#xa;Couts optimises (1.67$/mois)&#xa;Securite production" style="text;html=1;strokeColor=#6C8EBF;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;spacingLeft=9;" parent="1" vertex="1">
           <mxGeometry x="560" y="340" width="200" height="100" as="geometry" />
         </mxCell>
-        
-        <mxCell id="17" value="PHASE 8: PRODUCTION READY&#xa;Questions 29-30" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="17" value="PHASE 8: PRODUCTION READY&#xa;Questions 29-30" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=14;fontStyle=1;" parent="1" vertex="1">
           <mxGeometry x="800" y="280" width="200" height="50" as="geometry" />
         </mxCell>
-        
-        <mxCell id="18" value="Correction erreurs JavaScript&#xa;Console propre (25+ logs supprimes)&#xa;Performance optimisee&#xa;Ordre chargement scripts corrige&#xa;Bullet reference error resolu&#xa;Diagramme evolution complet&#xa;Pret pour deploiement" style="text;html=1;strokeColor=#82B366;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="18" value="Correction erreurs JavaScript&#xa;Console propre (25+ logs supprimes)&#xa;Performance optimisee&#xa;Ordre chargement scripts corrige&#xa;Bullet reference error resolu&#xa;Diagramme evolution complet&#xa;Pret pour deploiement" style="text;html=1;strokeColor=#82B366;fillColor=#F0F0F0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;spacingLeft=9;" parent="1" vertex="1">
           <mxGeometry x="800" y="340" width="200" height="100" as="geometry" />
         </mxCell>
-        
-        <mxCell id="19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF6900;" edge="1" parent="1" source="3" target="5">
+        <mxCell id="19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF6900;" parent="1" source="3" target="5" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        
-        <mxCell id="20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF6900;" edge="1" parent="1" source="5" target="7">
+        <mxCell id="20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF6900;" parent="1" source="5" target="7" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        
-        <mxCell id="21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF6900;" edge="1" parent="1" source="7" target="9">
+        <mxCell id="21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF6900;" parent="1" source="7" target="9" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        
-        <mxCell id="22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF6900;" edge="1" parent="1" source="11" target="13">
+        <mxCell id="22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF6900;" parent="1" source="11" target="13" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        
-        <mxCell id="23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF6900;" edge="1" parent="1" source="13" target="15">
+        <mxCell id="23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF6900;" parent="1" source="13" target="15" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        
-        <mxCell id="24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF6900;" edge="1" parent="1" source="15" target="17">
+        <mxCell id="24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF6900;" parent="1" source="15" target="17" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        
-        <mxCell id="25" value="METRIQUES FINALES" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#232F3E;strokeColor=#FF9900;fontColor=#FFFFFF;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="25" value="METRIQUES FINALES" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#232F3E;strokeColor=#FF9900;fontColor=#FFFFFF;fontSize=14;fontStyle=1;" parent="1" vertex="1">
           <mxGeometry x="80" y="480" width="200" height="30" as="geometry" />
         </mxCell>
-        
-        <mxCell id="26" value="30 Questions documentees&#xa;22+ Commits crees&#xa;182 Tests automatises&#xa;11 Schemas d'architecture&#xa;10 Fichiers JavaScript&#xa;4 Repertoires organises&#xa;1 Infrastructure AWS complete&#xa;0 Erreur en production" style="text;html=1;strokeColor=#FF9900;fillColor=#232F3E;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;fontColor=#FFFFFF;" vertex="1" parent="1">
+        <mxCell id="26" value="30 Questions documentees&#xa;22+ Commits crees&#xa;182 Tests automatises&#xa;11 Schemas d&#39;architecture&#xa;10 Fichiers JavaScript&#xa;4 Repertoires organises&#xa;1 Infrastructure AWS complete&#xa;0 Erreur en production" style="text;html=1;strokeColor=#FF9900;fillColor=#232F3E;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;fontColor=#FFFFFF;spacingLeft=11;" parent="1" vertex="1">
           <mxGeometry x="80" y="520" width="200" height="120" as="geometry" />
         </mxCell>
-        
-        <mxCell id="27" value="PROJET REUSSI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4CAF50;strokeColor=#2E7D32;fontColor=#FFFFFF;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="27" value="PROJET REUSSI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4CAF50;strokeColor=#2E7D32;fontColor=#FFFFFF;fontSize=16;fontStyle=1;" parent="1" vertex="1">
           <mxGeometry x="450" y="680" width="200" height="40" as="geometry" />
         </mxCell>
-        
-        <mxCell id="28" value="Jeu complet, robuste et deployable en production" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#2E7D32;" vertex="1" parent="1">
+        <mxCell id="28" value="Jeu complet, robuste et deployable en production" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#2E7D32;" parent="1" vertex="1">
           <mxGeometry x="400" y="730" width="300" height="20" as="geometry" />
         </mxCell>
       </root>

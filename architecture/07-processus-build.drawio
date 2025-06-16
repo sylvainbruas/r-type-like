@@ -1,0 +1,211 @@
+<mxfile host="app.diagrams.net" modified="2024-01-16T10:00:00.000Z" agent="5.0" etag="build456" version="22.1.16" type="device">
+  <diagram name="Processus de Build" id="build-process">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Titre -->
+        <mxCell id="title" value="R-Type 2 - Processus de Build et Déploiement" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="669" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Source Code -->
+        <mxCell id="source" value="📁 Code Source&#xa;R-Type 2 Project" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Source Details -->
+        <mxCell id="source-details" value="• HTML, CSS, JS&#xa;• SVG Assets&#xa;• Tests (182)&#xa;• Documentation&#xa;• Architecture" style="text;html=1;strokeColor=#666666;fillColor=#f0f0f0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="80" y="150" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Build Script -->
+        <mxCell id="build-script" value="🔨 build.sh&#xa;Build Automation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="80" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Build Steps -->
+        <mxCell id="step1" value="1️⃣ Dependency Check" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="180" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step1-detail" value="• Node.js (minification)&#xa;• Python3 (SVG optimization)&#xa;• Environment validation" style="text;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="470" y="180" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step2" value="2️⃣ Clean & Setup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="240" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step2-detail" value="• Remove old dist/&#xa;• Create build directory&#xa;• Initialize structure" style="text;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="470" y="240" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step3" value="3️⃣ Copy Base Files" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="300" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step3-detail" value="• index.html&#xa;• test files (dev/staging)&#xa;• Configuration files" style="text;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="470" y="300" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step4" value="4️⃣ Process JavaScript" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="360" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step4-detail" value="• Copy JS structure&#xa;• Minify if Node.js available&#xa;• Remove comments/spaces" style="text;html=1;strokeColor=#d6b656;fillColor=#fff2cc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="470" y="360" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step5" value="5️⃣ Process Assets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="420" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step5-detail" value="• Copy SVG sprites&#xa;• Optimize if Python available&#xa;• Reduce file sizes" style="text;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="470" y="420" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step6" value="6️⃣ Generate Metadata" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="480" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="step6-detail" value="• build-info.json&#xa;• Git commit/branch&#xa;• Build timestamp" style="text;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="470" y="480" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Build Output -->
+        <mxCell id="build-output" value="📦 dist/&#xa;Build Output" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="80" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Output Structure -->
+        <mxCell id="output-structure" value="📁 Structure Optimisée:&#xa;├── index.html&#xa;├── js/ (minified)&#xa;├── assets/ (optimized)&#xa;├── tests/ (dev only)&#xa;├── architecture/&#xa;└── build-info.json" style="text;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="700" y="150" width="150" height="90" as="geometry" />
+        </mxCell>
+        
+        <!-- Deployment Process -->
+        <mxCell id="deploy-title" value="PROCESSUS DE DÉPLOIEMENT" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="560" width="300" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Deploy Script -->
+        <mxCell id="deploy-script" value="🚀 deploy.sh&#xa;Deployment Automation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="600" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Deploy Steps -->
+        <mxCell id="deploy-step1" value="1️⃣ Prerequisites" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="80" y="680" width="100" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="deploy-step2" value="2️⃣ Infrastructure" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="190" y="680" width="100" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="deploy-step3" value="3️⃣ Upload S3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="300" y="680" width="100" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="deploy-step4" value="4️⃣ Invalidate CDN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="410" y="680" width="100" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="deploy-step5" value="5️⃣ Health Check" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="520" y="680" width="100" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Deploy Details -->
+        <mxCell id="deploy-details" value="🔍 Vérifications:&#xa;• AWS CLI configured&#xa;• Credentials valid&#xa;• Build directory exists&#xa;&#xa;🏗️ CloudFormation:&#xa;• Deploy main stack&#xa;• Deploy monitoring&#xa;• Get outputs (bucket, CDN)&#xa;&#xa;📤 S3 Upload:&#xa;• HTML: cache 5min&#xa;• JS: cache 1 day&#xa;• Assets: cache 30 days&#xa;&#xa;🔄 CloudFront:&#xa;• Invalidate all paths&#xa;• Wait for propagation&#xa;&#xa;🏥 Health Check:&#xa;• HTTP status 200&#xa;• Game accessibility" style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="650" y="600" width="200" height="200" as="geometry" />
+        </mxCell>
+        
+        <!-- Optimization Details -->
+        <mxCell id="optimization-title" value="OPTIMISATIONS APPLIQUÉES" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="900" y="80" width="250" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- JS Optimization -->
+        <mxCell id="js-opt" value="⚙️ JavaScript Minification" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="900" y="120" width="180" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="js-opt-detail" value="function minifyJS(content) {&#xa;  return content&#xa;    .replace(/\/\*[\s\S]*?\*\//g, '') // Comments&#xa;    .replace(/\/\/.*$/gm, '')         // Line comments&#xa;    .replace(/\s+/g, ' ')             // Spaces&#xa;    .trim();&#xa;}&#xa;&#xa;Réduction: ~30% taille fichiers" style="text;html=1;strokeColor=#d6b656;fillColor=#fff2cc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=8;fontFamily=monospace;" vertex="1" parent="1">
+          <mxGeometry x="900" y="160" width="250" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- SVG Optimization -->
+        <mxCell id="svg-opt" value="🎨 SVG Optimization" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="900" y="280" width="180" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="svg-opt-detail" value="def optimize_svg(content):&#xa;  # Remove comments&#xa;  content = re.sub(r'&lt;!--.*?--&gt;', '', content)&#xa;  # Remove whitespace&#xa;  content = re.sub(r'\s+', ' ', content)&#xa;  # Remove unnecessary attributes&#xa;  content = re.sub(r'xmlns:xlink=&quot;[^&quot;]*&quot;', '', content)&#xa;  return content.strip()&#xa;&#xa;Réduction: ~20% taille sprites" style="text;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=8;fontFamily=monospace;" vertex="1" parent="1">
+          <mxGeometry x="900" y="320" width="250" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Build Metadata -->
+        <mxCell id="metadata-opt" value="📋 Build Metadata" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="900" y="440" width="180" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-detail" value="{&#xa;  &quot;project&quot;: &quot;rtype2-game&quot;,&#xa;  &quot;environment&quot;: &quot;prod&quot;,&#xa;  &quot;buildTime&quot;: &quot;2024-01-16T10:00:00Z&quot;,&#xa;  &quot;buildVersion&quot;: &quot;20240116100000&quot;,&#xa;  &quot;gitCommit&quot;: &quot;abc123...&quot;,&#xa;  &quot;gitBranch&quot;: &quot;main&quot;&#xa;}&#xa;&#xa;Traçabilité complète des builds" style="text;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=8;fontFamily=monospace;" vertex="1" parent="1">
+          <mxGeometry x="900" y="480" width="250" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Environment Differences -->
+        <mxCell id="env-diff-title" value="DIFFÉRENCES PAR ENVIRONNEMENT" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="900" y="620" width="250" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="env-dev-build" value="🔧 DEV Build" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="900" y="660" width="70" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="env-staging-build" value="🧪 STAGING Build" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="980" y="660" width="80" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="env-prod-build" value="🚀 PROD Build" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="660" width="70" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="env-comparison" value="DEV:&#xa;• All files included&#xa;• Test files copied&#xa;• Debug enabled&#xa;• No minification&#xa;&#xa;STAGING:&#xa;• Test files included&#xa;• Light optimization&#xa;• Monitoring enabled&#xa;• Pre-prod validation&#xa;&#xa;PROD:&#xa;• Optimized build&#xa;• No test files&#xa;• Full minification&#xa;• Performance focused" style="text;html=1;strokeColor=#666666;fillColor=#f0f0f0;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="900" y="700" width="250" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Flow Arrows -->
+        <mxCell id="flow-source-build" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#2D7600;" edge="1" parent="1" source="source" target="build-script">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-build-output" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#1BA1E2;" edge="1" parent="1" source="build-script" target="build-output">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-output-deploy" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#FF8000;" edge="1" parent="1" source="build-output" target="deploy-script">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Build Steps Flow -->
+        <mxCell id="steps-flow" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#9673A6;" edge="1" parent="1" source="build-script" target="step1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Performance Stats -->
+        <mxCell id="perf-stats" value="📊 STATISTIQUES BUILD&#xa;&#xa;Temps moyen: 15-30s&#xa;Réduction JS: ~30%&#xa;Réduction SVG: ~20%&#xa;Taille finale: ~2-5MB&#xa;Fichiers générés: 50-100&#xa;&#xa;Optimisations:&#xa;✅ Minification automatique&#xa;✅ Compression assets&#xa;✅ Métadonnées build&#xa;✅ Structure optimisée&#xa;✅ Cache headers" style="text;html=1;strokeColor=#d79b00;fillColor=#ffe6cc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="730" width="200" height="160" as="geometry" />
+        </mxCell>
+        
+        <!-- Commands -->
+        <mxCell id="commands" value="🔧 COMMANDES UTILES&#xa;&#xa;# Build manuel&#xa;./build.sh prod&#xa;&#xa;# Déploiement complet&#xa;./deploy.sh prod&#xa;&#xa;# Avec Makefile&#xa;make build ENVIRONMENT=prod&#xa;make deploy ENVIRONMENT=prod&#xa;&#xa;# Debug build&#xa;DEBUG=1 ./build.sh dev&#xa;&#xa;# Nettoyage&#xa;make clean" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;fontFamily=monospace;" vertex="1" parent="1">
+          <mxGeometry x="300" y="730" width="200" height="160" as="geometry" />
+        </mxCell>
+        
+        <!-- Validation -->
+        <mxCell id="validation" value="✅ VALIDATION BUILD&#xa;&#xa;Vérifications automatiques:&#xa;• Dépendances disponibles&#xa;• Structure de fichiers&#xa;• Taille des assets&#xa;• Métadonnées complètes&#xa;• Intégrité des fichiers&#xa;&#xa;Tests post-build:&#xa;• Chargement HTML&#xa;• Assets accessibles&#xa;• JS non cassé&#xa;• SVG valides&#xa;• Build info présent" style="text;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="730" width="200" height="160" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

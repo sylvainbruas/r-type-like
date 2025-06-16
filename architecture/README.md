@@ -41,11 +41,41 @@ Ce répertoire contient les schémas d'architecture logicielle du jeu R-Type 2 a
 ### 5. **05-systeme-tests.drawio**
 - **Description** : Architecture des tests et qualité
 - **Contenu** :
-  - Test runner principal (132 tests)
-  - Catégories : Unitaires, Intégration, Gameplay
+  - Test runner principal (182 tests)
+  - Catégories : Unitaires, Intégration, Gameplay, Infrastructure
   - Tests visuels (DeLorean, couleurs, terrain)
   - Métriques qualité et pipeline CI/CD
   - Outils et bonnes pratiques
+
+### 6. **06-architecture-aws.drawio**
+- **Description** : Architecture AWS complète déployée
+- **Contenu** :
+  - Infrastructure S3 + CloudFront + Route 53
+  - Origin Access Control et sécurité
+  - Monitoring CloudWatch et alertes SNS
+  - Optimisation des coûts (~$1.20/mois)
+  - Couches de cache et performance
+  - Multi-environnements (dev/staging/prod)
+
+### 7. **07-processus-build.drawio**
+- **Description** : Processus de build et optimisation des assets
+- **Contenu** :
+  - Pipeline de build automatisé (build.sh)
+  - Minification JavaScript (-30% taille)
+  - Optimisation SVG (-20% taille)
+  - Génération de métadonnées build
+  - Différences par environnement
+  - Validation et statistiques
+
+### 8. **08-pipeline-cicd.drawio**
+- **Description** : Pipeline CI/CD et déploiement automatisé
+- **Contenu** :
+  - Flux complet : Build → Test → Quality → Deploy
+  - Intégration GitHub Actions et GitLab CI
+  - Déploiement multi-environnements
+  - Monitoring et notifications
+  - Stratégies de rollback
+  - Métriques et KPIs
 
 ## 🛠️ Utilisation des Schémas
 
@@ -96,6 +126,8 @@ File → Export as → PNG/SVG
 - **Couches** : 3 (Présentation, Métier, Données)
 - **Modules** : 15+ (Scènes, Entités, Gestionnaires)
 - **Relations** : ~30 interactions principales
+- **Infrastructure** : AWS complète (S3, CloudFront, CloudWatch)
+- **Pipeline** : CI/CD automatisé avec 4 stages
 - **Dépendances** : Minimales et bien définies
 
 ### **Qualité**
@@ -103,12 +135,16 @@ File → Export as → PNG/SVG
 - **Couplage** : Faible entre modules
 - **Cohésion** : Forte dans chaque module
 - **Extensibilité** : Architecture modulaire
+- **Déployabilité** : Infrastructure as Code
+- **Observabilité** : Monitoring intégré
 
 ### **Performance**
-- **Chargement** : Assets optimisés
+- **Chargement** : Assets optimisés (-25% taille moyenne)
 - **Exécution** : 60 FPS target
 - **Mémoire** : Gestion automatique
-- **Réseau** : Pas de dépendances externes
+- **Réseau** : CDN global CloudFront
+- **Cache** : Multi-niveaux (Edge + Browser)
+- **Coût** : ~$1.20/mois optimisé
 
 ## 🔄 Mise à Jour des Schémas
 

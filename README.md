@@ -160,7 +160,10 @@ Rtype/
 │   ├── 02-scenes-navigation.drawio
 │   ├── 03-entites-relations.drawio
 │   ├── 04-gestion-assets.drawio
-│   └── 05-systeme-tests.drawio
+│   ├── 05-systeme-tests.drawio
+│   ├── 06-architecture-aws.drawio
+│   ├── 07-processus-build.drawio
+│   └── 08-pipeline-cicd.drawio
 ├── cloudformation/        # Déploiement AWS
 │   ├── README.md         # Documentation déploiement
 │   ├── main-stack.yaml   # Infrastructure S3 + CloudFront

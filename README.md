@@ -50,6 +50,7 @@ cd Rtype
 python3 -m http.server 8000
 
 # Ou utilisez les scripts fournis
+cd scripts
 ./start.sh        # macOS/Linux (port 8000 par défaut)
 ./start.sh 8001   # macOS/Linux (port personnalisé)
 start.bat         # Windows
@@ -90,7 +91,7 @@ npx http-server -p 8000
 php -S localhost:8000
 ```
 
-📖 **Pour plus de détails sur la configuration, consultez [SETUP.md](SETUP.md)**
+📖 **Pour plus de détails sur la configuration, consultez [docs/SETUP.md](docs/SETUP.md)**
 
 ## Déploiement AWS
 
@@ -146,6 +147,11 @@ Rtype/
 │   ├── test-runner.html   # Interface de test
 │   ├── *.test.js         # Fichiers de tests
 │   └── README.md         # Documentation des tests
+├── visual-tests/          # Tests visuels des assets
+│   ├── test-delorean.html # Test sprite DeLorean
+│   ├── test-enemy-colors.html # Test couleurs ennemis
+│   ├── test-alien-terrain.html # Test terrain alien
+│   └── README.md         # Documentation tests visuels
 ├── assets/                # Ressources
 │   └── images/           # Images et sprites
 │       ├── player.svg    # DeLorean 8-bit (vaisseau joueur)
@@ -154,6 +160,17 @@ Rtype/
 │       ├── enemy3.svg    # Chasseur Vert (ennemi type 3)
 │       ├── enemy.svg     # Ennemi fallback (procédural)
 │       └── bullet.svg    # Sprites des projectiles
+├── scripts/               # Scripts utilitaires
+│   ├── start.sh          # Serveur local (macOS/Linux)
+│   ├── start.bat         # Serveur local (Windows)
+│   ├── stop.sh           # Arrêt serveurs
+│   ├── diagnose.sh       # Diagnostic environnement
+│   └── README.md         # Documentation scripts
+├── docs/                  # Documentation
+│   ├── SETUP.md          # Guide d'installation
+│   ├── TEST-REPORT.md    # Rapport de tests
+│   ├── questions.txt     # Suivi du développement
+│   └── README.md         # Index documentation
 ├── architecture/          # Schémas d'architecture
 │   ├── README.md         # Documentation des schémas
 │   ├── 01-architecture-generale.drawio
@@ -172,8 +189,7 @@ Rtype/
 │   ├── deploy.sh         # Script de déploiement automatisé
 │   ├── Makefile          # Commandes simplifiées
 │   └── parameters.json   # Paramètres par environnement
-├── README.md
-└── questions.txt          # Suivi du développement
+└── README.md
 ```
 
 ## Boss et Niveaux

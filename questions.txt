@@ -391,7 +391,60 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 
 ---
 
-## Résumé Global (2025-06-15)
+## Question 27 (2025-06-16)
+**Demande :** Créer un répertoire cloudformation et créer des templates pour déployer ce jeu sur AWS. Utiliser de préférence CloudFront avec S3 et créer un script de build pour optimiser les assets avant de les mettre sur le cloud.
+
+**Actions réalisées :**
+1. **Création de l'infrastructure CloudFormation complète :**
+   - main-stack.yaml : Infrastructure S3 + CloudFront avec Origin Access Control
+   - monitoring-stack.yaml : Dashboard CloudWatch, métriques et alertes SNS
+   - Sécurité intégrée : HTTPS obligatoire, headers sécurité, chiffrement S3
+   - Support multi-environnements (dev/staging/prod) avec domaines personnalisés
+
+2. **Script de build optimisé (build.sh) :**
+   - Minification JavaScript (suppression commentaires, espaces)
+   - Optimisation SVG (réduction taille, nettoyage attributs)
+   - Génération métadonnées build avec commit Git
+   - Package déploiement tar.gz automatique
+   - Support environnements avec/sans fichiers de test
+
+3. **Script de déploiement automatisé (deploy.sh) :**
+   - Vérification prérequis AWS CLI et credentials
+   - Déploiement infrastructure CloudFormation
+   - Upload S3 avec headers cache optimisés
+   - Invalidation CloudFront automatique
+   - Health check post-déploiement avec validation
+
+4. **Makefile pour commandes simplifiées :**
+   - `make deploy` : Déploiement complet
+   - `make build` : Build optimisé
+   - `make sync-only` : Sync S3 uniquement
+   - `make invalidate` : Cache CloudFront
+   - `make status` : État déploiement
+   - `make dashboard` : Ouvrir monitoring
+
+5. **Configuration multi-environnements :**
+   - parameters.json avec configs dev/staging/prod
+   - Support domaines personnalisés et certificats SSL
+   - Alertes email configurables par environnement
+   - Optimisation coûts avec PriceClass_100
+
+6. **Documentation complète (89 KB) :**
+   - Guide déploiement pas-à-pas
+   - Architecture AWS détaillée
+   - Optimisation coûts (~$1.20/mois)
+   - Sécurité et bonnes pratiques
+   - Dépannage et maintenance
+   - Intégration CI/CD (GitHub Actions, GitLab)
+
+**Résultat :** ✅ Infrastructure AWS professionnelle complète avec déploiement automatisé, monitoring et optimisation
+
+**Commits créés :**
+- feat: Add complete AWS deployment infrastructure with CloudFormation
+
+---
+
+## Résumé Global (2025-06-16)
 
 **Fonctionnalités principales implémentées :**
 - ✅ Système de progression automatique des niveaux
@@ -404,12 +457,14 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 - ✅ Cadence de tir équilibrée (5 secondes)
 - ✅ Système de tir des ennemis fonctionnel
 - ✅ Documentation architecture complète (5 schémas)
+- ✅ Infrastructure AWS complète (S3 + CloudFront)
 
 **Outils et scripts créés :**
 - ✅ Scripts de serveur robustes (start.sh, stop.sh, diagnose.sh)
 - ✅ Interfaces de test visuelles (DeLorean, couleurs, terrain)
 - ✅ Suite de tests automatisés (132 tests)
 - ✅ Schémas d'architecture techniques (draw.io)
+- ✅ Infrastructure AWS (CloudFormation, build, deploy)
 
 **Qualité et robustesse :**
 - ✅ Gestion d'erreurs complète avec fallbacks
@@ -417,7 +472,8 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 - ✅ Système de chargement d'assets intelligent
 - ✅ Architecture modulaire et maintenable
 - ✅ Documentation technique professionnelle
+- ✅ Déploiement cloud automatisé et sécurisé
 
-**Total des commits créés :** 15+ commits avec fonctionnalités majeures et corrections
+**Total des commits créés :** 17+ commits avec fonctionnalités majeures et corrections
 
-Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle ! 🚀🎮✨
+Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle et un déploiement cloud automatisé ! 🚀🎮☁️✨

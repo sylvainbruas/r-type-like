@@ -122,6 +122,19 @@ Le projet utilise une architecture modulaire avec séparation claire des respons
 
 📐 **Pour les schémas d'architecture détaillés, consultez [architecture/README.md](architecture/README.md)**
 
+### Diagrammes AWS Disponibles
+
+Le projet inclut plusieurs diagrammes AWS pour différents usages :
+
+- **06-architecture-aws.drawio** : Vue d'ensemble simple (multi-environnements)
+- **09-architecture-aws-icons.drawio** : Version avec icônes (si compatible)
+- **10-aws-production-icons.drawio** : **Production avec icônes AWS officielles** ✅
+  - Icônes AWS natifs (Route 53, CloudFront, S3, CloudWatch, SNS)
+  - Métriques production : 95%+ cache hit, <1% erreur
+  - Coûts détaillés : $1.67/mois
+  - Sécurité renforcée : WAF, CloudTrail, compliance
+  - **Testé et fonctionnel dans draw.io**
+
 ## Structure du Projet
 
 ```

@@ -444,6 +444,45 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 
 ---
 
+## Question 28 (2025-06-16)
+**Demande :** Faire un nouveau fichier draw.io qui n'utilise que des icônes AWS pour montrer les composants de l'architecture de prod.
+
+**Actions réalisées :**
+1. **Création du diagramme AWS Production avec icônes officielles :**
+   - 10-aws-production-icons.drawio : Architecture AWS production avec icônes natifs
+   - Utilisation de la bibliothèque aws3 intégrée à draw.io (compatibilité garantie)
+   - Services AWS : Route 53, CloudFront, S3, CloudWatch, SNS
+   - Couleurs AWS officielles : Orange (#F58536), Rouge (#E05243), Vert (#759C3E)
+
+2. **Résolution des problèmes de compatibilité draw.io :**
+   - Test progressif avec fichier minimal (test-minimal.drawio) pour identifier le problème
+   - Simplification de la structure XML tout en conservant les icônes AWS officielles
+   - Correction des erreurs XML (caractères < et > non échappés dans les attributs)
+   - Validation du format pour ouverture correcte dans draw.io
+
+3. **Contenu technique spécifique production :**
+   - Coûts production détaillés : $1.67/mois (vs $1.20 général)
+   - Métriques performance production : 95%+ cache hit, <1% erreur, <100ms latence
+   - Sécurité renforcée : HTTPS, WAF, CloudTrail, compliance (GDPR, SOC 2, ISO 27001)
+   - Région AWS : us-east-1 avec backup us-west-2
+   - Flux de données colorés : Orange (trafic principal), Vert (monitoring)
+
+4. **Processus de débogage et correction :**
+   - Identification du problème : complexité XML vs icônes AWS
+   - Test avec fichier minimal → fonctionnel
+   - Simplification progressive en conservant les icônes AWS
+   - Correction finale : échappement des caractères XML (<, >)
+
+**Résultat :** ✅ Diagramme AWS production fonctionnel avec icônes officielles, optimisé pour présentations techniques
+
+**Commits créés :**
+- feat: Add production AWS architecture diagram with native AWS icons
+- fix: Create ultra-minimal AWS production diagram for guaranteed compatibility  
+- fix: Create working AWS production diagram with official icons
+- fix: Correct XML parsing error in AWS production diagram
+
+---
+
 ## Résumé Global (2025-06-16)
 
 **Fonctionnalités principales implémentées :**
@@ -456,15 +495,17 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 - ✅ Terrain alien interactif avec collisions mortelles
 - ✅ Cadence de tir équilibrée (5 secondes)
 - ✅ Système de tir des ennemis fonctionnel
-- ✅ Documentation architecture complète (5 schémas)
+- ✅ Documentation architecture complète (10 schémas)
 - ✅ Infrastructure AWS complète (S3 + CloudFront)
+- ✅ Réorganisation projet professionnelle
 
 **Outils et scripts créés :**
 - ✅ Scripts de serveur robustes (start.sh, stop.sh, diagnose.sh)
 - ✅ Interfaces de test visuelles (DeLorean, couleurs, terrain)
-- ✅ Suite de tests automatisés (132 tests)
-- ✅ Schémas d'architecture techniques (draw.io)
+- ✅ Suite de tests automatisés (182 tests)
+- ✅ Schémas d'architecture techniques (10 diagrammes draw.io)
 - ✅ Infrastructure AWS (CloudFormation, build, deploy)
+- ✅ Structure projet organisée (scripts/, docs/, visual-tests/, etc.)
 
 **Qualité et robustesse :**
 - ✅ Gestion d'erreurs complète avec fallbacks
@@ -473,7 +514,8 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 - ✅ Architecture modulaire et maintenable
 - ✅ Documentation technique professionnelle
 - ✅ Déploiement cloud automatisé et sécurisé
+- ✅ Diagrammes techniques avec icônes AWS officielles
 
-**Total des commits créés :** 17+ commits avec fonctionnalités majeures et corrections
+**Total des commits créés :** 20+ commits avec fonctionnalités majeures et corrections
 
-Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle et un déploiement cloud automatisé ! 🚀🎮☁️✨
+Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle, un déploiement cloud automatisé, et une documentation technique complète avec diagrammes AWS officiels ! 🚀🎮☁️✨

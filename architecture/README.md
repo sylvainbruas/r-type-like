@@ -92,12 +92,13 @@ Ce répertoire contient les schémas d'architecture logicielle du jeu R-Type 2 a
 - **Contenu** :
   - Icônes AWS officiels de la bibliothèque draw.io (aws3)
   - Focus sur l'environnement de production uniquement
-  - Métriques de performance production (>95% cache hit)
+  - Métriques de performance production (95%+ cache hit)
   - Coûts de production détaillés (~$1.67/mois)
   - Sécurité production (WAF, CloudTrail, compliance)
   - Haute disponibilité et disaster recovery
   - Pipeline de déploiement automatisé
   - Conformité et audit (GDPR, SOC 2, ISO 27001)
+  - **FONCTIONNEL** : Testé et validé dans draw.io
 
 ## 🛠️ Utilisation des Schémas
 

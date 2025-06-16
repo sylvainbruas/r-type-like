@@ -30,7 +30,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         
         // Pattern de mouvement
         this.movementPattern = this.getMovementPattern();
-        this.startTime = scene.time.now;
+        this.startTime = scene.time ? scene.time.now : Date.now();
         
         // Auto-destruction si hors écran
         this.checkBounds();
@@ -105,6 +105,11 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
     
     update() {
+        // Vérifications de sécurité
+        if (!this.scene || !this.scene.time || !this.active) {
+            return; // Sortir si l'ennemi est détruit ou la scène invalide
+        }
+        
         const currentTime = this.scene.time.now;
         const elapsed = currentTime - this.startTime;
         

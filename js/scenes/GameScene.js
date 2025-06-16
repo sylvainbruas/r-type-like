@@ -337,14 +337,14 @@ class GameScene extends Phaser.Scene {
         
         // Mise à jour des ennemis individuels
         this.enemies.children.entries.forEach(enemy => {
-            if (enemy.update) {
+            if (enemy && enemy.active && enemy.update) {
                 enemy.update();
             }
         });
         
         // Mise à jour des boss
         this.bosses.children.entries.forEach(boss => {
-            if (boss.update) {
+            if (boss && boss.active && boss.update) {
                 boss.update();
             }
         });

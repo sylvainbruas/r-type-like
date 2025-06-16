@@ -92,6 +92,18 @@ php -S localhost:8000
 
 📖 **Pour plus de détails sur la configuration, consultez [SETUP.md](SETUP.md)**
 
+## Déploiement AWS
+
+Le projet inclut une infrastructure complète pour déployer le jeu sur AWS avec S3 + CloudFront :
+
+- **Infrastructure as Code** : Templates CloudFormation
+- **CDN Global** : CloudFront avec cache optimisé
+- **Monitoring** : CloudWatch avec alertes automatiques
+- **Build Optimisé** : Minification JS/CSS, optimisation SVG
+- **Déploiement Automatisé** : Scripts et Makefile
+
+🚀 **Pour déployer sur AWS, consultez [cloudformation/README.md](cloudformation/README.md)**
+
 ## Contrôles
 
 - **Flèches directionnelles** : Déplacement du vaisseau
@@ -149,6 +161,14 @@ Rtype/
 │   ├── 03-entites-relations.drawio
 │   ├── 04-gestion-assets.drawio
 │   └── 05-systeme-tests.drawio
+├── cloudformation/        # Déploiement AWS
+│   ├── README.md         # Documentation déploiement
+│   ├── main-stack.yaml   # Infrastructure S3 + CloudFront
+│   ├── monitoring-stack.yaml # Monitoring CloudWatch
+│   ├── build.sh          # Script d'optimisation assets
+│   ├── deploy.sh         # Script de déploiement automatisé
+│   ├── Makefile          # Commandes simplifiées
+│   └── parameters.json   # Paramètres par environnement
 ├── README.md
 └── questions.txt          # Suivi du développement
 ```

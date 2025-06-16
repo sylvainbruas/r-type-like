@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "ProjectName": "rtype2-game",
+    "Environment": "dev",
+    "DomainName": "",
+    "CertificateArn": "",
+    "AlertEmail": "dev-team@example.com"
+  },
+  "staging": {
+    "ProjectName": "rtype2-game",
+    "Environment": "staging",
+    "DomainName": "staging-rtype.example.com",
+    "CertificateArn": "arn:aws:acm:us-east-1:123456789012:certificate/staging-cert-id",
+    "AlertEmail": "staging-alerts@example.com"
+  },
+  "prod": {
+    "ProjectName": "rtype2-game",
+    "Environment": "prod",
+    "DomainName": "rtype.example.com",
+    "CertificateArn": "arn:aws:acm:us-east-1:123456789012:certificate/prod-cert-id",
+    "AlertEmail": "prod-alerts@example.com"
+  }
+}

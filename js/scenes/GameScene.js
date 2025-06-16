@@ -352,6 +352,20 @@ class GameScene extends Phaser.Scene {
         // Mise à jour des groupes d'ennemis
         this.updateEnemyGroups();
         
+        // Mise à jour des projectiles du joueur
+        this.playerBullets.children.entries.forEach(bullet => {
+            if (bullet && bullet.active && bullet.update) {
+                bullet.update();
+            }
+        });
+        
+        // Mise à jour des projectiles ennemis
+        this.enemyBullets.children.entries.forEach(bullet => {
+            if (bullet && bullet.active && bullet.update) {
+                bullet.update();
+            }
+        });
+        
         // Spawn des groupes d'ennemis
         if (time > this.groupSpawnTimer + this.getGroupSpawnRate() && !this.bossSpawned) {
             this.spawnEnemyGroup();

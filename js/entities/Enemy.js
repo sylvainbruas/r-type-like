@@ -139,7 +139,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (this.scene && this.scene.enemyBullets) {
             const bullet = new Bullet(this.scene, this.x - 20, this.y, 'enemy');
             this.scene.enemyBullets.add(bullet);
-            console.log(`🎯 Ennemi tire: position=(${Math.round(this.x)}, ${Math.round(this.y)})`);
         } else {
             console.warn('⚠️ Enemy cannot fire: scene or enemyBullets missing');
         }

@@ -69,24 +69,38 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
                 this.setRotation(radians);
             } else {
                 // Missile droit vers la gauche à 110% de la vitesse du joueur (220 px/s)
-                console.log(`🚀 AVANT setVelocity: this.speed=${this.speed}`);
+                console.log(`🚀 === DÉBUT DEBUG MISSILE ENNEMI ===`);
+                console.log(`🚀 this.speed = ${this.speed}`);
+                console.log(`🚀 GameConfig.player.speed = ${GameConfig.player.speed}`);
                 console.log(`🚀 Body exists:`, !!this.body);
+                console.log(`🚀 Position: (${this.x}, ${this.y})`);
                 
-                // Essayons différentes méthodes pour définir la vélocité
-                this.setVelocityX(-this.speed);
+                // Test simple : vitesse fixe pour debug
+                const targetVelocity = -220;
+                console.log(`🚀 Target velocity: ${targetVelocity}`);
+                
+                // Méthode 1: setVelocityX
+                this.setVelocityX(targetVelocity);
                 this.setVelocityY(0);
+                console.log(`🚀 Après setVelocityX: (${this.body.velocity.x}, ${this.body.velocity.y})`);
                 
-                // Vérification immédiate
-                console.log(`🚀 APRÈS setVelocityX: vélocité=(${this.body.velocity.x}, ${this.body.velocity.y})`);
-                console.log(`🚀 Position initiale: (${Math.round(this.x)}, ${Math.round(this.y)})`);
-                
-                // Force la vélocité si elle n'est pas correcte
-                if (this.body.velocity.x >= 0) {
-                    console.log(`⚠️ PROBLÈME: Vélocité X n'est pas négative, forçage...`);
-                    this.body.setVelocityX(-this.speed);
+                // Vérification et correction si nécessaire
+                if (this.body.velocity.x !== targetVelocity) {
+                    console.log(`⚠️ PROBLÈME: Vélocité incorrecte, tentative de correction...`);
+                    
+                    // Méthode 2: accès direct au body
+                    this.body.setVelocityX(targetVelocity);
                     this.body.setVelocityY(0);
-                    console.log(`🔧 APRÈS forçage: vélocité=(${this.body.velocity.x}, ${this.body.velocity.y})`);
+                    console.log(`🔧 Après body.setVelocityX: (${this.body.velocity.x}, ${this.body.velocity.y})`);
+                    
+                    // Méthode 3: setVelocity classique
+                    if (this.body.velocity.x !== targetVelocity) {
+                        this.setVelocity(targetVelocity, 0);
+                        console.log(`🔧 Après setVelocity: (${this.body.velocity.x}, ${this.body.velocity.y})`);
+                    }
                 }
+                
+                console.log(`🚀 === FIN DEBUG - VÉLOCITÉ FINALE: (${this.body.velocity.x}, ${this.body.velocity.y}) ===`);
             }
             
             // Effet de traînée jaune/orange pour les missiles

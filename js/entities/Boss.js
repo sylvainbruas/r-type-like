@@ -3,14 +3,16 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, bossData) {
         // Déterminer le sprite du boss selon le niveau
         const bossSprite = Boss.getBossSprite(scene.levelManager.currentLevel);
+        console.log(`🔧 DEBUG: Creating boss with sprite: ${bossSprite} for level ${scene.levelManager.currentLevel}`);
+        
         super(scene, x, y, bossSprite);
         
         // Ajouter à la scène et activer la physique
         scene.add.existing(this);
         scene.physics.add.existing(this);
         
-        // Ajuster la taille selon le sprite du boss
-        this.setBossScale(scene.levelManager.currentLevel);
+        console.log(`🔧 DEBUG: Boss created at position (${x}, ${y})`);
+        console.log(`🔧 DEBUG: Boss initial scale: (${this.scaleX}, ${this.scaleY})`);
         
         // Propriétés du boss
         this.bossData = bossData;
@@ -45,8 +47,13 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
             bottom: GameConfig.height - 20  // Marge basse (hors décors)
         };
         
+        console.log(`🔧 DEBUG: Movement zone:`, this.movementZone);
+        console.log(`🔧 DEBUG: GameConfig dimensions: ${GameConfig.width}x${GameConfig.height}`);
+        
         // Ajuster la taille selon le sprite du boss (pas de déformation)
         this.setBossScale(scene.levelManager.currentLevel);
+        
+        console.log(`🔧 DEBUG: Boss scale after setBossScale: (${this.scaleX}, ${this.scaleY})`);
         
         // Pas de teinte par défaut pour garder les couleurs originales du sprite
         // this.setTint(0xff00ff); // Supprimé pour garder les couleurs du sprite
@@ -62,6 +69,8 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         
         // Initialiser la vitesse
         this.updateMovementSpeed();
+        
+        console.log(`🔧 DEBUG: Boss initialization complete. Current speed: ${this.currentSpeed}`);
     }
     
     createHealthBar() {
@@ -153,10 +162,15 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     update() {
-        if (!this.entryComplete) return;
+        if (!this.entryComplete) {
+            console.log(`🔧 DEBUG: Boss entry not complete, waiting...`);
+            return;
+        }
         
         const currentTime = this.scene.time.now;
         const elapsed = currentTime - this.startTime;
+        
+        console.log(`🔧 DEBUG: Boss update - Position: (${Math.round(this.x)}, ${Math.round(this.y)}), Velocity: (${Math.round(this.body.velocity.x)}, ${Math.round(this.body.velocity.y)})`);
         
         // Gestion du mouvement du boss
         this.updateBossMovement(currentTime);
@@ -274,11 +288,11 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     updateMovementSpeed() {
-        // Vitesse entre 50% et 80% de celle du joueur (plus rapide)
-        const minSpeed = this.playerSpeed * 0.5;
-        const maxSpeed = this.playerSpeed * 0.8;
+        // TEMPORAIRE: Vitesse très élevée pour test de debug
+        const minSpeed = this.playerSpeed * 1.0;  // 100% du joueur
+        const maxSpeed = this.playerSpeed * 1.5;  // 150% du joueur
         this.currentSpeed = Phaser.Math.Between(minSpeed, maxSpeed);
-        console.log('New boss speed:', this.currentSpeed, 'Player speed:', this.playerSpeed); // Debug
+        console.log('🔧 DEBUG: New boss speed (ENHANCED FOR TESTING):', this.currentSpeed, 'Player speed:', this.playerSpeed); // Debug
     }
     
     applyMovementPattern(currentTime) {
@@ -304,22 +318,28 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     serpentMovement(elapsed) {
-        // Mouvement sinusoïdal vertical plus ample et rapide
-        const amplitude = (this.movementZone.bottom - this.movementZone.top) * 0.3; // 30% de la hauteur
-        const frequency = 0.003; // Plus rapide
+        console.log(`🔧 DEBUG: Serpent movement called - elapsed: ${elapsed}`);
+        
+        // TEMPORAIRE: Mouvement très ample pour test de debug
+        const amplitude = (this.movementZone.bottom - this.movementZone.top) * 0.8; // 80% de la hauteur (très visible)
+        const frequency = 0.01; // Plus rapide pour test
         const centerY = (this.movementZone.top + this.movementZone.bottom) / 2;
         const targetY = centerY + Math.sin(elapsed * frequency) * amplitude;
         
-        // Mouvement horizontal léger
-        const horizontalAmplitude = (this.movementZone.right - this.movementZone.left) * 0.2;
+        // Mouvement horizontal plus visible
+        const horizontalAmplitude = (this.movementZone.right - this.movementZone.left) * 0.5;
         const targetX = this.movementZone.left + horizontalAmplitude + Math.cos(elapsed * frequency * 0.5) * horizontalAmplitude;
         
         // Appliquer les vélocités avec plus de réactivité
-        const velocityY = (targetY - this.y) * 0.08;
-        const velocityX = (targetX - this.x) * 0.04;
+        const velocityY = (targetY - this.y) * 0.2; // Plus réactif
+        const velocityX = (targetX - this.x) * 0.1; // Plus réactif
+        
+        console.log(`🔧 DEBUG: Serpent - Target: (${Math.round(targetX)}, ${Math.round(targetY)}), Velocity: (${Math.round(velocityX)}, ${Math.round(velocityY)})`);
+        console.log(`🔧 DEBUG: Serpent - Current pos: (${Math.round(this.x)}, ${Math.round(this.y)}), Zone: ${Math.round(this.movementZone.left)}-${Math.round(this.movementZone.right)}`);
+        
         this.setVelocity(velocityX, velocityY);
         
-        console.log('Serpent movement - Enhanced pattern'); // Debug
+        console.log('🔧 DEBUG: Serpent movement - ENHANCED FOR TESTING'); // Debug
     }
     
     cruiserMovement(elapsed) {
@@ -638,11 +658,13 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     setBossScale(level) {
-        // Les sprites SVG sont déjà aux bonnes dimensions, pas besoin de scaling
-        // Garder l'échelle 1:1 pour éviter la déformation
+        // TEMPORAIRE: Test avec échelle normale pour vérifier la déformation
         this.setScale(1.0, 1.0);
         
         console.log(`👾 Boss niveau ${level}: sprite=${Boss.getBossSprite(level)}, scale=1.0 (pas de déformation)`);
+        console.log(`🔧 DEBUG: setBossScale applied - actual scale: (${this.scaleX}, ${this.scaleY})`);
+        console.log(`🔧 DEBUG: Boss dimensions after scale: width=${this.width}, height=${this.height}`);
+        console.log(`🔧 DEBUG: Boss display dimensions: displayWidth=${this.displayWidth}, displayHeight=${this.displayHeight}`);
     }
     
     static getBossName(level) {

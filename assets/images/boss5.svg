@@ -1,0 +1,78 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Boss Niveau 5: Core Alien - Cœur Alien (Boss Final) -->
+  
+  <!-- Cœur central pulsant -->
+  <circle cx="100" cy="100" r="40" fill="#4A0E4E" stroke="#8B008B" stroke-width="4"/>
+  <circle cx="100" cy="100" r="30" fill="#6A1B9A" opacity="0.8"/>
+  <circle cx="100" cy="100" r="20" fill="#9C27B0" opacity="0.9"/>
+  <circle cx="100" cy="100" r="12" fill="#E91E63" opacity="0.7"/>
+  
+  <!-- Tentacules organiques -->
+  <path d="M 100 60 Q 80 40 60 30 Q 40 20 30 40 Q 35 60 50 70" 
+        fill="none" stroke="#4A0E4E" stroke-width="8" stroke-linecap="round"/>
+  <path d="M 140 100 Q 160 80 180 70 Q 200 60 190 80 Q 180 100 170 110" 
+        fill="none" stroke="#4A0E4E" stroke-width="8" stroke-linecap="round"/>
+  <path d="M 100 140 Q 120 160 140 170 Q 160 180 150 160 Q 140 140 130 130" 
+        fill="none" stroke="#4A0E4E" stroke-width="8" stroke-linecap="round"/>
+  <path d="M 60 100 Q 40 120 20 130 Q 0 140 10 120 Q 20 100 30 90" 
+        fill="none" stroke="#4A0E4E" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Ventouses sur les tentacules -->
+  <circle cx="45" cy="50" r="6" fill="#6A1B9A" stroke="#8B008B" stroke-width="2"/>
+  <circle cx="35" cy="45" r="4" fill="#9C27B0" opacity="0.8"/>
+  
+  <circle cx="175" cy="85" r="6" fill="#6A1B9A" stroke="#8B008B" stroke-width="2"/>
+  <circle cx="180" cy="90" r="4" fill="#9C27B0" opacity="0.8"/>
+  
+  <circle cx="135" cy="155" r="6" fill="#6A1B9A" stroke="#8B008B" stroke-width="2"/>
+  <circle cx="145" cy="160" r="4" fill="#9C27B0" opacity="0.8"/>
+  
+  <circle cx="25" cy="115" r="6" fill="#6A1B9A" stroke="#8B008B" stroke-width="2"/>
+  <circle cx="15" cy="125" r="4" fill="#9C27B0" opacity="0.8"/>
+  
+  <!-- Yeux alien multiples -->
+  <ellipse cx="85" cy="85" rx="8" ry="12" fill="#FF1744" stroke="#D50000" stroke-width="2"/>
+  <circle cx="85" cy="85" r="4" fill="#000000"/>
+  <circle cx="87" cy="83" r="1" fill="#FFFFFF"/>
+  
+  <ellipse cx="115" cy="85" rx="8" ry="12" fill="#FF1744" stroke="#D50000" stroke-width="2"/>
+  <circle cx="115" cy="85" r="4" fill="#000000"/>
+  <circle cx="117" cy="83" r="1" fill="#FFFFFF"/>
+  
+  <ellipse cx="100" cy="115" rx="6" ry="10" fill="#FF1744" stroke="#D50000" stroke-width="2"/>
+  <circle cx="100" cy="115" r="3" fill="#000000"/>
+  <circle cx="101" cy="113" r="1" fill="#FFFFFF"/>
+  
+  <!-- Structures cristallines alien -->
+  <polygon points="70,70 75,60 80,70 75,80" fill="#00E676" stroke="#00C853" stroke-width="2" opacity="0.7"/>
+  <polygon points="120,70 125,60 130,70 125,80" fill="#00E676" stroke="#00C853" stroke-width="2" opacity="0.7"/>
+  <polygon points="70,130 75,120 80,130 75,140" fill="#00E676" stroke="#00C853" stroke-width="2" opacity="0.7"/>
+  <polygon points="120,130 125,120 130,130 125,140" fill="#00E676" stroke="#00C853" stroke-width="2" opacity="0.7"/>
+  
+  <!-- Veines énergétiques -->
+  <path d="M 100 100 L 85 85" stroke="#E91E63" stroke-width="3" opacity="0.8"/>
+  <path d="M 100 100 L 115 85" stroke="#E91E63" stroke-width="3" opacity="0.8"/>
+  <path d="M 100 100 L 100 115" stroke="#E91E63" stroke-width="3" opacity="0.8"/>
+  <path d="M 100 100 L 75 75" stroke="#FF4081" stroke-width="2" opacity="0.6"/>
+  <path d="M 100 100 L 125 75" stroke="#FF4081" stroke-width="2" opacity="0.6"/>
+  <path d="M 100 100 L 75 125" stroke="#FF4081" stroke-width="2" opacity="0.6"/>
+  <path d="M 100 100 L 125 125" stroke="#FF4081" stroke-width="2" opacity="0.6"/>
+  
+  <!-- Aura énergétique -->
+  <circle cx="100" cy="100" r="55" fill="none" stroke="#E91E63" stroke-width="2" opacity="0.3"/>
+  <circle cx="100" cy="100" r="65" fill="none" stroke="#FF4081" stroke-width="1" opacity="0.2"/>
+  
+  <!-- Particules flottantes -->
+  <circle cx="60" cy="60" r="2" fill="#00E676" opacity="0.8"/>
+  <circle cx="140" cy="60" r="2" fill="#00E676" opacity="0.8"/>
+  <circle cx="60" cy="140" r="2" fill="#00E676" opacity="0.8"/>
+  <circle cx="140" cy="140" r="2" fill="#00E676" opacity="0.8"/>
+  <circle cx="50" cy="100" r="1" fill="#FF4081" opacity="0.9"/>
+  <circle cx="150" cy="100" r="1" fill="#FF4081" opacity="0.9"/>
+  <circle cx="100" cy="50" r="1" fill="#FF4081" opacity="0.9"/>
+  <circle cx="100" cy="150" r="1" fill="#FF4081" opacity="0.9"/>
+  
+  <!-- Bouche/Orifice central -->
+  <ellipse cx="100" cy="100" rx="6" ry="8" fill="#000000" stroke="#4A0E4E" stroke-width="2"/>
+  <ellipse cx="100" cy="98" rx="3" ry="4" fill="#8B008B" opacity="0.5"/>
+</svg>

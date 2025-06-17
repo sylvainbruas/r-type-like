@@ -80,3 +80,20 @@ Terrain:
 ---
 
 *Ces tests visuels garantissent la qualité du rendu graphique du jeu R-Type 2.*
+### **test-boss-sprites.html** ⭐ NOUVEAU
+Test visuel des 5 sprites de boss du jeu.
+
+**Fonctionnalités :**
+- ✅ Aperçu des 5 boss avec designs thématiques
+- ✅ Validation des tailles (3x à 4x le vaisseau joueur)
+- ✅ Vérification de la cohérence avec les niveaux
+- ✅ Comparaison des dimensions et proportions
+- ✅ Test de rendu SVG et qualité graphique
+- ✅ Interface de comparaison interactive
+
+**Boss inclus :**
+1. **Serpent Mécanique** (240x120px) - Secteur Spatial
+2. **Croiseur Lourd** (220x140px) - Champ d'Astéroïdes  
+3. **Station Orbitale** (200x160px) - Nébuleuse Toxique
+4. **Dreadnought** (260x120px) - Station Ennemie
+5. **Core Alien** (200x200px) - Cœur Alien (Boss Final)

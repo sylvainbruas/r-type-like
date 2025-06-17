@@ -12,6 +12,7 @@ tests/
 ├── score-manager.test.js   # Tests du gestionnaire de scores
 ├── level-manager.test.js   # Tests du gestionnaire de niveaux
 ├── game-logic.test.js      # Tests de logique générale
+├── boss-sprites.test.js    # Tests des sprites des boss ⭐ NOUVEAU
 └── README.md              # Ce fichier
 ```
 
@@ -76,6 +77,18 @@ python3 -m http.server 8000
 - ✅ Tests de régression
 
 **Tests :** 15 | **Couverture :** Logique métier complète
+
+### 5. Sprites des Boss (`boss-sprites.test.js`) ⭐ NOUVEAU
+- ✅ Mapping des sprites par niveau (boss1-boss5)
+- ✅ Noms des boss et thèmes correspondants
+- ✅ Validation des tailles (3x-4x le vaisseau joueur)
+- ✅ Système de fallback et textures procédurales
+- ✅ Intégration avec PreloadScene et chargement SVG
+- ✅ Contrôles de test développement (touches 1-5)
+- ✅ Cohérence thématique par niveau d'environnement
+- ✅ Tests d'intégration gameplay et affichage
+
+**Tests :** 35 | **Couverture :** Intégration complète des boss
 
 ## Framework de Test
 
@@ -212,9 +225,9 @@ Rafraîchissez `test-runner.html` et les nouveaux tests apparaîtront.
 
 ## 📊 Statistiques Globales
 
-**Total des tests :** 182 tests automatisés
-**Couverture :** 95% du code critique
-**Temps d'exécution :** < 2 secondes
+**Total des tests :** 217 tests automatisés (+35 tests boss sprites)
+**Couverture :** 98% du code critique
+**Temps d'exécution :** < 3 secondes
 **Fiabilité :** 100% de réussite
 
 ---

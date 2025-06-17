@@ -284,13 +284,35 @@ python3 -m http.server 8000
 
 ## Contribution
 
-Les contributions sont les bienvenues ! Pour contribuer :
+Les contributions sont les bienvenues ! Le projet utilise **Git Flow** pour l'organisation du développement.
+
+### 🌊 Workflow Git Flow
+
+**Branches principales :**
+- **main** : Production (releases stables)
+- **develop** : Développement (intégration continue)
+
+**Pour contribuer :**
 
 1. Forkez le projet
-2. Créez une branche pour votre fonctionnalité
-3. Committez vos changements
-4. Poussez vers la branche
-5. Ouvrez une Pull Request
+2. Clonez votre fork et configurez Git Flow :
+   ```bash
+   git clone [votre-fork]
+   cd Rtype
+   git flow init -d
+   ```
+3. Créez une feature depuis develop :
+   ```bash
+   git flow feature start ma-fonctionnalite
+   ```
+4. Développez et committez vos changements
+5. Terminez la feature :
+   ```bash
+   git flow feature finish ma-fonctionnalite
+   ```
+6. Poussez develop et créez une Pull Request
+
+📖 **Guide complet Git Flow : [docs/GITFLOW.md](docs/GITFLOW.md)**
 
 ## Licence
 

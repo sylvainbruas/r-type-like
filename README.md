@@ -225,6 +225,7 @@ Rtype/
 │   ├── deploy.sh         # Script de déploiement automatisé
 │   ├── Makefile          # Commandes simplifiées
 │   └── parameters.json   # Paramètres par environnement
+├── renovate.json          # Configuration Renovate Bot
 └── README.md
 ```
 

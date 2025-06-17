@@ -38,6 +38,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         this.originalX = 0;
         this.trembleOffset = { x: 0, y: 0 };
         this.chargeStartTime = 0;
+        this.lastLogTime = -1; // Pour les logs occasionnels de debug
         
         // Zone de mouvement (30% droit de l'écran, toute la hauteur hors décors)
         this.movementZone = {
@@ -315,21 +316,28 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     serpentMovement(elapsed) {
-        // Mouvement sinusoïdal vertical avec vitesse x2.5 demandée
-        const amplitude = (this.movementZone.bottom - this.movementZone.top) * 0.4; // 40% de la hauteur (visible mais équilibré)
+        // Mouvement sinusoïdal vertical avec amplitude maximale
+        const amplitude = (this.movementZone.bottom - this.movementZone.top) * 0.8; // 80% de la hauteur (amplitude très visible)
         const frequency = 0.0075; // x2.5 plus rapide que 0.003 normal
         const centerY = (this.movementZone.top + this.movementZone.bottom) / 2;
         const targetY = centerY + Math.sin(elapsed * frequency) * amplitude;
         
         // Mouvement horizontal léger pour effet serpentin
-        const horizontalAmplitude = (this.movementZone.right - this.movementZone.left) * 0.25;
+        const horizontalAmplitude = (this.movementZone.right - this.movementZone.left) * 0.3;
         const targetX = this.movementZone.left + horizontalAmplitude + Math.cos(elapsed * frequency * 0.6) * horizontalAmplitude;
         
-        // Appliquer les vélocités avec réactivité x2.5
-        const velocityY = (targetY - this.y) * 0.2; // x2.5 plus réactif que 0.08 normal
-        const velocityX = (targetX - this.x) * 0.1; // x2.5 plus réactif que 0.04 normal
+        // Appliquer les vélocités avec réactivité élevée
+        const velocityY = (targetY - this.y) * 0.25; // Encore plus réactif pour amplitude élevée
+        const velocityX = (targetX - this.x) * 0.12; // Légèrement plus réactif
         
         this.setVelocity(velocityX, velocityY);
+        
+        // Log occasionnel pour debug (toutes les 2 secondes)
+        if (Math.floor(elapsed / 2000) !== this.lastLogTime) {
+            this.lastLogTime = Math.floor(elapsed / 2000);
+            console.log(`🐍 Serpent - Amplitude: ${Math.round(amplitude)}px (80% de ${Math.round(this.movementZone.bottom - this.movementZone.top)}px)`);
+            console.log(`🐍 Position Y: ${Math.round(this.y)} | Target Y: ${Math.round(targetY)} | Zone: ${Math.round(this.movementZone.top)}-${Math.round(this.movementZone.bottom)}`);
+        }
     }
     
     cruiserMovement(elapsed) {

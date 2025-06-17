@@ -72,6 +72,16 @@ class GameScene extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         
+        // Touches de test pour les boss (développement)
+        this.key1 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
+        this.key2 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
+        this.key3 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE);
+        this.key4 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR);
+        this.key5 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE);
+        
+        // Variables pour éviter les répétitions de touches
+        this.lastBossTest = 0;
+        
         // Variables de jeu
         this.lastFired = 0;
         this.enemySpawnTimer = 0;
@@ -129,6 +139,16 @@ class GameScene extends Phaser.Scene {
         if (this.scoreText && this.scoreManager) {
             const scoreData = this.scoreManager.getScoreData();
             this.scoreText.setText(`SCORE: ${scoreData.score}`);
+        }
+        
+        // Afficher les instructions de test (développement)
+        if (!this.testInstructionsText) {
+            this.testInstructionsText = this.add.text(10, GameConfig.height - 60, 
+                'TEST BOSS: Touches 1-5 pour spawner les boss', {
+                fontSize: '12px',
+                fill: '#888888',
+                fontFamily: 'Courier New'
+            });
         }
     }
     
@@ -348,6 +368,26 @@ class GameScene extends Phaser.Scene {
     }
     
     update(time, delta) {
+        // Tests des boss (développement) - touches 1-5
+        if (time - this.lastBossTest > 1000) { // Éviter les répétitions
+            if (this.key1.isDown) {
+                this.testBoss(1);
+                this.lastBossTest = time;
+            } else if (this.key2.isDown) {
+                this.testBoss(2);
+                this.lastBossTest = time;
+            } else if (this.key3.isDown) {
+                this.testBoss(3);
+                this.lastBossTest = time;
+            } else if (this.key4.isDown) {
+                this.testBoss(4);
+                this.lastBossTest = time;
+            } else if (this.key5.isDown) {
+                this.testBoss(5);
+                this.lastBossTest = time;
+            }
+        }
+        
         // Mouvement du joueur
         this.player.update(this.cursors);
         
@@ -545,6 +585,45 @@ class GameScene extends Phaser.Scene {
         this.enemyBullets.children.entries.forEach(bullet => {
             if (bullet.x < -50 || bullet.y < -50 || bullet.y > GameConfig.height + 50) {
                 bullet.destroy();
+            }
+        });
+    }
+    
+    // Méthode de test pour spawner des boss spécifiques (développement)
+    testBoss(level) {
+        // Nettoyer les boss existants
+        this.bosses.clear(true, true);
+        
+        // Forcer le niveau pour le test
+        const originalLevel = this.levelManager.currentLevel;
+        this.levelManager.currentLevel = level;
+        
+        // Créer le boss de test
+        const bossData = GameConfig.bosses[level - 1] || GameConfig.bosses[0];
+        const boss = new Boss(this, GameConfig.width - 200, GameConfig.height / 2, bossData);
+        this.bosses.add(boss);
+        
+        // Restaurer le niveau original
+        this.levelManager.currentLevel = originalLevel;
+        
+        // Afficher le nom du boss
+        const bossName = Boss.getBossName(level);
+        console.log(`🧪 TEST: Boss ${level} spawned - ${bossName}`);
+        
+        // Affichage à l'écran
+        const testText = this.add.text(GameConfig.width / 2, 50, 
+            `TEST: ${bossName}`, {
+            fontSize: '24px',
+            fill: '#00ff00',
+            fontFamily: 'Courier New',
+            stroke: '#000000',
+            strokeThickness: 2
+        }).setOrigin(0.5);
+        
+        // Faire disparaître le texte après 2 secondes
+        this.time.delayedCall(2000, () => {
+            if (testText && testText.destroy) {
+                testText.destroy();
             }
         });
     }

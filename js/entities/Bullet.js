@@ -11,7 +11,14 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
         
         // Propriétés du projectile
         this.owner = owner;
-        this.speed = 400;
+        // Vitesse différente selon le propriétaire
+        if (owner === 'enemy') {
+            // Missiles ennemis : 110% de la vitesse du joueur (GameConfig.player.speed * 1.1)
+            this.speed = GameConfig.player.speed * 1.1; // 200 * 1.1 = 220
+        } else {
+            // Bullets joueur : vitesse standard rapide
+            this.speed = 400;
+        }
         this.damage = 1;
         
         // Configuration selon le propriétaire
@@ -59,7 +66,7 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
                 );
                 this.setRotation(radians);
             } else {
-                // Missile droit vers la gauche
+                // Missile droit vers la gauche à 110% de la vitesse du joueur (220 px/s)
                 this.setVelocity(-this.speed, 0);
             }
             

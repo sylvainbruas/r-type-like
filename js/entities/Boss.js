@@ -1,11 +1,16 @@
 // Classe des boss
 class Boss extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, bossData) {
-        super(scene, x, y, 'enemy');
+        // Déterminer le sprite du boss selon le niveau
+        const bossSprite = Boss.getBossSprite(scene.levelManager.currentLevel);
+        super(scene, x, y, bossSprite);
         
         // Ajouter à la scène et activer la physique
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        
+        // Ajuster la taille selon le sprite du boss
+        this.setBossScale(scene.levelManager.currentLevel);
         
         // Propriétés du boss
         this.bossData = bossData;
@@ -573,5 +578,46 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         if (this.active) {
             super.destroy();
         }
+    }
+    
+    // Méthodes statiques pour la gestion des sprites
+    static getBossSprite(level) {
+        const bossSprites = {
+            1: 'boss1', // Serpent Mécanique - Secteur Spatial
+            2: 'boss2', // Croiseur Lourd - Champ d'Astéroïdes
+            3: 'boss3', // Station Orbitale - Nébuleuse Toxique
+            4: 'boss4', // Dreadnought - Station Ennemie
+            5: 'boss5'  // Core Alien - Cœur Alien (Boss Final)
+        };
+        
+        return bossSprites[level] || 'enemy'; // Fallback vers sprite ennemi générique
+    }
+    
+    setBossScale(level) {
+        // Échelles spécifiques pour chaque boss (basées sur leurs dimensions réelles)
+        const bossScales = {
+            1: { x: 1.0, y: 1.0 }, // boss1: 240x120px (déjà à la bonne taille)
+            2: { x: 1.0, y: 1.0 }, // boss2: 220x140px
+            3: { x: 1.0, y: 1.0 }, // boss3: 200x160px
+            4: { x: 1.0, y: 1.0 }, // boss4: 260x120px (le plus grand)
+            5: { x: 1.0, y: 1.0 }  // boss5: 200x200px (format carré)
+        };
+        
+        const scale = bossScales[level] || { x: 1.0, y: 1.0 };
+        this.setScale(scale.x, scale.y);
+        
+        console.log(`👾 Boss niveau ${level}: sprite=${Boss.getBossSprite(level)}, scale=(${scale.x}, ${scale.y})`);
+    }
+    
+    static getBossName(level) {
+        const bossNames = {
+            1: 'Serpent Mécanique',
+            2: 'Croiseur Lourd',
+            3: 'Station Orbitale',
+            4: 'Dreadnought',
+            5: 'Core Alien'
+        };
+        
+        return bossNames[level] || 'Boss Inconnu';
     }
 }

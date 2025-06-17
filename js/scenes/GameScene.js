@@ -266,6 +266,27 @@ class GameScene extends Phaser.Scene {
             const bossData = GameConfig.bosses[currentLevel - 1] || GameConfig.bosses[0];
             const boss = new Boss(this, GameConfig.width + 100, GameConfig.height / 2, bossData);
             this.bosses.add(boss);
+            
+            // Afficher le nom du boss
+            const bossName = Boss.getBossName(currentLevel);
+            console.log(`👾 Boss spawned: ${bossName} (Level ${currentLevel})`);
+            
+            // Affichage temporaire du nom du boss à l'écran
+            const bossIntroText = this.add.text(GameConfig.width / 2, GameConfig.height / 2 - 50, 
+                `BOSS: ${bossName}`, {
+                fontSize: '32px',
+                fill: '#ff0000',
+                fontFamily: 'Courier New',
+                stroke: '#000000',
+                strokeThickness: 2
+            }).setOrigin(0.5);
+            
+            // Faire disparaître le texte après 3 secondes
+            this.time.delayedCall(3000, () => {
+                if (bossIntroText && bossIntroText.destroy) {
+                    bossIntroText.destroy();
+                }
+            });
         }
     }
     

@@ -28,12 +28,12 @@ Rapport détaillé des tests automatisés.
 Historique complet du développement du projet.
 
 **Contenu :**
-- ✅ 32 questions/corrections documentées
+- ✅ 33 questions/corrections documentées
 - ✅ Actions réalisées pour chaque fonctionnalité
 - ✅ Commits créés et références Git
 - ✅ Évolution du projet depuis le début
 - ✅ Résumé global des fonctionnalités
-- ✅ Dernière mise à jour : Sprite missile ennemi jaune/rouge
+- ✅ Dernière mise à jour : Vitesse missiles ennemis 110% joueur
 
 ## 🚀 Navigation Rapide
 
@@ -59,12 +59,13 @@ Historique complet du développement du projet.
 - ✅ **Tests** : 182 tests documentés
 - ✅ **Architecture** : 11 schémas techniques
 - ✅ **Déploiement** : Infrastructure AWS complète
-- ✅ **Historique** : 32 étapes de développement
+- ✅ **Historique** : 33 étapes de développement
 - ✅ **Diagrammes AWS** : Icônes officielles fonctionnels
 - ✅ **Code optimisé** : Console propre, erreurs corrigées
 - ✅ **Évolution** : Timeline complète du projet
 - ✅ **Stabilité** : Toutes erreurs JavaScript résolues
 - ✅ **Assets visuels** : Sprites distinctifs pour tous projectiles
+- ✅ **Balance gameplay** : Vitesses missiles calibrées
 
 ### Qualité
 - ✅ **Précision** : Informations vérifiées

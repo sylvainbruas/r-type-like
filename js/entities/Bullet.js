@@ -14,7 +14,9 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
         // Vitesse différente selon le propriétaire
         if (owner === 'enemy') {
             // Missiles ennemis : 110% de la vitesse du joueur (GameConfig.player.speed * 1.1)
+            console.log(`🔧 GameConfig.player.speed = ${GameConfig.player.speed}`);
             this.speed = GameConfig.player.speed * 1.1; // 200 * 1.1 = 220
+            console.log(`🔧 Vitesse missile ennemi calculée: ${this.speed}`);
         } else {
             // Bullets joueur : vitesse standard rapide
             this.speed = 400;
@@ -67,7 +69,29 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
                 this.setRotation(radians);
             } else {
                 // Missile droit vers la gauche à 110% de la vitesse du joueur (220 px/s)
-                this.setVelocity(-this.speed, 0);
+                console.log(`🚀 === CRÉATION MISSILE ENNEMI ===`);
+                
+                // SOLUTION TEMPORAIRE: Force absolue vers la gauche
+                const leftVelocity = -220;
+                
+                // Essayer toutes les méthodes possibles
+                this.setVelocity(leftVelocity, 0);
+                this.body.velocity.x = leftVelocity;
+                this.body.velocity.y = 0;
+                
+                console.log(`🚀 VÉLOCITÉ FORCÉE: (${this.body.velocity.x}, ${this.body.velocity.y})`);
+                console.log(`🚀 Position: (${Math.round(this.x)}, ${Math.round(this.y)})`);
+                
+                // Vérification dans 100ms pour s'assurer que ça tient
+                this.scene.time.delayedCall(100, () => {
+                    if (this.active && this.body) {
+                        console.log(`🚀 VÉRIF 100ms: vélocité=(${this.body.velocity.x}, ${this.body.velocity.y}), position=(${Math.round(this.x)}, ${Math.round(this.y)})`);
+                        if (this.body.velocity.x >= 0) {
+                            console.log(`⚠️ CORRECTION: Missile ne va pas vers la gauche!`);
+                            this.body.velocity.x = leftVelocity;
+                        }
+                    }
+                });
             }
             
             // Effet de traînée jaune/orange pour les missiles
@@ -84,9 +108,27 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
     }
     
     update() {
+        // Debug et correction pour missiles ennemis
+        if (this.owner === 'enemy') {
+            // Vérification continue que le missile va bien vers la gauche
+            if (this.body.velocity.x >= 0) {
+                console.log(`⚠️ CORRECTION CONTINUE: Missile ennemi ne va pas vers la gauche! Vélocité: (${this.body.velocity.x}, ${this.body.velocity.y})`);
+                this.body.velocity.x = -220;
+                this.body.velocity.y = 0;
+            }
+            
+            // Log périodique pour suivre le mouvement
+            if (Math.random() < 0.05) { // 5% du temps
+                console.log(`🎯 Missile ennemi: x=${Math.round(this.x)}, vélocité=(${Math.round(this.body.velocity.x)}, ${Math.round(this.body.velocity.y)})`);
+            }
+        }
+        
         // Vérifier si le projectile est hors écran
         if (this.x < -50 || this.x > GameConfig.width + 50 || 
             this.y < -50 || this.y > GameConfig.height + 50) {
+            if (this.owner === 'enemy') {
+                console.log(`💥 Missile ennemi détruit: x=${Math.round(this.x)} (limite: -50 à ${GameConfig.width + 50})`);
+            }
             this.destroy();
         }
     }

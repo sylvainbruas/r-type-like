@@ -67,7 +67,10 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
                 this.setRotation(radians);
             } else {
                 // Missile droit vers la gauche à 110% de la vitesse du joueur (220 px/s)
+                console.log(`🚀 AVANT setVelocity: this.speed=${this.speed}`);
                 this.setVelocity(-this.speed, 0);
+                console.log(`🚀 APRÈS setVelocity: vélocité=(${this.body.velocity.x}, ${this.body.velocity.y})`);
+                console.log(`🚀 Position initiale: (${Math.round(this.x)}, ${Math.round(this.y)})`);
             }
             
             // Effet de traînée jaune/orange pour les missiles
@@ -84,6 +87,11 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
     }
     
     update() {
+        // Debug pour missiles ennemis
+        if (this.owner === 'enemy' && Math.random() < 0.01) { // Log 1% du temps pour éviter spam
+            console.log(`🎯 Missile ennemi: x=${Math.round(this.x)}, vélocité=(${this.body.velocity.x}, ${this.body.velocity.y})`);
+        }
+        
         // Vérifier si le projectile est hors écran
         if (this.x < -50 || this.x > GameConfig.width + 50 || 
             this.y < -50 || this.y > GameConfig.height + 50) {

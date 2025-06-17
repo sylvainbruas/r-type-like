@@ -444,6 +444,45 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 
 ---
 
+## Question 36 (2025-06-16)
+**Demande :** Les missiles ennemis devraient se déplacer vers la gauche de l'écran, ils ne bougent pas. Les missiles du joueur vont vers la droite.
+
+**Actions réalisées :**
+1. **Diagnostic du problème :**
+   - Missiles joueur : Fonctionnent correctement (vers la droite)
+   - Missiles ennemis : Ne se déplacent pas vers la gauche
+   - Analyse du code de vélocité dans Bullet.js
+   - Vérification de la configuration physique
+
+2. **Développement avec Git Flow :**
+   - git flow feature start fix-missile-movement
+   - Développement sur branche feature isolée
+   - Tests et debug extensifs
+   - git flow feature finish fix-missile-movement
+
+3. **Solution implémentée :**
+   - Approche multi-méthodes pour définir la vélocité
+   - setVelocity(-220, 0) + body.velocity.x = -220
+   - Correction automatique dans update() si vélocité ≥ 0
+   - Vitesse fixe -220 px/s (110% vitesse joueur)
+
+4. **Nettoyage production :**
+   - git flow feature start cleanup-debug-logs
+   - Suppression des logs de debug extensifs
+   - Conservation de la logique de correction
+   - Code propre pour production
+
+**Résultat :** ✅ Missiles ennemis se déplacent vers la gauche à 220 px/s
+
+**Commits créés :**
+- debug: Add extensive logging to track enemy missile movement
+- debug: Enhance missile movement debugging with multiple approaches
+- debug: Add comprehensive missile velocity debugging with multiple fallbacks
+- fix: Force enemy missiles to move left with multiple approaches
+- refactor: Clean up debug logs for production-ready missile movement
+
+---
+
 ## Question 35 (2025-06-16)
 **Demande :** À partir de maintenant nous allons utiliser gitflow pour travailler. Nous ferons les devs sur la branche développement.
 
@@ -758,6 +797,6 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 - ✅ Performance optimisée (pas d'overhead console)
 - ✅ Timeline d'évolution complète et visuelle
 
-**Total des commits créés :** 27+ commits avec fonctionnalités majeures et corrections
+**Total des commits créés :** 32+ commits avec fonctionnalités majeures et corrections
 
-Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle, un déploiement cloud automatisé, une documentation technique complète avec diagrammes AWS officiels, une console propre optimisée pour la production, un historique d'évolution complet documenté visuellement, toutes les erreurs JavaScript corrigées, et un workflow Git Flow organisé pour le développement futur ! 🚀🎮☁️✨📈🔧🌊
+Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle, un déploiement cloud automatisé, une documentation technique complète avec diagrammes AWS officiels, une console propre optimisée pour la production, un historique d'évolution complet documenté visuellement, toutes les erreurs JavaScript corrigées, un workflow Git Flow organisé pour le développement futur, et des missiles ennemis fonctionnels se déplaçant correctement vers la gauche ! 🚀🎮☁️✨📈🔧🌊🎯

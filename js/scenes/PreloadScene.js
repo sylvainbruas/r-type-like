@@ -9,6 +9,7 @@ class PreloadScene extends Phaser.Scene {
         this.createPlayerTexture();
         this.createEnemyTexture();
         this.createBulletTexture();
+        this.createBossTextures();
         
         // Charger la DeLorean pour le joueur
         this.load.svg('player-delorean', 'assets/images/player.svg', { width: 64, height: 32 });
@@ -21,6 +22,13 @@ class PreloadScene extends Phaser.Scene {
         // Charger les autres assets
         this.load.svg('bullet-svg', 'assets/images/bullet.svg', { width: 8, height: 4 });
         this.load.svg('enemy-missile', 'assets/images/enemy-missile.svg', { width: 32, height: 8 });
+        
+        // Charger les sprites des boss
+        this.load.svg('boss1', 'assets/images/boss1.svg', { width: 240, height: 120 });
+        this.load.svg('boss2', 'assets/images/boss2.svg', { width: 220, height: 140 });
+        this.load.svg('boss3', 'assets/images/boss3.svg', { width: 200, height: 160 });
+        this.load.svg('boss4', 'assets/images/boss4.svg', { width: 260, height: 120 });
+        this.load.svg('boss5', 'assets/images/boss5.svg', { width: 200, height: 200 });
         
         // Barre de chargement
         this.createLoadingBar();
@@ -68,6 +76,60 @@ class PreloadScene extends Phaser.Scene {
         
         graphics.generateTexture('bullet', 8, 4);
         graphics.destroy();
+    }
+    
+    createBossTextures() {
+        // Boss 1 - Serpent Mécanique (fallback)
+        const graphics1 = this.add.graphics();
+        graphics1.fillStyle(0x666666);
+        graphics1.fillRect(0, 10, 120, 20);
+        graphics1.fillStyle(0xff0000);
+        graphics1.fillCircle(110, 15, 3);
+        graphics1.fillCircle(110, 25, 3);
+        graphics1.generateTexture('boss1', 120, 40);
+        graphics1.destroy();
+        
+        // Boss 2 - Croiseur Lourd (fallback)
+        const graphics2 = this.add.graphics();
+        graphics2.fillStyle(0x555555);
+        graphics2.fillRect(0, 15, 110, 20);
+        graphics2.fillStyle(0x777777);
+        graphics2.fillRect(10, 10, 90, 10);
+        graphics2.generateTexture('boss2', 110, 50);
+        graphics2.destroy();
+        
+        // Boss 3 - Station Orbitale (fallback)
+        const graphics3 = this.add.graphics();
+        graphics3.fillStyle(0x4a4a6a);
+        graphics3.fillPolygon([50, 10, 70, 20, 70, 40, 50, 50, 30, 40, 30, 20]);
+        graphics3.fillStyle(0x8a4fff);
+        graphics3.fillCircle(50, 30, 8);
+        graphics3.generateTexture('boss3', 100, 60);
+        graphics3.destroy();
+        
+        // Boss 4 - Dreadnought (fallback)
+        const graphics4 = this.add.graphics();
+        graphics4.fillStyle(0x2a2a2a);
+        graphics4.fillRect(0, 15, 130, 20);
+        graphics4.fillStyle(0x1a1a1a);
+        graphics4.fillRect(10, 10, 110, 10);
+        graphics4.fillStyle(0xff0000);
+        graphics4.fillCircle(120, 20, 2);
+        graphics4.fillCircle(120, 30, 2);
+        graphics4.generateTexture('boss4', 130, 50);
+        graphics4.destroy();
+        
+        // Boss 5 - Core Alien (fallback)
+        const graphics5 = this.add.graphics();
+        graphics5.fillStyle(0x4a0e4e);
+        graphics5.fillCircle(50, 50, 25);
+        graphics5.fillStyle(0x9c27b0);
+        graphics5.fillCircle(50, 50, 15);
+        graphics5.fillStyle(0xff1744);
+        graphics5.fillCircle(45, 45, 4);
+        graphics5.fillCircle(55, 45, 4);
+        graphics5.generateTexture('boss5', 100, 100);
+        graphics5.destroy();
     }
     
     createLoadingBar() {
@@ -140,6 +202,23 @@ class PreloadScene extends Phaser.Scene {
         
         const totalEnemiesLoaded = [enemy1Loaded, enemy2Loaded, enemy3Loaded].filter(Boolean).length;
         console.log(`🎯 ${totalEnemiesLoaded}/3 enemy types loaded successfully`);
+        
+        // Vérifier les sprites des boss
+        const boss1Loaded = this.textures.exists('boss1');
+        const boss2Loaded = this.textures.exists('boss2');
+        const boss3Loaded = this.textures.exists('boss3');
+        const boss4Loaded = this.textures.exists('boss4');
+        const boss5Loaded = this.textures.exists('boss5');
+        
+        console.log('👾 Boss Sprites:');
+        console.log('- Boss 1 (Serpent Mécanique):', boss1Loaded ? '✅ Loaded' : '❌ Failed');
+        console.log('- Boss 2 (Croiseur Lourd):', boss2Loaded ? '✅ Loaded' : '❌ Failed');
+        console.log('- Boss 3 (Station Orbitale):', boss3Loaded ? '✅ Loaded' : '❌ Failed');
+        console.log('- Boss 4 (Dreadnought):', boss4Loaded ? '✅ Loaded' : '❌ Failed');
+        console.log('- Boss 5 (Core Alien):', boss5Loaded ? '✅ Loaded' : '❌ Failed');
+        
+        const totalBossesLoaded = [boss1Loaded, boss2Loaded, boss3Loaded, boss4Loaded, boss5Loaded].filter(Boolean).length;
+        console.log(`🎯 ${totalBossesLoaded}/5 boss sprites loaded successfully`);
         
         if (deloreanLoaded) {
             console.log('🎯 La DeLorean sera utilisée comme sprite du joueur !');

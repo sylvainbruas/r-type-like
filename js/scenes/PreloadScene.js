@@ -101,7 +101,10 @@ class PreloadScene extends Phaser.Scene {
         // Boss 3 - Station Orbitale (fallback)
         const graphics3 = this.add.graphics();
         graphics3.fillStyle(0x4a4a6a);
-        graphics3.fillPolygon([50, 10, 70, 20, 70, 40, 50, 50, 30, 40, 30, 20]);
+        // Créer un hexagone avec fillRect au lieu de fillPolygon
+        graphics3.fillRect(30, 20, 40, 20); // Corps principal
+        graphics3.fillRect(35, 15, 30, 10); // Partie haute
+        graphics3.fillRect(35, 35, 30, 10); // Partie basse
         graphics3.fillStyle(0x8a4fff);
         graphics3.fillCircle(50, 30, 8);
         graphics3.generateTexture('boss3', 100, 60);

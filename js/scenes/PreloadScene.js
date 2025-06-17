@@ -79,60 +79,74 @@ class PreloadScene extends Phaser.Scene {
     }
     
     createBossTextures() {
-        // Boss 1 - Serpent Mécanique (fallback)
+        // Boss 1 - Serpent Mécanique (fallback) - Dimensions correctes 240x120
         const graphics1 = this.add.graphics();
         graphics1.fillStyle(0x666666);
-        graphics1.fillRect(0, 10, 120, 20);
+        // Corps serpentin plus long pour correspondre aux dimensions SVG
+        graphics1.fillRect(0, 40, 240, 40); // Corps principal
+        graphics1.fillStyle(0x888888);
+        graphics1.fillRect(20, 35, 200, 10); // Partie haute
+        graphics1.fillRect(20, 75, 200, 10); // Partie basse
         graphics1.fillStyle(0xff0000);
-        graphics1.fillCircle(110, 15, 3);
-        graphics1.fillCircle(110, 25, 3);
-        graphics1.generateTexture('boss1', 120, 40);
+        // Yeux rouges
+        graphics1.fillCircle(220, 50, 4);
+        graphics1.fillCircle(220, 70, 4);
+        // Segments du corps
+        graphics1.fillStyle(0x999999);
+        for (let i = 0; i < 5; i++) {
+            graphics1.fillCircle(40 + i * 40, 60, 8);
+        }
+        graphics1.generateTexture('boss1-fallback', 240, 120);
         graphics1.destroy();
         
-        // Boss 2 - Croiseur Lourd (fallback)
+        // Boss 2 - Croiseur Lourd (fallback) - Dimensions correctes 220x140
         const graphics2 = this.add.graphics();
         graphics2.fillStyle(0x555555);
-        graphics2.fillRect(0, 15, 110, 20);
+        graphics2.fillRect(0, 50, 220, 40);
         graphics2.fillStyle(0x777777);
-        graphics2.fillRect(10, 10, 90, 10);
-        graphics2.generateTexture('boss2', 110, 50);
+        graphics2.fillRect(20, 40, 180, 20);
+        graphics2.fillRect(20, 80, 180, 20);
+        graphics2.generateTexture('boss2-fallback', 220, 140);
         graphics2.destroy();
         
-        // Boss 3 - Station Orbitale (fallback)
+        // Boss 3 - Station Orbitale (fallback) - Dimensions correctes 200x160
         const graphics3 = this.add.graphics();
         graphics3.fillStyle(0x4a4a6a);
         // Créer un hexagone avec fillRect au lieu de fillPolygon
-        graphics3.fillRect(30, 20, 40, 20); // Corps principal
-        graphics3.fillRect(35, 15, 30, 10); // Partie haute
-        graphics3.fillRect(35, 35, 30, 10); // Partie basse
+        graphics3.fillRect(60, 60, 80, 40); // Corps principal
+        graphics3.fillRect(70, 50, 60, 20); // Partie haute
+        graphics3.fillRect(70, 100, 60, 20); // Partie basse
         graphics3.fillStyle(0x8a4fff);
-        graphics3.fillCircle(50, 30, 8);
-        graphics3.generateTexture('boss3', 100, 60);
+        graphics3.fillCircle(100, 80, 15);
+        graphics3.generateTexture('boss3-fallback', 200, 160);
         graphics3.destroy();
         
-        // Boss 4 - Dreadnought (fallback)
+        // Boss 4 - Dreadnought (fallback) - Dimensions correctes 260x120
         const graphics4 = this.add.graphics();
         graphics4.fillStyle(0x2a2a2a);
-        graphics4.fillRect(0, 15, 130, 20);
+        graphics4.fillRect(0, 40, 260, 40);
         graphics4.fillStyle(0x1a1a1a);
-        graphics4.fillRect(10, 10, 110, 10);
+        graphics4.fillRect(20, 30, 220, 20);
+        graphics4.fillRect(20, 70, 220, 20);
         graphics4.fillStyle(0xff0000);
-        graphics4.fillCircle(120, 20, 2);
-        graphics4.fillCircle(120, 30, 2);
-        graphics4.generateTexture('boss4', 130, 50);
+        graphics4.fillCircle(240, 50, 3);
+        graphics4.fillCircle(240, 70, 3);
+        graphics4.generateTexture('boss4-fallback', 260, 120);
         graphics4.destroy();
         
-        // Boss 5 - Core Alien (fallback)
+        // Boss 5 - Core Alien (fallback) - Dimensions correctes 200x200
         const graphics5 = this.add.graphics();
         graphics5.fillStyle(0x4a0e4e);
-        graphics5.fillCircle(50, 50, 25);
+        graphics5.fillCircle(100, 100, 50);
         graphics5.fillStyle(0x9c27b0);
-        graphics5.fillCircle(50, 50, 15);
+        graphics5.fillCircle(100, 100, 30);
         graphics5.fillStyle(0xff1744);
-        graphics5.fillCircle(45, 45, 4);
-        graphics5.fillCircle(55, 45, 4);
-        graphics5.generateTexture('boss5', 100, 100);
+        graphics5.fillCircle(90, 90, 8);
+        graphics5.fillCircle(110, 90, 8);
+        graphics5.generateTexture('boss5-fallback', 200, 200);
         graphics5.destroy();
+        
+        console.log('🎨 Boss fallback textures created with correct dimensions');
     }
     
     createLoadingBar() {
@@ -174,8 +188,42 @@ class PreloadScene extends Phaser.Scene {
         // Vérifier le statut des assets et utiliser la DeLorean si disponible
         this.checkAssetLoading();
         
+        // Vérifier et corriger les textures de boss
+        this.validateBossTextures();
+        
         // Passer au menu principal
         this.scene.start('MenuScene');
+    }
+    
+    validateBossTextures() {
+        // Vérifier chaque boss et utiliser le fallback si nécessaire
+        const bosses = [
+            { key: 'boss1', fallback: 'boss1-fallback', name: 'Serpent Mécanique' },
+            { key: 'boss2', fallback: 'boss2-fallback', name: 'Croiseur Lourd' },
+            { key: 'boss3', fallback: 'boss3-fallback', name: 'Station Orbitale' },
+            { key: 'boss4', fallback: 'boss4-fallback', name: 'Dreadnought' },
+            { key: 'boss5', fallback: 'boss5-fallback', name: 'Core Alien' }
+        ];
+        
+        console.log('🔧 Validating boss textures...');
+        
+        bosses.forEach(boss => {
+            if (!this.textures.exists(boss.key)) {
+                console.log(`🔧 Boss ${boss.key} (${boss.name}) failed to load, using fallback`);
+                // Copier la texture fallback vers la clé principale
+                if (this.textures.exists(boss.fallback)) {
+                    const fallbackTexture = this.textures.get(boss.fallback);
+                    this.textures.addCanvas(boss.key, fallbackTexture.source[0].image);
+                    console.log(`✅ Fallback applied for ${boss.key}`);
+                }
+            } else {
+                console.log(`✅ Boss ${boss.key} (${boss.name}) loaded successfully from SVG`);
+                // Vérifier les dimensions de la texture SVG
+                const texture = this.textures.get(boss.key);
+                const frame = texture.get();
+                console.log(`📐 ${boss.key} dimensions: ${frame.width}x${frame.height}`);
+            }
+        });
     }
     
     checkAssetLoading() {

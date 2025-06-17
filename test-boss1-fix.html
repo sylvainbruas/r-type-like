@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Boss 1 - Corrections</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        #game-container {
+            border: 2px solid #fff;
+            margin: 20px 0;
+        }
+        .info {
+            background: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls {
+            background: #444;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls button {
+            background: #666;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background: #888;
+        }
+        .status {
+            background: #2a4a2a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4a8;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test Boss 1 - Corrections Appliquées</h1>
+    
+    <div class="info">
+        <h3>🎯 Corrections Testées</h3>
+        <ul>
+            <li>✅ <strong>Sprite correct</strong> : Texture fallback avec bonnes dimensions (240x120)</li>
+            <li>✅ <strong>Vitesse x2.5</strong> : Mouvement vertical plus rapide (frequency: 0.0075 vs 0.003)</li>
+            <li>✅ <strong>Amplitude équilibrée</strong> : 40% de la zone de mouvement</li>
+            <li>✅ <strong>Réactivité améliorée</strong> : Vélocité x2.5 (0.2 vs 0.08)</li>
+            <li>✅ <strong>Logs nettoyés</strong> : Console moins encombrée</li>
+        </ul>
+    </div>
+    
+    <div class="controls">
+        <h3>🎮 Contrôles de Test</h3>
+        <button onclick="spawnBoss1()">Spawner Boss 1 (Serpent)</button>
+        <button onclick="clearBosses()">Nettoyer</button>
+        <button onclick="toggleDebug()">Toggle Debug Zone</button>
+    </div>
+    
+    <div class="status" id="status">
+        <strong>Status :</strong> Prêt pour le test
+    </div>
+    
+    <div id="game-container"></div>
+
+    <!-- Phaser.js -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+    
+    <!-- Game files -->
+    <script src="js/config.js"></script>
+    <script src="js/managers/ScoreManager.js"></script>
+    <script src="js/managers/LevelManager.js"></script>
+    <script src="js/entities/Player.js"></script>
+    <script src="js/entities/Enemy.js"></script>
+    <script src="js/entities/Bullet.js"></script>
+    <script src="js/entities/Boss.js"></script>
+    <script src="js/scenes/PreloadScene.js"></script>
+    
+    <script>
+        let game;
+        let gameScene;
+        let boss1;
+        let debugZone;
+        let showDebug = true;
+        
+        // Configuration Phaser pour test
+        const testConfig = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            parent: 'game-container',
+            backgroundColor: '#001122',
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: false
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+        
+        function preload() {
+            console.log('🔧 Loading assets for Boss 1 test...');
+            
+            // Créer la texture fallback du Boss 1 avec les bonnes dimensions
+            const graphics1 = this.add.graphics();
+            graphics1.fillStyle(0x666666);
+            // Corps serpentin plus long pour correspondre aux dimensions SVG
+            graphics1.fillRect(0, 40, 240, 40); // Corps principal
+            graphics1.fillStyle(0x888888);
+            graphics1.fillRect(20, 35, 200, 10); // Partie haute
+            graphics1.fillRect(20, 75, 200, 10); // Partie basse
+            graphics1.fillStyle(0xff0000);
+            // Yeux rouges
+            graphics1.fillCircle(220, 50, 4);
+            graphics1.fillCircle(220, 70, 4);
+            // Segments du corps
+            graphics1.fillStyle(0x999999);
+            for (let i = 0; i < 5; i++) {
+                graphics1.fillCircle(40 + i * 40, 60, 8);
+            }
+            graphics1.generateTexture('boss1', 240, 120);
+            graphics1.destroy();
+            
+            // Charger le SVG original (si disponible)
+            this.load.svg('boss1-svg', 'assets/images/boss1.svg', { width: 240, height: 120 });
+            
+            console.log('✅ Boss 1 textures created');
+        }
+        
+        function create() {
+            gameScene = this;
+            
+            // Créer les guides visuels
+            createDebugZone.call(this);
+            
+            // Initialiser le level manager
+            this.levelManager = { currentLevel: 1 };
+            
+            // Texte d'information
+            this.add.text(10, 10, 'Boss 1 Test - Corrections Appliquées', {
+                fontSize: '16px',
+                fill: '#00ff00'
+            });
+            
+            this.add.text(10, 30, 'Zone verte = Zone de mouvement (30% droits)', {
+                fontSize: '12px',
+                fill: '#00ff00'
+            });
+            
+            this.add.text(10, 50, 'Vitesse x2.5 | Amplitude 40% | Réactivité x2.5', {
+                fontSize: '12px',
+                fill: '#ffff00'
+            });
+            
+            updateStatus('Environnement de test créé - Prêt pour spawn Boss 1');
+        }
+        
+        function update() {
+            if (boss1 && boss1.update) {
+                boss1.update();
+            }
+        }
+        
+        function createDebugZone() {
+            const graphics = this.add.graphics();
+            
+            // Zone de mouvement (30% droits)
+            const zoneLeft = GameConfig.width * 0.7;
+            const zoneRight = GameConfig.width - 20;
+            const zoneTop = 20;
+            const zoneBottom = GameConfig.height - 20;
+            
+            graphics.lineStyle(2, 0x00ff00, 0.5);
+            graphics.strokeRect(zoneLeft, zoneTop, zoneRight - zoneLeft, zoneBottom - zoneTop);
+            
+            // Ligne centrale
+            graphics.lineStyle(1, 0xffff00, 0.3);
+            graphics.moveTo(0, GameConfig.height / 2);
+            graphics.lineTo(GameConfig.width, GameConfig.height / 2);
+            graphics.strokePath();
+            
+            debugZone = graphics;
+        }
+        
+        function spawnBoss1() {
+            // Nettoyer le boss existant
+            if (boss1) {
+                boss1.destroy();
+            }
+            
+            // Créer le Boss 1 avec les données correctes
+            const boss1Data = {
+                health: 50,
+                pattern: 'serpent',
+                name: 'Serpent Mécanique'
+            };
+            
+            boss1 = new Boss(gameScene, GameConfig.width + 100, GameConfig.height / 2, boss1Data);
+            
+            console.log('🐍 Boss 1 spawned with corrections:');
+            console.log('- Sprite: boss1 (240x120)');
+            console.log('- Pattern: serpent');
+            console.log('- Speed: x2.5 (frequency 0.0075)');
+            console.log('- Amplitude: 40% of zone');
+            console.log('- Reactivity: x2.5 (0.2 velocity factor)');
+            
+            updateStatus('Boss 1 spawné avec corrections - Observez le mouvement !');
+        }
+        
+        function clearBosses() {
+            if (boss1) {
+                boss1.destroy();
+                boss1 = null;
+            }
+            updateStatus('Boss nettoyé');
+        }
+        
+        function toggleDebug() {
+            if (debugZone) {
+                debugZone.visible = !debugZone.visible;
+                showDebug = debugZone.visible;
+                updateStatus(`Zone de debug ${showDebug ? 'affichée' : 'cachée'}`);
+            }
+        }
+        
+        function updateStatus(message) {
+            const statusEl = document.getElementById('status');
+            statusEl.innerHTML = `<strong>Status :</strong> ${message}`;
+            console.log(`📊 ${message}`);
+        }
+        
+        // Initialiser le jeu
+        game = new Phaser.Game(testConfig);
+        
+        // Auto-spawn du Boss 1 après 2 secondes
+        setTimeout(() => {
+            spawnBoss1();
+        }, 2000);
+    </script>
+</body>
+</html>

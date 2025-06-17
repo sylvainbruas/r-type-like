@@ -163,14 +163,11 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     
     update() {
         if (!this.entryComplete) {
-            console.log(`🔧 DEBUG: Boss entry not complete, waiting...`);
             return;
         }
         
         const currentTime = this.scene.time.now;
         const elapsed = currentTime - this.startTime;
-        
-        console.log(`🔧 DEBUG: Boss update - Position: (${Math.round(this.x)}, ${Math.round(this.y)}), Velocity: (${Math.round(this.body.velocity.x)}, ${Math.round(this.body.velocity.y)})`);
         
         // Gestion du mouvement du boss
         this.updateBossMovement(currentTime);
@@ -288,11 +285,11 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     updateMovementSpeed() {
-        // TEMPORAIRE: Vitesse très élevée pour test de debug
-        const minSpeed = this.playerSpeed * 1.0;  // 100% du joueur
-        const maxSpeed = this.playerSpeed * 1.5;  // 150% du joueur
+        // Vitesse équilibrée entre 60% et 90% de celle du joueur
+        const minSpeed = this.playerSpeed * 0.6;
+        const maxSpeed = this.playerSpeed * 0.9;
         this.currentSpeed = Phaser.Math.Between(minSpeed, maxSpeed);
-        console.log('🔧 DEBUG: New boss speed (ENHANCED FOR TESTING):', this.currentSpeed, 'Player speed:', this.playerSpeed); // Debug
+        console.log('🔧 DEBUG: Boss speed (BALANCED):', this.currentSpeed, 'Player speed:', this.playerSpeed);
     }
     
     applyMovementPattern(currentTime) {
@@ -318,28 +315,21 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     serpentMovement(elapsed) {
-        console.log(`🔧 DEBUG: Serpent movement called - elapsed: ${elapsed}`);
-        
-        // TEMPORAIRE: Mouvement très ample pour test de debug
-        const amplitude = (this.movementZone.bottom - this.movementZone.top) * 0.8; // 80% de la hauteur (très visible)
-        const frequency = 0.01; // Plus rapide pour test
+        // Mouvement sinusoïdal vertical avec vitesse x2.5 demandée
+        const amplitude = (this.movementZone.bottom - this.movementZone.top) * 0.4; // 40% de la hauteur (visible mais équilibré)
+        const frequency = 0.0075; // x2.5 plus rapide que 0.003 normal
         const centerY = (this.movementZone.top + this.movementZone.bottom) / 2;
         const targetY = centerY + Math.sin(elapsed * frequency) * amplitude;
         
-        // Mouvement horizontal plus visible
-        const horizontalAmplitude = (this.movementZone.right - this.movementZone.left) * 0.5;
-        const targetX = this.movementZone.left + horizontalAmplitude + Math.cos(elapsed * frequency * 0.5) * horizontalAmplitude;
+        // Mouvement horizontal léger pour effet serpentin
+        const horizontalAmplitude = (this.movementZone.right - this.movementZone.left) * 0.25;
+        const targetX = this.movementZone.left + horizontalAmplitude + Math.cos(elapsed * frequency * 0.6) * horizontalAmplitude;
         
-        // Appliquer les vélocités avec plus de réactivité
-        const velocityY = (targetY - this.y) * 0.2; // Plus réactif
-        const velocityX = (targetX - this.x) * 0.1; // Plus réactif
-        
-        console.log(`🔧 DEBUG: Serpent - Target: (${Math.round(targetX)}, ${Math.round(targetY)}), Velocity: (${Math.round(velocityX)}, ${Math.round(velocityY)})`);
-        console.log(`🔧 DEBUG: Serpent - Current pos: (${Math.round(this.x)}, ${Math.round(this.y)}), Zone: ${Math.round(this.movementZone.left)}-${Math.round(this.movementZone.right)}`);
+        // Appliquer les vélocités avec réactivité x2.5
+        const velocityY = (targetY - this.y) * 0.2; // x2.5 plus réactif que 0.08 normal
+        const velocityX = (targetX - this.x) * 0.1; // x2.5 plus réactif que 0.04 normal
         
         this.setVelocity(velocityX, velocityY);
-        
-        console.log('🔧 DEBUG: Serpent movement - ENHANCED FOR TESTING'); // Debug
     }
     
     cruiserMovement(elapsed) {
@@ -658,13 +648,11 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     setBossScale(level) {
-        // TEMPORAIRE: Test avec échelle normale pour vérifier la déformation
+        // Les sprites SVG sont déjà aux bonnes dimensions, pas besoin de scaling
+        // Garder l'échelle 1:1 pour éviter la déformation
         this.setScale(1.0, 1.0);
         
-        console.log(`👾 Boss niveau ${level}: sprite=${Boss.getBossSprite(level)}, scale=1.0 (pas de déformation)`);
-        console.log(`🔧 DEBUG: setBossScale applied - actual scale: (${this.scaleX}, ${this.scaleY})`);
-        console.log(`🔧 DEBUG: Boss dimensions after scale: width=${this.width}, height=${this.height}`);
-        console.log(`🔧 DEBUG: Boss display dimensions: displayWidth=${this.displayWidth}, displayHeight=${this.displayHeight}`);
+        console.log(`👾 Boss niveau ${level}: sprite=${Boss.getBossSprite(level)}, scale=1.0 (dimensions préservées)`);
     }
     
     static getBossName(level) {

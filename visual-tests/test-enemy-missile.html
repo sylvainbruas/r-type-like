@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Visuel - Missile Ennemi</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a1a2e;
+            color: white;
+            font-family: 'Courier New', monospace;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .missile-display {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .missile-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+        .missile-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .missile-svg {
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+        .info {
+            background: #0f3460;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .color-palette {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .color-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Test Visuel - Missile Ennemi</h1>
+        
+        <div class="info">
+            <h3>📋 Informations du Missile</h3>
+            <p><strong>Fichier :</strong> assets/images/enemy-missile.svg</p>
+            <p><strong>Dimensions :</strong> 32x8 pixels</p>
+            <p><strong>Palette :</strong> Jaune (#FFD700) et Rouge (#FF6B00, #FF4444)</p>
+            <p><strong>Usage :</strong> Projectiles tirés par les ennemis</p>
+        </div>
+
+        <div class="missile-display">
+            <h3>🎨 Palette de Couleurs</h3>
+            <div class="color-palette">
+                <div class="color-box" style="background: #FFD700; color: black;">Gold</div>
+                <div class="color-box" style="background: #FFA500; color: black;">Orange</div>
+                <div class="color-box" style="background: #FF6B00; color: white;">Orange Red</div>
+                <div class="color-box" style="background: #FF4444; color: white;">Red</div>
+                <div class="color-box" style="background: #FFFF00; color: black;">Yellow</div>
+                <div class="color-box" style="background: #CC4400; color: white;">Dark Red</div>
+            </div>
+        </div>
+
+        <div class="missile-display">
+            <h3>🚀 Aperçu du Missile</h3>
+            
+            <div class="missile-row">
+                <div class="missile-item">
+                    <div class="missile-svg">
+                        <svg width="64" height="16" viewBox="0 0 32 8" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Missile body -->
+                            <rect x="4" y="2" width="20" height="4" fill="#FF6B00" stroke="#CC4400" stroke-width="0.5"/>
+                            
+                            <!-- Missile tip -->
+                            <polygon points="24,2 28,4 24,6" fill="#FFD700" stroke="#FFA500" stroke-width="0.5"/>
+                            
+                            <!-- Missile fins -->
+                            <polygon points="4,1 6,2 4,3" fill="#FF4444" stroke="#CC0000" stroke-width="0.3"/>
+                            <polygon points="4,5 6,6 4,7" fill="#FF4444" stroke="#CC0000" stroke-width="0.3"/>
+                            
+                            <!-- Engine glow -->
+                            <rect x="2" y="3" width="2" height="2" fill="#FFFF00" opacity="0.8"/>
+                            <rect x="0" y="3.5" width="2" height="1" fill="#FFAA00" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <span>Taille normale (2x)</span>
+                </div>
+
+                <div class="missile-item">
+                    <div class="missile-svg">
+                        <svg width="96" height="24" viewBox="0 0 32 8" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Missile body -->
+                            <rect x="4" y="2" width="20" height="4" fill="#FF6B00" stroke="#CC4400" stroke-width="0.5"/>
+                            
+                            <!-- Missile tip -->
+                            <polygon points="24,2 28,4 24,6" fill="#FFD700" stroke="#FFA500" stroke-width="0.5"/>
+                            
+                            <!-- Missile fins -->
+                            <polygon points="4,1 6,2 4,3" fill="#FF4444" stroke="#CC0000" stroke-width="0.3"/>
+                            <polygon points="4,5 6,6 4,7" fill="#FF4444" stroke="#CC0000" stroke-width="0.3"/>
+                            
+                            <!-- Engine glow -->
+                            <rect x="2" y="3" width="2" height="2" fill="#FFFF00" opacity="0.8"/>
+                            <rect x="0" y="3.5" width="2" height="1" fill="#FFAA00" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <span>Taille agrandie (3x)</span>
+                </div>
+            </div>
+
+            <div class="missile-row">
+                <div class="missile-item">
+                    <div class="missile-svg">
+                        <svg width="64" height="16" viewBox="0 0 32 8" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(15deg);">
+                            <!-- Missile body -->
+                            <rect x="4" y="2" width="20" height="4" fill="#FF6B00" stroke="#CC4400" stroke-width="0.5"/>
+                            
+                            <!-- Missile tip -->
+                            <polygon points="24,2 28,4 24,6" fill="#FFD700" stroke="#FFA500" stroke-width="0.5"/>
+                            
+                            <!-- Missile fins -->
+                            <polygon points="4,1 6,2 4,3" fill="#FF4444" stroke="#CC0000" stroke-width="0.3"/>
+                            <polygon points="4,5 6,6 4,7" fill="#FF4444" stroke="#CC0000" stroke-width="0.3"/>
+                            
+                            <!-- Engine glow -->
+                            <rect x="2" y="3" width="2" height="2" fill="#FFFF00" opacity="0.8"/>
+                            <rect x="0" y="3.5" width="2" height="1" fill="#FFAA00" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <span>Rotation 15°</span>
+                </div>
+
+                <div class="missile-item">
+                    <div class="missile-svg">
+                        <svg width="64" height="16" viewBox="0 0 32 8" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(-30deg);">
+                            <!-- Missile body -->
+                            <rect x="4" y="2" width="20" height="4" fill="#FF6B00" stroke="#CC4400" stroke-width="0.5"/>
+                            
+                            <!-- Missile tip -->
+                            <polygon points="24,2 28,4 24,6" fill="#FFD700" stroke="#FFA500" stroke-width="0.5"/>
+                            
+                            <!-- Missile fins -->
+                            <polygon points="4,1 6,2 4,3" fill="#FF4444" stroke="#CC0000" stroke-width="0.3"/>
+                            <polygon points="4,5 6,6 4,7" fill="#FF4444" stroke="#CC0000" stroke-width="0.3"/>
+                            
+                            <!-- Engine glow -->
+                            <rect x="2" y="3" width="2" height="2" fill="#FFFF00" opacity="0.8"/>
+                            <rect x="0" y="3.5" width="2" height="1" fill="#FFAA00" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <span>Rotation -30°</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="info">
+            <h3>🎮 Intégration dans le Jeu</h3>
+            <p><strong>Chargement :</strong> PreloadScene.js - 'enemy-missile' sprite</p>
+            <p><strong>Utilisation :</strong> Bullet.js - automatique pour owner='enemy'</p>
+            <p><strong>Effets :</strong> Traînée de particules jaune/orange/rouge</p>
+            <p><strong>Taille :</strong> 32x8 pixels (plus large que les bullets joueur)</p>
+        </div>
+
+        <div class="info">
+            <h3>✅ Fonctionnalités</h3>
+            <ul>
+                <li>🎨 Palette jaune/rouge distinctive</li>
+                <li>🚀 Design de missile réaliste avec ailettes</li>
+                <li>💥 Pointe dorée pour l'impact</li>
+                <li>🔥 Effet de propulsion à l'arrière</li>
+                <li>🎯 Rotation automatique selon l'angle de tir</li>
+                <li>✨ Effets de particules assortis</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

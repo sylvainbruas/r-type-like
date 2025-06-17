@@ -1,7 +1,9 @@
 // Classe des projectiles
 class Bullet extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, owner, angle = 0) {
-        super(scene, x, y, 'bullet');
+        // Choisir le sprite selon le propriétaire
+        const textureKey = owner === 'enemy' ? 'enemy-missile' : 'bullet';
+        super(scene, x, y, textureKey);
         
         // Ajouter à la scène et activer la physique
         scene.add.existing(this);
@@ -44,12 +46,12 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
             this.trail.startFollow(this);
             
         } else {
-            // Projectile ennemi
-            this.setTint(0xff0000);
-            this.setScale(0.8);
+            // Missile ennemi - utilise déjà le bon sprite (enemy-missile)
+            // Pas de teinte car le sprite a déjà les bonnes couleurs
+            this.setScale(1.0); // Taille normale pour le missile
             
             if (angle !== 0) {
-                // Projectile avec angle
+                // Missile avec angle
                 const radians = Phaser.Math.DegToRad(angle);
                 this.setVelocity(
                     Math.cos(radians) * -this.speed,
@@ -57,18 +59,18 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
                 );
                 this.setRotation(radians);
             } else {
-                // Projectile droit vers la gauche
+                // Missile droit vers la gauche
                 this.setVelocity(-this.speed, 0);
             }
             
-            // Effet de traînée rouge
-            this.trail = this.scene.add.particles(this.x, this.y, 'bullet', {
-                speed: { min: 10, max: 30 },
-                scale: { start: 0.15, end: 0 },
-                lifespan: 80,
-                tint: 0xff0000,
-                alpha: { start: 0.4, end: 0 },
-                frequency: 80
+            // Effet de traînée jaune/orange pour les missiles
+            this.trail = this.scene.add.particles(this.x, this.y, 'enemy-missile', {
+                speed: { min: 15, max: 40 },
+                scale: { start: 0.3, end: 0 },
+                lifespan: 120,
+                tint: [0xFFD700, 0xFF6B00, 0xFF4444], // Jaune, orange, rouge
+                alpha: { start: 0.6, end: 0 },
+                frequency: 60
             });
             this.trail.startFollow(this);
         }

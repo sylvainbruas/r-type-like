@@ -20,6 +20,7 @@ class PreloadScene extends Phaser.Scene {
         
         // Charger les autres assets
         this.load.svg('bullet-svg', 'assets/images/bullet.svg', { width: 8, height: 4 });
+        this.load.svg('enemy-missile', 'assets/images/enemy-missile.svg', { width: 32, height: 8 });
         
         // Barre de chargement
         this.createLoadingBar();

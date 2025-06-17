@@ -4,6 +4,17 @@ Ce répertoire contient les interfaces de test visuelles pour vérifier le rendu
 
 ## 📋 Tests Disponibles
 
+### **test-enemy-missile.html**
+Test visuel du missile ennemi (projectiles ennemis).
+
+**Fonctionnalités :**
+- ✅ Aperçu du missile avec palette jaune/rouge
+- ✅ Test des rotations et angles de tir
+- ✅ Vérification des dimensions (32x8 pixels)
+- ✅ Validation des couleurs (or, orange, rouge)
+- ✅ Prévisualisation des effets de particules
+- ✅ Comparaison avec les bullets du joueur
+
 ### **test-delorean.html**
 Test visuel du sprite DeLorean (vaisseau du joueur).
 

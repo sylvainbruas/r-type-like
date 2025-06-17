@@ -444,6 +444,42 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 
 ---
 
+## Question 35 (2025-06-16)
+**Demande :** À partir de maintenant nous allons utiliser gitflow pour travailler. Nous ferons les devs sur la branche développement.
+
+**Actions réalisées :**
+1. **Initialisation Git Flow :**
+   - git flow init -d : Configuration avec paramètres par défaut
+   - Branche main : Production (releases stables)
+   - Branche develop : Développement (intégration continue)
+   - Préfixes : feature/, release/, hotfix/, support/
+
+2. **Configuration des branches :**
+   - Création automatique de la branche develop
+   - Basculement automatique sur develop
+   - Push de develop vers origin/develop
+   - Synchronisation des branches locales et distantes
+
+3. **Documentation complète Git Flow :**
+   - docs/GITFLOW.md : Guide complet d'utilisation
+   - Workflow pour features, releases, hotfixes
+   - Commandes et bonnes pratiques
+   - Conventions de nommage et messages de commit
+   - Cycle de développement spécifique R-Type 2
+
+4. **Mise à jour documentation projet :**
+   - README.md : Section contribution avec Git Flow
+   - docs/README.md : Ajout guide Git Flow
+   - Instructions step-by-step pour contributeurs
+   - Référencement croisé de la documentation
+
+**Résultat :** ✅ Git Flow configuré, développement futur sur branche develop
+
+**Commits créés :**
+- feat: Initialize Git Flow workflow for organized development
+
+---
+
 ## Question 34 (2025-06-16)
 **Demande :** Merge main et origin/main
 
@@ -722,6 +758,6 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 - ✅ Performance optimisée (pas d'overhead console)
 - ✅ Timeline d'évolution complète et visuelle
 
-**Total des commits créés :** 26+ commits avec fonctionnalités majeures et corrections
+**Total des commits créés :** 27+ commits avec fonctionnalités majeures et corrections
 
-Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle, un déploiement cloud automatisé, une documentation technique complète avec diagrammes AWS officiels, une console propre optimisée pour la production, un historique d'évolution complet documenté visuellement, et toutes les erreurs JavaScript corrigées ! 🚀🎮☁️✨📈🔧
+Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle, un déploiement cloud automatisé, une documentation technique complète avec diagrammes AWS officiels, une console propre optimisée pour la production, un historique d'évolution complet documenté visuellement, toutes les erreurs JavaScript corrigées, et un workflow Git Flow organisé pour le développement futur ! 🚀🎮☁️✨📈🔧🌊

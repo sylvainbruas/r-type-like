@@ -37,17 +37,19 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         this.trembleOffset = { x: 0, y: 0 };
         this.chargeStartTime = 0;
         
-        // Zone de mouvement (tiers droit de l'écran)
+        // Zone de mouvement (30% droit de l'écran, toute la hauteur hors décors)
         this.movementZone = {
-            left: GameConfig.width * 0.67, // 67% de l'écran
-            right: GameConfig.width - 50,
-            top: 50,
-            bottom: GameConfig.height - 50
+            left: GameConfig.width * 0.7,  // 70% de l'écran (30% droits)
+            right: GameConfig.width - 20,  // Marge de 20px du bord
+            top: 20,                        // Marge haute (hors décors)
+            bottom: GameConfig.height - 20  // Marge basse (hors décors)
         };
         
-        // Apparence du boss
-        this.setScale(2);
-        this.setTint(0xff00ff);
+        // Ajuster la taille selon le sprite du boss (pas de déformation)
+        this.setBossScale(scene.levelManager.currentLevel);
+        
+        // Pas de teinte par défaut pour garder les couleurs originales du sprite
+        // this.setTint(0xff00ff); // Supprimé pour garder les couleurs du sprite
         
         // Barre de vie
         this.createHealthBar();
@@ -136,13 +138,17 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     enterScreen() {
-        this.setVelocityX(-100);
+        // Entrée depuis la droite vers la zone de mouvement (30% droits)
+        this.setVelocityX(-120);
         
-        this.scene.time.delayedCall(2000, () => {
+        this.scene.time.delayedCall(1500, () => {
             this.setVelocityX(0);
             this.entryComplete = true;
-            this.x = this.movementZone.right - 50; // Position dans la zone de mouvement
+            // Position dans le centre de la zone de mouvement
+            this.x = (this.movementZone.left + this.movementZone.right) / 2;
+            this.y = (this.movementZone.top + this.movementZone.bottom) / 2;
             this.originalX = this.x;
+            console.log(`Boss positioned in movement zone: x=${this.x}, y=${this.y}`);
         });
     }
     
@@ -268,9 +274,9 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     updateMovementSpeed() {
-        // Vitesse entre 25% et 35% de celle du joueur
-        const minSpeed = this.playerSpeed * 0.25;
-        const maxSpeed = this.playerSpeed * 0.35;
+        // Vitesse entre 50% et 80% de celle du joueur (plus rapide)
+        const minSpeed = this.playerSpeed * 0.5;
+        const maxSpeed = this.playerSpeed * 0.8;
         this.currentSpeed = Phaser.Math.Between(minSpeed, maxSpeed);
         console.log('New boss speed:', this.currentSpeed, 'Player speed:', this.playerSpeed); // Debug
     }
@@ -298,64 +304,102 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     serpentMovement(elapsed) {
-        // Mouvement sinusoïdal vertical simple
-        const amplitude = 80;
-        const frequency = 0.002;
-        const targetY = GameConfig.height / 2 + Math.sin(elapsed * frequency) * amplitude;
+        // Mouvement sinusoïdal vertical plus ample et rapide
+        const amplitude = (this.movementZone.bottom - this.movementZone.top) * 0.3; // 30% de la hauteur
+        const frequency = 0.003; // Plus rapide
+        const centerY = (this.movementZone.top + this.movementZone.bottom) / 2;
+        const targetY = centerY + Math.sin(elapsed * frequency) * amplitude;
         
-        // Appliquer directement la vélocité
-        const velocityY = (targetY - this.y) * 0.05;
-        this.setVelocityY(velocityY);
+        // Mouvement horizontal léger
+        const horizontalAmplitude = (this.movementZone.right - this.movementZone.left) * 0.2;
+        const targetX = this.movementZone.left + horizontalAmplitude + Math.cos(elapsed * frequency * 0.5) * horizontalAmplitude;
         
-        console.log('Serpent movement - Y velocity:', velocityY); // Debug
+        // Appliquer les vélocités avec plus de réactivité
+        const velocityY = (targetY - this.y) * 0.08;
+        const velocityX = (targetX - this.x) * 0.04;
+        this.setVelocity(velocityX, velocityY);
+        
+        console.log('Serpent movement - Enhanced pattern'); // Debug
     }
     
     cruiserMovement(elapsed) {
-        // Mouvement vertical lent et régulier
-        const amplitude = 60;
-        const frequency = 0.001;
-        const targetY = GameConfig.height / 2 + Math.sin(elapsed * frequency) * amplitude;
+        // Mouvement vertical plus ample et régulier (croiseur lourd)
+        const amplitude = (this.movementZone.bottom - this.movementZone.top) * 0.25;
+        const frequency = 0.0015;
+        const centerY = (this.movementZone.top + this.movementZone.bottom) / 2;
+        const targetY = centerY + Math.sin(elapsed * frequency) * amplitude;
         
-        const velocityY = (targetY - this.y) * 0.03;
-        this.setVelocityY(velocityY);
+        // Mouvement horizontal minimal (reste dans sa zone)
+        const targetX = this.movementZone.left + (this.movementZone.right - this.movementZone.left) * 0.6;
+        
+        const velocityY = (targetY - this.y) * 0.06;
+        const velocityX = (targetX - this.x) * 0.02;
+        this.setVelocity(velocityX, velocityY);
     }
     
     stationMovement(elapsed) {
-        // Mouvement minimal vers le centre
-        const targetY = GameConfig.height / 2;
-        const velocityY = (targetY - this.y) * 0.01;
-        this.setVelocityY(velocityY);
+        // Mouvement orbital complexe (station orbitale)
+        const centerY = (this.movementZone.top + this.movementZone.bottom) / 2;
+        const centerX = (this.movementZone.left + this.movementZone.right) / 2;
+        
+        const radiusY = (this.movementZone.bottom - this.movementZone.top) * 0.2;
+        const radiusX = (this.movementZone.right - this.movementZone.left) * 0.3;
+        const frequency = 0.002;
+        
+        const targetY = centerY + Math.sin(elapsed * frequency) * radiusY;
+        const targetX = centerX + Math.cos(elapsed * frequency * 0.7) * radiusX;
+        
+        const velocityY = (targetY - this.y) * 0.05;
+        const velocityX = (targetX - this.x) * 0.03;
+        this.setVelocity(velocityX, velocityY);
     }
     
     dreadnoughtMovement(elapsed) {
-        // Mouvement complexe
-        const amplitude1 = 70;
-        const amplitude2 = 30;
-        const frequency1 = 0.003;
-        const frequency2 = 0.001;
+        // Mouvement agressif et imprévisible (dreadnought)
+        const amplitude1 = (this.movementZone.bottom - this.movementZone.top) * 0.2;
+        const amplitude2 = (this.movementZone.bottom - this.movementZone.top) * 0.1;
+        const frequency1 = 0.0025;
+        const frequency2 = 0.004;
         
-        const targetY = GameConfig.height / 2 + 
+        const centerY = (this.movementZone.top + this.movementZone.bottom) / 2;
+        const targetY = centerY + 
                        Math.sin(elapsed * frequency1) * amplitude1 + 
                        Math.cos(elapsed * frequency2) * amplitude2;
         
-        const velocityY = (targetY - this.y) * 0.04;
-        this.setVelocityY(velocityY);
+        // Mouvement horizontal plus agressif
+        const horizontalRange = (this.movementZone.right - this.movementZone.left) * 0.4;
+        const targetX = this.movementZone.left + horizontalRange + 
+                       Math.sin(elapsed * frequency1 * 0.6) * horizontalRange * 0.5;
+        
+        const velocityY = (targetY - this.y) * 0.07;
+        const velocityX = (targetX - this.x) * 0.04;
+        this.setVelocity(velocityX, velocityY);
     }
     
     finalMovement(elapsed) {
-        // Mouvement le plus complexe
-        const amplitude = 100;
+        // Mouvement chaotique et imprévisible (Core Alien - Boss Final)
+        const amplitude = (this.movementZone.bottom - this.movementZone.top) * 0.25;
         const frequency1 = 0.004;
         const frequency2 = 0.002;
         const frequency3 = 0.0015;
         
-        const targetY = GameConfig.height / 2 + 
+        const centerY = (this.movementZone.top + this.movementZone.bottom) / 2;
+        const centerX = (this.movementZone.left + this.movementZone.right) / 2;
+        
+        const targetY = centerY + 
                        Math.sin(elapsed * frequency1) * amplitude +
                        Math.cos(elapsed * frequency2) * (amplitude * 0.5) +
                        Math.sin(elapsed * frequency3) * (amplitude * 0.3);
         
-        const velocityY = (targetY - this.y) * 0.05;
-        this.setVelocityY(velocityY);
+        // Mouvement horizontal chaotique
+        const horizontalAmplitude = (this.movementZone.right - this.movementZone.left) * 0.3;
+        const targetX = centerX + 
+                       Math.cos(elapsed * frequency1 * 0.8) * horizontalAmplitude +
+                       Math.sin(elapsed * frequency2 * 1.2) * (horizontalAmplitude * 0.4);
+        
+        const velocityY = (targetY - this.y) * 0.08;
+        const velocityX = (targetX - this.x) * 0.05;
+        this.setVelocity(velocityX, velocityY);
     }
     
     constrainToMovementZone() {
@@ -594,19 +638,11 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     setBossScale(level) {
-        // Échelles spécifiques pour chaque boss (basées sur leurs dimensions réelles)
-        const bossScales = {
-            1: { x: 1.0, y: 1.0 }, // boss1: 240x120px (déjà à la bonne taille)
-            2: { x: 1.0, y: 1.0 }, // boss2: 220x140px
-            3: { x: 1.0, y: 1.0 }, // boss3: 200x160px
-            4: { x: 1.0, y: 1.0 }, // boss4: 260x120px (le plus grand)
-            5: { x: 1.0, y: 1.0 }  // boss5: 200x200px (format carré)
-        };
+        // Les sprites SVG sont déjà aux bonnes dimensions, pas besoin de scaling
+        // Garder l'échelle 1:1 pour éviter la déformation
+        this.setScale(1.0, 1.0);
         
-        const scale = bossScales[level] || { x: 1.0, y: 1.0 };
-        this.setScale(scale.x, scale.y);
-        
-        console.log(`👾 Boss niveau ${level}: sprite=${Boss.getBossSprite(level)}, scale=(${scale.x}, ${scale.y})`);
+        console.log(`👾 Boss niveau ${level}: sprite=${Boss.getBossSprite(level)}, scale=1.0 (pas de déformation)`);
     }
     
     static getBossName(level) {

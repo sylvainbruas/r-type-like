@@ -444,6 +444,42 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 
 ---
 
+## Question 32 (2025-06-16)
+**Demande :** Fait moi une image svg qui représente un missile avec une palette de couleur principale dans les jaune et rouge, enregiste la dans assets/images et utilise la pour les missile envoyé par les ennemies
+
+**Actions réalisées :**
+1. **Création du sprite SVG missile ennemi :**
+   - enemy-missile.svg : Missile 32x8 pixels avec palette jaune/rouge
+   - Design réaliste avec corps orange (#FF6B00), pointe dorée (#FFD700)
+   - Ailettes rouges (#FF4444) et effet de propulsion jaune
+   - Contours et ombres pour effet 3D
+
+2. **Intégration dans le système de chargement :**
+   - PreloadScene.js : Ajout du sprite 'enemy-missile' 
+   - Chargement automatique avec dimensions 32x8
+   - Intégration dans le pipeline d'assets existant
+
+3. **Modification de la classe Bullet :**
+   - Sélection automatique du sprite selon le propriétaire
+   - Enemy bullets utilisent 'enemy-missile', player bullets gardent 'bullet'
+   - Suppression de la teinte rouge (sprite a déjà les bonnes couleurs)
+   - Ajustement de l'échelle à 1.0 pour taille optimale
+   - Amélioration des effets de particules (jaune/orange/rouge)
+
+4. **Test visuel complet :**
+   - test-enemy-missile.html : Interface de test dédiée
+   - Aperçu du missile avec palette de couleurs
+   - Tests de rotation et d'angles de tir
+   - Documentation d'intégration et fonctionnalités
+   - Comparaison visuelle avec les bullets joueur
+
+**Résultat :** ✅ Missiles ennemis distinctifs avec palette jaune/rouge, amélioration visuelle du gameplay
+
+**Commits créés :**
+- feat: Add enemy missile sprite with yellow/red color palette
+
+---
+
 ## Question 31 (2025-06-16)
 **Demande :** Corrige cette erreur : Uncaught ReferenceError: Bullet is not defined
 
@@ -622,6 +658,6 @@ La méthode update() des ennemis n'était jamais appelée, donc leur logique de 
 - ✅ Performance optimisée (pas d'overhead console)
 - ✅ Timeline d'évolution complète et visuelle
 
-**Total des commits créés :** 23+ commits avec fonctionnalités majeures et corrections
+**Total des commits créés :** 24+ commits avec fonctionnalités majeures et corrections
 
 Le projet R-Type 2 est maintenant un jeu complet et robuste avec une architecture professionnelle, un déploiement cloud automatisé, une documentation technique complète avec diagrammes AWS officiels, une console propre optimisée pour la production, un historique d'évolution complet documenté visuellement, et toutes les erreurs JavaScript corrigées ! 🚀🎮☁️✨📈🔧

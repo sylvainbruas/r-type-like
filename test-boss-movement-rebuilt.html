@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Mouvement Boss - SYSTÈME REFAIT</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        #game-container {
+            border: 2px solid #fff;
+            margin: 20px 0;
+        }
+        .info {
+            background: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls {
+            background: #444;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls button {
+            background: #666;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background: #888;
+        }
+        .metrics {
+            background: #2a4a2a;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4f8;
+        }
+        .success {
+            background: #2a4a2a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4f8;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test Mouvement Boss - SYSTÈME COMPLÈTEMENT REFAIT</h1>
+    
+    <div class="success">
+        <h3>✅ Nouveau Système de Mouvement</h3>
+        <p><strong>Le système de mouvement des boss a été complètement refait depuis zéro !</strong></p>
+        <ul>
+            <li>✅ <strong>Mouvement direct</strong> : Position calculée directement (pas de vélocité complexe)</li>
+            <li>✅ <strong>Amplitude visible</strong> : 90% de la zone verticale (45% de chaque côté)</li>
+            <li>✅ <strong>Fréquence claire</strong> : 0.5 Hz = 1 cycle toutes les 2 secondes</li>
+            <li>✅ <strong>Système simple</strong> : Suppression des mécaniques complexes (charge, tremblement)</li>
+            <li>✅ <strong>Patterns distincts</strong> : Chaque boss a son propre mouvement</li>
+        </ul>
+    </div>
+    
+    <div class="info">
+        <h3>🎯 Améliorations Techniques</h3>
+        <ul>
+            <li><strong>Boss 1 (Serpent)</strong> : Mouvement sinusoïdal ample (90% vertical + 30% horizontal)</li>
+            <li><strong>Boss 2 (Croiseur)</strong> : Mouvement vertical lent et régulier (30% amplitude)</li>
+            <li><strong>Boss 3 (Station)</strong> : Mouvement orbital (25% vertical + 20% horizontal)</li>
+            <li><strong>Boss 4 (Dreadnought)</strong> : Mouvement chaotique multi-fréquences</li>
+            <li><strong>Boss 5 (Core Alien)</strong> : Mouvement très chaotique (40% amplitude)</li>
+        </ul>
+    </div>
+    
+    <div class="controls">
+        <h3>🎮 Tests des Boss</h3>
+        <button onclick="testBoss(1)">Boss 1 - Serpent (90% amplitude)</button>
+        <button onclick="testBoss(2)">Boss 2 - Croiseur (mouvement lent)</button>
+        <button onclick="testBoss(3)">Boss 3 - Station (orbital)</button>
+        <button onclick="testBoss(4)">Boss 4 - Dreadnought (chaotique)</button>
+        <button onclick="testBoss(5)">Boss 5 - Core Alien (très chaotique)</button>
+        <button onclick="clearBosses()">Nettoyer</button>
+    </div>
+    
+    <div class="metrics" id="metrics">
+        <h3>📊 Métriques Temps Réel</h3>
+        <div id="position-info">Position: En attente...</div>
+        <div id="movement-info">Mouvement: En attente...</div>
+        <div id="amplitude-info">Amplitude: En attente...</div>
+        <div id="pattern-info">Pattern: En attente...</div>
+    </div>
+    
+    <div id="game-container"></div>
+
+    <!-- Phaser.js -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+    
+    <!-- Game files -->
+    <script src="js/config.js"></script>
+    <script src="js/managers/ScoreManager.js"></script>
+    <script src="js/managers/LevelManager.js"></script>
+    <script src="js/entities/Player.js"></script>
+    <script src="js/entities/Enemy.js"></script>
+    <script src="js/entities/Bullet.js"></script>
+    <script src="js/entities/Boss.js"></script>
+    <script src="js/scenes/PreloadScene.js"></script>
+    
+    <script>
+        let game;
+        let gameScene;
+        let currentBoss;
+        let debugZone;
+        let metricsInterval;
+        
+        // Configuration Phaser pour test du nouveau système
+        const testConfig = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            parent: 'game-container',
+            backgroundColor: '#001122',
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: false
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+        
+        function preload() {
+            console.log('🔧 Loading assets for rebuilt movement system...');
+            
+            // Créer les textures des boss
+            createBossTextures.call(this);
+            
+            console.log('✅ Boss textures created for rebuilt system');
+        }
+        
+        function createBossTextures() {
+            // Boss 1 - Serpent
+            const graphics1 = this.add.graphics();
+            graphics1.fillStyle(0x666666);
+            graphics1.fillRect(0, 40, 240, 40);
+            graphics1.fillStyle(0x888888);
+            graphics1.fillRect(20, 35, 200, 10);
+            graphics1.fillRect(20, 75, 200, 10);
+            graphics1.fillStyle(0xff0000);
+            graphics1.fillCircle(220, 50, 4);
+            graphics1.fillCircle(220, 70, 4);
+            graphics1.fillStyle(0x999999);
+            for (let i = 0; i < 5; i++) {
+                graphics1.fillCircle(40 + i * 40, 60, 8);
+            }
+            graphics1.generateTexture('boss1', 240, 120);
+            graphics1.destroy();
+            
+            // Boss 2 - Croiseur
+            const graphics2 = this.add.graphics();
+            graphics2.fillStyle(0x555555);
+            graphics2.fillRect(0, 50, 220, 40);
+            graphics2.fillStyle(0x777777);
+            graphics2.fillRect(20, 40, 180, 20);
+            graphics2.fillRect(20, 80, 180, 20);
+            graphics2.generateTexture('boss2', 220, 140);
+            graphics2.destroy();
+            
+            // Boss 3 - Station
+            const graphics3 = this.add.graphics();
+            graphics3.fillStyle(0x4a4a6a);
+            graphics3.fillRect(60, 60, 80, 40);
+            graphics3.fillRect(70, 50, 60, 20);
+            graphics3.fillRect(70, 100, 60, 20);
+            graphics3.fillStyle(0x8a4fff);
+            graphics3.fillCircle(100, 80, 15);
+            graphics3.generateTexture('boss3', 200, 160);
+            graphics3.destroy();
+            
+            // Boss 4 - Dreadnought
+            const graphics4 = this.add.graphics();
+            graphics4.fillStyle(0x2a2a2a);
+            graphics4.fillRect(0, 40, 260, 40);
+            graphics4.fillStyle(0x1a1a1a);
+            graphics4.fillRect(20, 30, 220, 20);
+            graphics4.fillRect(20, 70, 220, 20);
+            graphics4.fillStyle(0xff0000);
+            graphics4.fillCircle(240, 50, 3);
+            graphics4.fillCircle(240, 70, 3);
+            graphics4.generateTexture('boss4', 260, 120);
+            graphics4.destroy();
+            
+            // Boss 5 - Core Alien
+            const graphics5 = this.add.graphics();
+            graphics5.fillStyle(0x4a0e4e);
+            graphics5.fillCircle(100, 100, 50);
+            graphics5.fillStyle(0x9c27b0);
+            graphics5.fillCircle(100, 100, 30);
+            graphics5.fillStyle(0xff1744);
+            graphics5.fillCircle(90, 90, 8);
+            graphics5.fillCircle(110, 90, 8);
+            graphics5.generateTexture('boss5', 200, 200);
+            graphics5.destroy();
+            
+            // Missile ennemi
+            const bulletGraphics = this.add.graphics();
+            bulletGraphics.fillStyle(0xff4444);
+            bulletGraphics.fillRect(0, 0, 20, 8);
+            bulletGraphics.generateTexture('enemy-missile', 20, 8);
+            bulletGraphics.destroy();
+        }
+        
+        function create() {
+            gameScene = this;
+            
+            // Créer les guides visuels
+            createMovementGuides.call(this);
+            
+            // Initialiser le level manager
+            this.levelManager = { currentLevel: 1 };
+            
+            // Créer le groupe de balles ennemies
+            this.enemyBullets = this.physics.add.group();
+            
+            // Texte d'information
+            this.add.text(10, 10, 'Système de Mouvement Boss - COMPLÈTEMENT REFAIT', {
+                fontSize: '16px',
+                fill: '#00ff00'
+            });
+            
+            this.add.text(10, 30, 'Zone verte = Zone de mouvement | Mouvement DIRECT (pas de vélocité)', {
+                fontSize: '11px',
+                fill: '#00ff00'
+            });
+            
+            this.add.text(10, 50, 'Boss 1: 90% amplitude | Fréquence: 0.5 Hz (2 sec/cycle)', {
+                fontSize: '12px',
+                fill: '#ffff00'
+            });
+            
+            // Démarrer les métriques
+            startMetrics();
+            
+            console.log('✅ Rebuilt movement system ready for testing');
+        }
+        
+        function update() {
+            if (currentBoss && currentBoss.update) {
+                currentBoss.update();
+            }
+        }
+        
+        function createMovementGuides() {
+            const graphics = this.add.graphics();
+            
+            // Zone de mouvement (30% droits)
+            const zoneLeft = GameConfig.width * 0.7;
+            const zoneRight = GameConfig.width - 20;
+            const zoneTop = 20;
+            const zoneBottom = GameConfig.height - 20;
+            
+            // Zone de mouvement principale (verte)
+            graphics.lineStyle(2, 0x00ff00, 0.7);
+            graphics.strokeRect(zoneLeft, zoneTop, zoneRight - zoneLeft, zoneBottom - zoneTop);
+            
+            // Centre de la zone
+            const centerY = (zoneTop + zoneBottom) / 2;
+            const centerX = (zoneLeft + zoneRight) / 2;
+            graphics.lineStyle(1, 0xffff00, 0.5);
+            graphics.moveTo(zoneLeft, centerY);
+            graphics.lineTo(zoneRight, centerY);
+            graphics.strokePath();
+            graphics.moveTo(centerX, zoneTop);
+            graphics.lineTo(centerX, zoneBottom);
+            graphics.strokePath();
+            
+            // Limites d'amplitude pour Boss 1 (90%)
+            const amplitude90 = (zoneBottom - zoneTop) * 0.45;
+            graphics.lineStyle(1, 0xff00ff, 0.6);
+            graphics.moveTo(zoneLeft, centerY - amplitude90);
+            graphics.lineTo(zoneRight, centerY - amplitude90);
+            graphics.strokePath();
+            graphics.moveTo(zoneLeft, centerY + amplitude90);
+            graphics.lineTo(zoneRight, centerY + amplitude90);
+            graphics.strokePath();
+            
+            // Labels
+            this.add.text(zoneLeft - 100, centerY - amplitude90 - 10, 'Limite 90% (Boss 1)', {
+                fontSize: '9px',
+                fill: '#ff00ff'
+            });
+            
+            this.add.text(zoneLeft - 80, centerY - 5, 'Centre', {
+                fontSize: '10px',
+                fill: '#ffff00'
+            });
+            
+            debugZone = graphics;
+        }
+        
+        function testBoss(level) {
+            clearBosses();
+            
+            // Mettre à jour le level manager
+            gameScene.levelManager.currentLevel = level;
+            
+            // Données des boss
+            const bossData = {
+                health: 50,
+                pattern: ['serpent', 'cruiser', 'station', 'dreadnought', 'final'][level - 1],
+                name: ['Serpent Mécanique', 'Croiseur Lourd', 'Station Orbitale', 'Dreadnought', 'Core Alien'][level - 1]
+            };
+            
+            // Créer le boss
+            currentBoss = new Boss(gameScene, GameConfig.width + 100, GameConfig.height / 2, bossData);
+            
+            console.log(`🎮 Boss ${level} spawned with rebuilt movement system:`);
+            console.log(`- Pattern: ${bossData.pattern}`);
+            console.log(`- Movement: Direct position calculation`);
+            console.log(`- Amplitude: ${level === 1 ? '90%' : 'Variable'} of zone`);
+            
+            updateStatus(`Boss ${level} (${bossData.name}) spawné avec nouveau système`);
+        }
+        
+        function clearBosses() {
+            if (currentBoss) {
+                currentBoss.destroy();
+                currentBoss = null;
+            }
+            updateStatus('Boss nettoyé');
+        }
+        
+        function startMetrics() {
+            metricsInterval = setInterval(() => {
+                if (currentBoss) {
+                    const zoneHeight = GameConfig.height - 40;
+                    const centerY = GameConfig.height / 2;
+                    
+                    document.getElementById('position-info').textContent = 
+                        `Position: X=${Math.round(currentBoss.x)}, Y=${Math.round(currentBoss.y)}`;
+                    
+                    document.getElementById('movement-info').textContent = 
+                        `Mouvement: ${currentBoss.pattern} (système direct)`;
+                    
+                    if (currentBoss.pattern === 'serpent') {
+                        const amplitude = zoneHeight * 0.45;
+                        document.getElementById('amplitude-info').textContent = 
+                            `Amplitude: ${Math.round(amplitude)}px (90% de ${zoneHeight}px)`;
+                    } else {
+                        document.getElementById('amplitude-info').textContent = 
+                            `Amplitude: Variable selon le pattern`;
+                    }
+                    
+                    document.getElementById('pattern-info').textContent = 
+                        `Pattern: ${currentBoss.pattern} | Entry: ${currentBoss.entryComplete}`;
+                }
+            }, 100);
+        }
+        
+        function updateStatus(message) {
+            console.log(`📊 ${message}`);
+        }
+        
+        // Initialiser le jeu
+        game = new Phaser.Game(testConfig);
+        
+        // Auto-test du Boss 1 après 3 secondes
+        setTimeout(() => {
+            testBoss(1);
+        }, 3000);
+    </script>
+</body>
+</html>

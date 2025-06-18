@@ -1,6 +1,19 @@
-# R-Type 2 - Remake
+# R-Type 2 - Remake v0.2
 
 Un remake moderne du célèbre jeu de shoot'em up R-Type 2, jouable directement dans le navigateur.
+
+## 🚀 Nouveautés v0.2
+
+### 🌍 Terrain Spatial Réaliste
+- **Surfaces spatiales authentiques** : Astéroïdes, Mars, Lune, mondes aliens
+- **Opacité 100% garantie** : Approche bitmap révolutionnaire
+- **5 environnements distincts** : Chaque niveau a son univers unique
+- **Performance optimisée** : Textures bitmap réutilisables
+
+### ⚡ Boss Équilibrés
+- **Vitesse réduite de 50%** : Gameplay plus accessible
+- **Mouvements fluides** : Patterns mathématiques précis
+- **5 boss uniques** : Chacun avec son style de mouvement
 
 ## Description
 

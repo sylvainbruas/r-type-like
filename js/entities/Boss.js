@@ -316,26 +316,26 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     serpentMovement(elapsed) {
-        // Mouvement sinusoïdal vertical avec amplitude maximale
-        const amplitude = (this.movementZone.bottom - this.movementZone.top) * 0.8; // 80% de la hauteur (amplitude très visible)
+        // Mouvement sinusoïdal vertical avec amplitude DOUBLÉE (x2)
+        const amplitude = (this.movementZone.bottom - this.movementZone.top) * 0.95; // 95% de la hauteur (amplitude MAXIMALE)
         const frequency = 0.0075; // x2.5 plus rapide que 0.003 normal
         const centerY = (this.movementZone.top + this.movementZone.bottom) / 2;
         const targetY = centerY + Math.sin(elapsed * frequency) * amplitude;
         
-        // Mouvement horizontal léger pour effet serpentin
-        const horizontalAmplitude = (this.movementZone.right - this.movementZone.left) * 0.3;
+        // Mouvement horizontal renforcé pour effet serpentin plus prononcé
+        const horizontalAmplitude = (this.movementZone.right - this.movementZone.left) * 0.35;
         const targetX = this.movementZone.left + horizontalAmplitude + Math.cos(elapsed * frequency * 0.6) * horizontalAmplitude;
         
-        // Appliquer les vélocités avec réactivité élevée
-        const velocityY = (targetY - this.y) * 0.25; // Encore plus réactif pour amplitude élevée
-        const velocityX = (targetX - this.x) * 0.12; // Légèrement plus réactif
+        // Appliquer les vélocités avec réactivité très élevée pour amplitude maximale
+        const velocityY = (targetY - this.y) * 0.3; // Réactivité maximale pour amplitude doublée
+        const velocityX = (targetX - this.x) * 0.15; // Réactivité horizontale augmentée
         
         this.setVelocity(velocityX, velocityY);
         
         // Log occasionnel pour debug (toutes les 2 secondes)
         if (Math.floor(elapsed / 2000) !== this.lastLogTime) {
             this.lastLogTime = Math.floor(elapsed / 2000);
-            console.log(`🐍 Serpent - Amplitude: ${Math.round(amplitude)}px (80% de ${Math.round(this.movementZone.bottom - this.movementZone.top)}px)`);
+            console.log(`🐍 Serpent - Amplitude DOUBLÉE: ${Math.round(amplitude)}px (95% de ${Math.round(this.movementZone.bottom - this.movementZone.top)}px)`);
             console.log(`🐍 Position Y: ${Math.round(this.y)} | Target Y: ${Math.round(targetY)} | Zone: ${Math.round(this.movementZone.top)}-${Math.round(this.movementZone.bottom)}`);
         }
     }

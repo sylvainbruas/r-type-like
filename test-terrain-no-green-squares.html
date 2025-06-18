@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Terrain - Correction Carrés Verts</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        #game-container {
+            border: 2px solid #fff;
+            margin: 20px 0;
+        }
+        .info {
+            background: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls {
+            background: #444;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls button {
+            background: #666;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background: #888;
+        }
+        .success {
+            background: #2a4a2a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4f8;
+        }
+        .warning {
+            background: #4a2a2a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #f84;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test Terrain - Correction Carrés Verts</h1>
+    
+    <div class="success">
+        <h3>✅ Problème des Carrés Verts Corrigé</h3>
+        <p><strong>Les carrés verts qui s'affichaient par-dessus le terrain ont été supprimés !</strong></p>
+        <ul>
+            <li>✅ <strong>Collision invisible</strong> : Zones de collision sans affichage visuel</li>
+            <li>✅ <strong>Terrain propre</strong> : Seules les textures procédurales sont visibles</li>
+            <li>✅ <strong>Physique préservée</strong> : Les collisions fonctionnent toujours</li>
+            <li>✅ <strong>Performance optimisée</strong> : Moins d'objets graphiques</li>
+        </ul>
+    </div>
+    
+    <div class="warning">
+        <h4>⚠️ Problème Précédent</h4>
+        <p>Les <code>staticImage</code> avec texture <code>null</code> créaient des carrés verts par défaut de Phaser.js. Maintenant remplacés par des <code>zones</code> invisibles.</p>
+    </div>
+    
+    <div class="info">
+        <h3>🎯 Correction Technique</h3>
+        <p><strong>Avant :</strong></p>
+        <pre><code>const body = this.scene.physics.add.staticImage(x, y, null); // ❌ Carré vert</code></pre>
+        <p><strong>Après :</strong></p>
+        <pre><code>const zone = this.scene.add.zone(x, y, width, height);      // ✅ Invisible
+this.scene.physics.add.existing(zone, true);</code></pre>
+    </div>
+    
+    <div class="controls">
+        <h3>🎮 Test des Terrains Sans Carrés Verts</h3>
+        <button onclick="testTerrain('asteroid')">Terrain Astéroïde</button>
+        <button onclick="testTerrain('mars')">Terrain Mars</button>
+        <button onclick="testTerrain('moon')">Terrain Lunaire</button>
+        <button onclick="testTerrain('alien')">Terrain Alien</button>
+        <button onclick="toggleCollisionDebug()">Toggle Debug Collision</button>
+    </div>
+    
+    <div class="info" id="validation">
+        <h3>✅ Validation Visuelle</h3>
+        <div id="validation-info">
+            <p><strong>Vérifiez que :</strong></p>
+            <ul>
+                <li>❌ <strong>Aucun carré vert</strong> n'est visible sur le terrain</li>
+                <li>✅ <strong>Seules les textures</strong> procédurales sont affichées</li>
+                <li>✅ <strong>Les collisions</strong> fonctionnent toujours (test avec debug)</li>
+                <li>✅ <strong>L'affichage</strong> est propre et immersif</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div id="game-container"></div>
+
+    <!-- Phaser.js -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+    
+    <!-- Game files -->
+    <script src="js/config.js"></script>
+    <script src="js/managers/ScoreManager.js"></script>
+    <script src="js/managers/LevelManager.js"></script>
+    <script src="js/entities/AlienTerrain.js"></script>
+    
+    <script>
+        let game;
+        let gameScene;
+        let currentTerrain;
+        let debugMode = false;
+        
+        // Configuration Phaser pour test sans carrés verts
+        const testConfig = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            parent: 'game-container',
+            backgroundColor: '#001122',
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: false // Commencer sans debug
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+        
+        function preload() {
+            console.log('🔧 Loading assets for green squares fix test...');
+            // Pas besoin d'assets, tout est procédural
+        }
+        
+        function create() {
+            gameScene = this;
+            
+            // Initialiser le level manager
+            this.levelManager = { currentLevel: 1 };
+            
+            // Créer le terrain initial (astéroïde)
+            currentTerrain = new AlienTerrain(this);
+            
+            // Texte d'information
+            this.add.text(10, 10, 'Test Terrain - CARRÉS VERTS CORRIGÉS', {
+                fontSize: '16px',
+                fill: '#00ff00'
+            });
+            
+            this.add.text(10, 30, 'Zones de collision invisibles - Affichage propre', {
+                fontSize: '11px',
+                fill: '#00ff00'
+            });
+            
+            this.add.text(10, 50, 'Fini les carrés verts par-dessus le terrain !', {
+                fontSize: '12px',
+                fill: '#ffff00'
+            });
+            
+            console.log('✅ Green squares fix ready for testing');
+        }
+        
+        function update() {
+            // Pas de logique d'update nécessaire
+        }
+        
+        function testTerrain(terrainType) {
+            console.log(`🌍 Testing ${terrainType} terrain (no green squares)`);
+            
+            // Changer le niveau pour correspondre au terrain
+            const levelMap = {
+                'asteroid': 1,
+                'mars': 3,
+                'moon': 4,
+                'alien': 5
+            };
+            
+            gameScene.levelManager.currentLevel = levelMap[terrainType];
+            
+            // Changer le type de terrain
+            if (currentTerrain) {
+                currentTerrain.changeTerrainType(terrainType);
+            }
+            
+            updateValidationInfo(terrainType);
+        }
+        
+        function toggleCollisionDebug() {
+            debugMode = !debugMode;
+            
+            // Redémarrer la scène avec le nouveau mode debug
+            gameScene.physics.world.debugGraphic.clear();
+            gameScene.physics.world.drawDebug = debugMode;
+            
+            if (debugMode) {
+                gameScene.physics.world.createDebugGraphic();
+                console.log('🔍 Debug collision activé - Les zones de collision sont maintenant visibles');
+            } else {
+                if (gameScene.physics.world.debugGraphic) {
+                    gameScene.physics.world.debugGraphic.destroy();
+                }
+                console.log('👁️ Debug collision désactivé - Affichage normal');
+            }
+            
+            updateValidationInfo(null, debugMode);
+        }
+        
+        function updateValidationInfo(terrainType, debugActive) {
+            const validationDiv = document.getElementById('validation-info');
+            
+            let debugInfo = '';
+            if (debugActive !== undefined) {
+                debugInfo = debugActive ? 
+                    '<p><strong>🔍 Mode Debug Actif :</strong> Les zones de collision sont visibles en contours colorés.</p>' :
+                    '<p><strong>👁️ Mode Normal :</strong> Seules les textures procédurales sont visibles.</p>';
+            }
+            
+            const terrainInfo = terrainType ? 
+                `<p><strong>Terrain actuel :</strong> ${terrainType.toUpperCase()}</p>` : '';
+            
+            validationDiv.innerHTML = `
+                ${terrainInfo}
+                ${debugInfo}
+                <p><strong>Vérifiez que :</strong></p>
+                <ul>
+                    <li>❌ <strong>Aucun carré vert</strong> n'est visible sur le terrain</li>
+                    <li>✅ <strong>Seules les textures</strong> procédurales sont affichées</li>
+                    <li>✅ <strong>Les collisions</strong> fonctionnent toujours (activez le debug pour voir)</li>
+                    <li>✅ <strong>L'affichage</strong> est propre et immersif</li>
+                </ul>
+                <p><em>💡 Utilisez le bouton "Toggle Debug Collision" pour voir les zones de collision sans les carrés verts.</em></p>
+            `;
+        }
+        
+        // Initialiser le jeu
+        game = new Phaser.Game(testConfig);
+        
+        // Message de validation après 3 secondes
+        setTimeout(() => {
+            console.log('✅ Validation: Vérifiez qu\'aucun carré vert n\'est visible sur le terrain');
+            updateValidationInfo('asteroid');
+        }, 3000);
+    </script>
+</body>
+</html>

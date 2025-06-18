@@ -58,10 +58,10 @@ class AlienTerrain extends Phaser.Physics.Arcade.StaticGroup {
             terrain.x = x;
             terrain.y = 0;
             
-            // Ajouter à la physique pour les collisions
-            const body = this.scene.physics.add.staticImage(x + segmentWidth/2, height/2, null);
-            body.setSize(segmentWidth, height);
-            this.add(body);
+            // Créer une zone de collision invisible
+            const collisionZone = this.scene.add.zone(x + segmentWidth/2, height/2, segmentWidth, height);
+            this.scene.physics.add.existing(collisionZone, true); // true = static
+            this.add(collisionZone);
         }
     }
     
@@ -356,14 +356,15 @@ class AlienTerrain extends Phaser.Physics.Arcade.StaticGroup {
             terrain.x = x;
             terrain.y = GameConfig.height - height;
             
-            // Ajouter à la physique pour les collisions
-            const body = this.scene.physics.add.staticImage(
+            // Créer une zone de collision invisible
+            const collisionZone = this.scene.add.zone(
                 x + segmentWidth/2, 
                 GameConfig.height - height/2, 
-                null
+                segmentWidth, 
+                height
             );
-            body.setSize(segmentWidth, height);
-            this.add(body);
+            this.scene.physics.add.existing(collisionZone, true); // true = static
+            this.add(collisionZone);
         }
     }
     

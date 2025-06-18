@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Terrain - Opacité 100% et Niveaux Différenciés</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        #game-container {
+            border: 2px solid #fff;
+            margin: 20px 0;
+        }
+        .info {
+            background: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls {
+            background: #444;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls button {
+            background: #666;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background: #888;
+        }
+        .success {
+            background: #2a4a2a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4f8;
+        }
+        .level-comparison {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .level-card {
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid;
+        }
+        .level-card.level1 { border-left-color: #2A2A2A; }
+        .level-card.level2 { border-left-color: #6A6A6A; }
+        .level-card.level3 { border-left-color: #CD853F; }
+        .level-card.level4 { border-left-color: #B8B8B8; }
+        .level-card.level5 { border-left-color: #00CC88; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test Terrain - Opacité 100% et Niveaux Différenciés</h1>
+    
+    <div class="success">
+        <h3>✅ Corrections Appliquées</h3>
+        <p><strong>Deux problèmes majeurs ont été corrigés !</strong></p>
+        <ul>
+            <li>✅ <strong>Opacité 100%</strong> : Terrain complètement solide (plus de semi-transparence)</li>
+            <li>✅ <strong>Niveaux différenciés</strong> : Niveaux 1 et 2 ont maintenant des terrains distincts</li>
+            <li>✅ <strong>Couleurs renforcées</strong> : Palettes de couleurs plus contrastées</li>
+            <li>✅ <strong>Détails améliorés</strong> : Plus d'éléments visuels par terrain</li>
+        </ul>
+    </div>
+    
+    <div class="info">
+        <h3>🎯 Nouveaux Types de Terrain par Niveau</h3>
+        <div class="level-comparison">
+            <div class="level-card level1">
+                <h4>🌑 Niveau 1 - Astéroïdes Sombres</h4>
+                <p>Surface très sombre avec cratères profonds et rochers noirs</p>
+                <small>Couleurs: Gris très sombre (#2A2A2A, #1A1A1A)</small>
+            </div>
+            <div class="level-card level2">
+                <h4>🌫️ Niveau 2 - Astéroïdes Clairs</h4>
+                <p>Surface claire avec reflets et poussière lumineuse</p>
+                <small>Couleurs: Gris clair (#6A6A6A, #8A8A8A)</small>
+            </div>
+            <div class="level-card level3">
+                <h4>🔴 Niveau 3 - Mars</h4>
+                <p>Surface rouge-orange avec formations rocheuses</p>
+                <small>Couleurs: Brun martien (#8B4513, #CD853F)</small>
+            </div>
+            <div class="level-card level4">
+                <h4>🌕 Niveau 4 - Lune</h4>
+                <p>Surface grise avec régolithe et cratères</p>
+                <small>Couleurs: Gris lunaire (#8C8C8C, #B8B8B8)</small>
+            </div>
+            <div class="level-card level5">
+                <h4>👽 Niveau 5 - Alien</h4>
+                <p>Surface organique avec bioluminescence</p>
+                <small>Couleurs: Palette alien (#6600CC, #00AA44)</small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <h3>🎮 Test des Terrains Corrigés</h3>
+        <button onclick="testLevel(1)">Niveau 1 - Astéroïdes Sombres</button>
+        <button onclick="testLevel(2)">Niveau 2 - Astéroïdes Clairs</button>
+        <button onclick="testLevel(3)">Niveau 3 - Mars</button>
+        <button onclick="testLevel(4)">Niveau 4 - Lune</button>
+        <button onclick="testLevel(5)">Niveau 5 - Alien</button>
+        <button onclick="compareLevel1And2()">Comparer Niveaux 1 vs 2</button>
+    </div>
+    
+    <div class="info" id="validation">
+        <h3>✅ Validation des Corrections</h3>
+        <div id="validation-info">
+            <p><strong>Vérifiez que :</strong></p>
+            <ul>
+                <li>✅ <strong>Terrain 100% opaque</strong> : Aucune transparence visible</li>
+                <li>✅ <strong>Niveaux 1 et 2 différents</strong> : Astéroïdes sombres vs clairs</li>
+                <li>✅ <strong>Couleurs solides</strong> : Pas de semi-transparence</li>
+                <li>✅ <strong>Détails nets</strong> : Formations bien définies</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div id="game-container"></div>
+
+    <!-- Phaser.js -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+    
+    <!-- Game files -->
+    <script src="js/config.js"></script>
+    <script src="js/managers/ScoreManager.js"></script>
+    <script src="js/managers/LevelManager.js"></script>
+    <script src="js/entities/AlienTerrain.js"></script>
+    
+    <script>
+        let game;
+        let gameScene;
+        let currentTerrain;
+        let comparisonTerrain;
+        
+        // Configuration Phaser pour test opacité et niveaux
+        const testConfig = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            parent: 'game-container',
+            backgroundColor: '#001122',
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: false
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+        
+        function preload() {
+            console.log('🔧 Loading assets for opacity and levels fix test...');
+            // Pas besoin d'assets, tout est procédural
+        }
+        
+        function create() {
+            gameScene = this;
+            
+            // Initialiser le level manager
+            this.levelManager = { currentLevel: 1 };
+            
+            // Créer le terrain initial (niveau 1)
+            currentTerrain = new AlienTerrain(this);
+            
+            // Texte d'information
+            this.add.text(10, 10, 'Terrain OPACITÉ 100% - NIVEAUX DIFFÉRENCIÉS', {
+                fontSize: '16px',
+                fill: '#00ff00'
+            });
+            
+            this.add.text(10, 30, 'Terrain solide - Niveaux 1 et 2 distincts', {
+                fontSize: '11px',
+                fill: '#00ff00'
+            });
+            
+            this.add.text(10, 50, 'Fini la semi-transparence et les doublons !', {
+                fontSize: '12px',
+                fill: '#ffff00'
+            });
+            
+            updateValidationInfo(1);
+            
+            console.log('✅ Opacity and levels fix ready for testing');
+        }
+        
+        function update() {
+            // Pas de logique d'update nécessaire
+        }
+        
+        function testLevel(level) {
+            console.log(`🌍 Testing level ${level} terrain (100% opacity)`);
+            
+            // Nettoyer les terrains précédents
+            if (currentTerrain) {
+                currentTerrain.destroy();
+            }
+            if (comparisonTerrain) {
+                comparisonTerrain.destroy();
+                comparisonTerrain = null;
+            }
+            
+            // Changer le niveau
+            gameScene.levelManager.currentLevel = level;
+            
+            // Créer le nouveau terrain
+            currentTerrain = new AlienTerrain(gameScene);
+            
+            updateValidationInfo(level);
+        }
+        
+        function compareLevel1And2() {
+            console.log('🔄 Comparing Level 1 vs Level 2 terrains');
+            
+            // Nettoyer les terrains précédents
+            if (currentTerrain) {
+                currentTerrain.destroy();
+            }
+            if (comparisonTerrain) {
+                comparisonTerrain.destroy();
+            }
+            
+            // Créer terrain niveau 1 (haut)
+            gameScene.levelManager.currentLevel = 1;
+            currentTerrain = new AlienTerrain(gameScene);
+            
+            // Créer terrain niveau 2 (bas) - simulation
+            gameScene.levelManager.currentLevel = 2;
+            comparisonTerrain = new AlienTerrain(gameScene);
+            
+            updateValidationInfo('1vs2');
+        }
+        
+        function updateValidationInfo(level) {
+            const validationDiv = document.getElementById('validation-info');
+            
+            const levelDescriptions = {
+                1: {
+                    name: '🌑 Niveau 1 - Astéroïdes Sombres',
+                    features: [
+                        'Surface très sombre (gris #2A2A2A)',
+                        'Cratères profonds et nombreux',
+                        'Rochers noirs avec ombres',
+                        'Texture rugueuse sombre'
+                    ]
+                },
+                2: {
+                    name: '🌫️ Niveau 2 - Astéroïdes Clairs',
+                    features: [
+                        'Surface claire (gris #6A6A6A)',
+                        'Cratères moins profonds',
+                        'Rochers avec reflets lumineux',
+                        'Poussière claire visible'
+                    ]
+                },
+                3: {
+                    name: '🔴 Niveau 3 - Mars',
+                    features: [
+                        'Surface rouge-orange martienne',
+                        'Formations rocheuses érodées',
+                        'Dépôts d\'oxyde de fer',
+                        'Poussière martienne'
+                    ]
+                },
+                4: {
+                    name: '🌕 Niveau 4 - Lune',
+                    features: [
+                        'Surface grise lunaire',
+                        'Régolithe en surface',
+                        'Cratères avec pics centraux',
+                        'Traces de micrométorites'
+                    ]
+                },
+                5: {
+                    name: '👽 Niveau 5 - Alien',
+                    features: [
+                        'Formations organiques colorées',
+                        'Cristaux bioluminescents',
+                        'Végétation extraterrestre',
+                        'Spores flottantes'
+                    ]
+                },
+                '1vs2': {
+                    name: '🔄 Comparaison Niveaux 1 vs 2',
+                    features: [
+                        'Niveau 1: Astéroïdes SOMBRES (haut)',
+                        'Niveau 2: Astéroïdes CLAIRS (bas)',
+                        'Différence de couleur visible',
+                        'Terrains maintenant distincts'
+                    ]
+                }
+            };
+            
+            const info = levelDescriptions[level];
+            
+            validationDiv.innerHTML = `
+                <h4>${info.name}</h4>
+                <p><strong>Vérifiez que :</strong></p>
+                <ul>
+                    <li>✅ <strong>Terrain 100% opaque</strong> : Aucune transparence visible</li>
+                    <li>✅ <strong>Couleurs solides</strong> : Pas de semi-transparence</li>
+                    <li>✅ <strong>Détails nets</strong> : Formations bien définies</li>
+                    ${level === '1vs2' ? '<li>✅ <strong>Niveaux différents</strong> : Astéroïdes sombres vs clairs</li>' : ''}
+                </ul>
+                <p><strong>Caractéristiques spécifiques :</strong></p>
+                <ul>
+                    ${info.features.map(feature => `<li>${feature}</li>`).join('')}
+                </ul>
+            `;
+        }
+        
+        // Initialiser le jeu
+        game = new Phaser.Game(testConfig);
+        
+        // Message de validation après 3 secondes
+        setTimeout(() => {
+            console.log('✅ Validation: Vérifiez l\'opacité 100% et la différence entre niveaux 1 et 2');
+        }, 3000);
+    </script>
+</body>
+</html>

@@ -116,7 +116,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     simpleSerpentMovement(elapsed) {
-        // Mouvement serpentin simple et efficace
+        // Mouvement serpentin simple et efficace - VITESSE RÉDUITE DE MOITIÉ
         const zoneHeight = this.movementZone.bottom - this.movementZone.top;
         const zoneWidth = this.movementZone.right - this.movementZone.left;
         const centerY = this.movementZone.top + zoneHeight / 2;
@@ -126,10 +126,10 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         const verticalAmplitude = zoneHeight * 0.45; // 45% de chaque côté = 90% total
         const horizontalAmplitude = zoneWidth * 0.3;  // 30% de mouvement horizontal
         
-        // Fréquence pour mouvement visible
+        // Fréquence RÉDUITE DE MOITIÉ pour mouvement plus lent
         const time = elapsed * 0.001; // Convertir en secondes
-        const verticalFreq = 0.5; // 0.5 Hz = 1 cycle toutes les 2 secondes
-        const horizontalFreq = 0.3; // Légèrement différent pour effet serpentin
+        const verticalFreq = 0.25; // 0.25 Hz = 1 cycle toutes les 4 secondes (était 0.5 Hz = 2 sec)
+        const horizontalFreq = 0.15; // Légèrement différent pour effet serpentin (était 0.3)
         
         // Calculer les positions cibles
         const targetY = centerY + Math.sin(time * verticalFreq * 2 * Math.PI) * verticalAmplitude;
@@ -142,25 +142,25 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         // Debug occasionnel
         if (Math.floor(time) !== this.lastLogTime) {
             this.lastLogTime = Math.floor(time);
-            console.log(`🐍 Serpent - Y: ${Math.round(this.y)} (range: ${Math.round(centerY - verticalAmplitude)}-${Math.round(centerY + verticalAmplitude)})`);
+            console.log(`🐍 Serpent (VITESSE /2) - Y: ${Math.round(this.y)} (range: ${Math.round(centerY - verticalAmplitude)}-${Math.round(centerY + verticalAmplitude)})`);
         }
     }
     
     simpleCruiserMovement(elapsed) {
-        // Mouvement vertical lent et régulier
+        // Mouvement vertical lent et régulier - VITESSE RÉDUITE DE MOITIÉ
         const zoneHeight = this.movementZone.bottom - this.movementZone.top;
         const centerY = this.movementZone.top + zoneHeight / 2;
         const centerX = this.movementZone.left + (this.movementZone.right - this.movementZone.left) * 0.6;
         
         const verticalAmplitude = zoneHeight * 0.3;
-        const time = elapsed * 0.0008; // Plus lent que le serpent
+        const time = elapsed * 0.0004; // RÉDUIT DE MOITIÉ (était 0.0008)
         
         this.y = centerY + Math.sin(time * 2 * Math.PI) * verticalAmplitude;
         this.x = centerX;
     }
     
     simpleStationMovement(elapsed) {
-        // Mouvement orbital
+        // Mouvement orbital - VITESSE RÉDUITE DE MOITIÉ
         const zoneHeight = this.movementZone.bottom - this.movementZone.top;
         const zoneWidth = this.movementZone.right - this.movementZone.left;
         const centerY = this.movementZone.top + zoneHeight / 2;
@@ -168,14 +168,14 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         
         const verticalRadius = zoneHeight * 0.25;
         const horizontalRadius = zoneWidth * 0.2;
-        const time = elapsed * 0.0006;
+        const time = elapsed * 0.0003; // RÉDUIT DE MOITIÉ (était 0.0006)
         
         this.y = centerY + Math.sin(time * 2 * Math.PI) * verticalRadius;
         this.x = centerX + Math.cos(time * 2 * Math.PI) * horizontalRadius;
     }
     
     simpleDreadnoughtMovement(elapsed) {
-        // Mouvement agressif et imprévisible
+        // Mouvement agressif et imprévisible - VITESSE RÉDUITE DE MOITIÉ
         const zoneHeight = this.movementZone.bottom - this.movementZone.top;
         const zoneWidth = this.movementZone.right - this.movementZone.left;
         const centerY = this.movementZone.top + zoneHeight / 2;
@@ -183,7 +183,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         
         const verticalAmplitude = zoneHeight * 0.35;
         const horizontalAmplitude = zoneWidth * 0.2;
-        const time = elapsed * 0.001;
+        const time = elapsed * 0.0005; // RÉDUIT DE MOITIÉ (était 0.001)
         
         // Mouvement chaotique avec plusieurs fréquences
         const y1 = Math.sin(time * 0.7 * 2 * Math.PI) * verticalAmplitude * 0.6;
@@ -195,7 +195,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     simpleFinalMovement(elapsed) {
-        // Mouvement chaotique du boss final
+        // Mouvement chaotique du boss final - VITESSE RÉDUITE DE MOITIÉ
         const zoneHeight = this.movementZone.bottom - this.movementZone.top;
         const zoneWidth = this.movementZone.right - this.movementZone.left;
         const centerY = this.movementZone.top + zoneHeight / 2;
@@ -203,7 +203,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         
         const verticalAmplitude = zoneHeight * 0.4;
         const horizontalAmplitude = zoneWidth * 0.3;
-        const time = elapsed * 0.0012;
+        const time = elapsed * 0.0006; // RÉDUIT DE MOITIÉ (était 0.0012)
         
         // Mouvement très chaotique
         const y1 = Math.sin(time * 0.8 * 2 * Math.PI) * verticalAmplitude * 0.5;
@@ -217,13 +217,13 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
     }
     
     simpleDefaultMovement(elapsed) {
-        // Mouvement par défaut simple
+        // Mouvement par défaut simple - VITESSE RÉDUITE DE MOITIÉ
         const zoneHeight = this.movementZone.bottom - this.movementZone.top;
         const centerY = this.movementZone.top + zoneHeight / 2;
         const centerX = this.movementZone.left + (this.movementZone.right - this.movementZone.left) / 2;
         
         const verticalAmplitude = zoneHeight * 0.2;
-        const time = elapsed * 0.0005;
+        const time = elapsed * 0.00025; // RÉDUIT DE MOITIÉ (était 0.0005)
         
         this.y = centerY + Math.sin(time * 2 * Math.PI) * verticalAmplitude;
         this.x = centerX;

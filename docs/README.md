@@ -24,6 +24,17 @@ Rapport détaillé des tests automatisés.
 - ✅ Recommandations d'amélioration
 - ✅ Historique des tests
 
+### **GITFLOW.md**
+Guide d'utilisation de Git Flow pour le développement.
+
+**Contenu :**
+- ✅ Configuration Git Flow complète
+- ✅ Workflow de développement avec branches
+- ✅ Commandes pour features, releases, hotfixes
+- ✅ Bonnes pratiques et conventions
+- ✅ Cycle de développement R-Type 2
+- ✅ Migration vers Git Flow documentée
+
 ### **questions.txt**
 Historique complet du développement du projet.
 
@@ -43,9 +54,10 @@ Historique complet du développement du projet.
 3. **Comprendre** : [questions.txt](questions.txt) - Historique
 
 ### Pour Développer
-1. **Architecture** : [../architecture/README.md](../architecture/README.md)
-2. **Scripts** : [../scripts/README.md](../scripts/README.md)
-3. **Tests visuels** : [../visual-tests/README.md](../visual-tests/README.md)
+1. **Git Flow** : [GITFLOW.md](GITFLOW.md) - Workflow de développement
+2. **Architecture** : [../architecture/README.md](../architecture/README.md)
+3. **Scripts** : [../scripts/README.md](../scripts/README.md)
+4. **Tests visuels** : [../visual-tests/README.md](../visual-tests/README.md)
 
 ### Pour Déployer
 1. **AWS** : [../cloudformation/README.md](../cloudformation/README.md)
@@ -59,7 +71,8 @@ Historique complet du développement du projet.
 - ✅ **Tests** : 182 tests documentés
 - ✅ **Architecture** : 11 schémas techniques
 - ✅ **Déploiement** : Infrastructure AWS complète
-- ✅ **Historique** : 33 étapes de développement
+- ✅ **Historique** : 34 étapes de développement
+- ✅ **Git Flow** : Workflow de développement organisé
 - ✅ **Diagrammes AWS** : Icônes officielles fonctionnels
 - ✅ **Code optimisé** : Console propre, erreurs corrigées
 - ✅ **Évolution** : Timeline complète du projet

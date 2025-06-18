@@ -1,6 +1,19 @@
-# R-Type 2 - Remake
+# R-Type 2 - Remake v0.2
 
 Un remake moderne du célèbre jeu de shoot'em up R-Type 2, jouable directement dans le navigateur.
+
+## 🚀 Nouveautés v0.2
+
+### 🌍 Terrain Spatial Réaliste
+- **Surfaces spatiales authentiques** : Astéroïdes, Mars, Lune, mondes aliens
+- **Opacité 100% garantie** : Approche bitmap révolutionnaire
+- **5 environnements distincts** : Chaque niveau a son univers unique
+- **Performance optimisée** : Textures bitmap réutilisables
+
+### ⚡ Boss Équilibrés
+- **Vitesse réduite de 50%** : Gameplay plus accessible
+- **Mouvements fluides** : Patterns mathématiques précis
+- **5 boss uniques** : Chacun avec son style de mouvement
 
 ## Description
 
@@ -284,13 +297,35 @@ python3 -m http.server 8000
 
 ## Contribution
 
-Les contributions sont les bienvenues ! Pour contribuer :
+Les contributions sont les bienvenues ! Le projet utilise **Git Flow** pour l'organisation du développement.
+
+### 🌊 Workflow Git Flow
+
+**Branches principales :**
+- **main** : Production (releases stables)
+- **develop** : Développement (intégration continue)
+
+**Pour contribuer :**
 
 1. Forkez le projet
-2. Créez une branche pour votre fonctionnalité
-3. Committez vos changements
-4. Poussez vers la branche
-5. Ouvrez une Pull Request
+2. Clonez votre fork et configurez Git Flow :
+   ```bash
+   git clone [votre-fork]
+   cd Rtype
+   git flow init -d
+   ```
+3. Créez une feature depuis develop :
+   ```bash
+   git flow feature start ma-fonctionnalite
+   ```
+4. Développez et committez vos changements
+5. Terminez la feature :
+   ```bash
+   git flow feature finish ma-fonctionnalite
+   ```
+6. Poussez develop et créez une Pull Request
+
+📖 **Guide complet Git Flow : [docs/GITFLOW.md](docs/GITFLOW.md)**
 
 ## Licence
 

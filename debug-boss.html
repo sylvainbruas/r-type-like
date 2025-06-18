@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Boss - R-Type 2</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        #game-container {
+            border: 2px solid #fff;
+            margin: 20px 0;
+        }
+        .debug-info {
+            background: #333;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls {
+            background: #444;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls button {
+            background: #666;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background: #888;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Debug Boss - R-Type 2</h1>
+    
+    <div class="debug-info">
+        <h3>Informations de Debug</h3>
+        <div id="debug-output">Initialisation...</div>
+    </div>
+    
+    <div class="controls">
+        <h3>Contrôles de Test</h3>
+        <button onclick="testBoss(1)">Boss 1 - Serpent</button>
+        <button onclick="testBoss(2)">Boss 2 - Croiseur</button>
+        <button onclick="testBoss(3)">Boss 3 - Station</button>
+        <button onclick="testBoss(4)">Boss 4 - Dreadnought</button>
+        <button onclick="testBoss(5)">Boss 5 - Core Alien</button>
+        <button onclick="clearConsole()">Clear Console</button>
+    </div>
+    
+    <div id="game-container"></div>
+    
+    <div class="debug-info">
+        <h3>Console Logs</h3>
+        <div id="console-output" style="height: 200px; overflow-y: scroll; background: #222; padding: 10px; font-size: 12px;"></div>
+    </div>
+
+    <!-- Phaser.js -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+    
+    <!-- Game files -->
+    <script src="js/config.js"></script>
+    <script src="js/managers/ScoreManager.js"></script>
+    <script src="js/managers/LevelManager.js"></script>
+    <script src="js/entities/Player.js"></script>
+    <script src="js/entities/Enemy.js"></script>
+    <script src="js/entities/Bullet.js"></script>
+    <script src="js/entities/Boss.js"></script>
+    <script src="js/scenes/PreloadScene.js"></script>
+    
+    <script>
+        // Capturer les logs console
+        const originalLog = console.log;
+        const consoleOutput = document.getElementById('console-output');
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            
+            const div = document.createElement('div');
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            div.style.marginBottom = '2px';
+            
+            if (message.includes('🔧 DEBUG')) {
+                div.style.color = '#00ff00';
+            } else if (message.includes('ERROR') || message.includes('❌')) {
+                div.style.color = '#ff0000';
+            } else if (message.includes('👾')) {
+                div.style.color = '#00ffff';
+            }
+            
+            consoleOutput.appendChild(div);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+        
+        function clearConsole() {
+            consoleOutput.innerHTML = '';
+        }
+        
+        // Configuration Phaser simplifiée pour debug
+        const debugConfig = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            parent: 'game-container',
+            backgroundColor: '#001122',
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: true // Activer le debug physique
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+        
+        let game;
+        let boss;
+        let levelManager;
+        
+        function preload() {
+            console.log('🔧 DEBUG: Preload started');
+            
+            // Créer les textures de fallback
+            createFallbackTextures.call(this);
+            
+            // Charger les sprites des boss
+            this.load.svg('boss1', 'assets/images/boss1.svg', { width: 240, height: 120 });
+            this.load.svg('boss2', 'assets/images/boss2.svg', { width: 220, height: 140 });
+            this.load.svg('boss3', 'assets/images/boss3.svg', { width: 200, height: 160 });
+            this.load.svg('boss4', 'assets/images/boss4.svg', { width: 260, height: 120 });
+            this.load.svg('boss5', 'assets/images/boss5.svg', { width: 200, height: 200 });
+            
+            console.log('🔧 DEBUG: Assets loading...');
+        }
+        
+        function createFallbackTextures() {
+            // Boss 1 fallback
+            const graphics1 = this.add.graphics();
+            graphics1.fillStyle(0x666666);
+            graphics1.fillRect(0, 10, 120, 20);
+            graphics1.fillStyle(0xff0000);
+            graphics1.fillCircle(110, 15, 3);
+            graphics1.generateTexture('boss1', 120, 40);
+            graphics1.destroy();
+            
+            // Boss 2 fallback
+            const graphics2 = this.add.graphics();
+            graphics2.fillStyle(0x555555);
+            graphics2.fillRect(0, 15, 110, 20);
+            graphics2.generateTexture('boss2', 110, 50);
+            graphics2.destroy();
+            
+            // Boss 3 fallback
+            const graphics3 = this.add.graphics();
+            graphics3.fillStyle(0x4a4a6a);
+            graphics3.fillRect(30, 20, 40, 20);
+            graphics3.fillStyle(0x8a4fff);
+            graphics3.fillCircle(50, 30, 8);
+            graphics3.generateTexture('boss3', 100, 60);
+            graphics3.destroy();
+            
+            // Boss 4 fallback
+            const graphics4 = this.add.graphics();
+            graphics4.fillStyle(0x2a2a2a);
+            graphics4.fillRect(0, 15, 130, 20);
+            graphics4.fillStyle(0xff0000);
+            graphics4.fillCircle(120, 20, 2);
+            graphics4.generateTexture('boss4', 130, 50);
+            graphics4.destroy();
+            
+            // Boss 5 fallback
+            const graphics5 = this.add.graphics();
+            graphics5.fillStyle(0x4a0e4e);
+            graphics5.fillCircle(50, 50, 25);
+            graphics5.fillStyle(0x9c27b0);
+            graphics5.fillCircle(50, 50, 15);
+            graphics5.generateTexture('boss5', 100, 100);
+            graphics5.destroy();
+            
+            console.log('🔧 DEBUG: Fallback textures created');
+        }
+        
+        function create() {
+            console.log('🔧 DEBUG: Create started');
+            
+            // Initialiser le level manager
+            levelManager = new LevelManager();
+            levelManager.currentLevel = 1;
+            
+            // Ajouter des guides visuels
+            const graphics = this.add.graphics();
+            
+            // Zone de mouvement (30% droits)
+            const zoneLeft = GameConfig.width * 0.7;
+            const zoneRight = GameConfig.width - 20;
+            const zoneTop = 20;
+            const zoneBottom = GameConfig.height - 20;
+            
+            graphics.lineStyle(2, 0x00ff00, 0.5);
+            graphics.strokeRect(zoneLeft, zoneTop, zoneRight - zoneLeft, zoneBottom - zoneTop);
+            
+            // Ligne centrale
+            graphics.lineStyle(1, 0xffff00, 0.3);
+            graphics.moveTo(0, GameConfig.height / 2);
+            graphics.lineTo(GameConfig.width, GameConfig.height / 2);
+            graphics.strokePath();
+            
+            // Texte d'information
+            this.add.text(10, 10, 'Zone verte = Zone de mouvement boss (30% droits)', {
+                fontSize: '14px',
+                fill: '#00ff00'
+            });
+            
+            this.add.text(10, 30, 'Ligne jaune = Centre vertical', {
+                fontSize: '14px',
+                fill: '#ffff00'
+            });
+            
+            console.log('🔧 DEBUG: Scene created, ready for boss testing');
+            
+            // Mettre à jour les infos de debug
+            updateDebugInfo();
+        }
+        
+        function update() {
+            if (boss && boss.update) {
+                boss.update();
+            }
+        }
+        
+        function testBoss(level) {
+            console.log(`🔧 DEBUG: Testing boss level ${level}`);
+            
+            // Supprimer le boss existant
+            if (boss) {
+                boss.destroy();
+            }
+            
+            // Mettre à jour le niveau
+            levelManager.currentLevel = level;
+            
+            // Créer le nouveau boss
+            const bossData = GameConfig.bosses[level - 1] || GameConfig.bosses[0];
+            boss = new Boss(game.scene.scenes[0], GameConfig.width + 100, GameConfig.height / 2, bossData);
+            
+            console.log(`🔧 DEBUG: Boss ${level} created`);
+            updateDebugInfo();
+        }
+        
+        function updateDebugInfo() {
+            const debugOutput = document.getElementById('debug-output');
+            const info = [];
+            
+            info.push(`GameConfig dimensions: ${GameConfig.width}x${GameConfig.height}`);
+            info.push(`Zone de mouvement: ${GameConfig.width * 0.7} à ${GameConfig.width - 20} (largeur: ${(GameConfig.width - 20) - (GameConfig.width * 0.7)}px)`);
+            info.push(`Zone verticale: 20 à ${GameConfig.height - 20} (hauteur: ${GameConfig.height - 40}px)`);
+            
+            if (boss) {
+                info.push(`Boss actuel: Niveau ${levelManager.currentLevel}`);
+                info.push(`Position: (${Math.round(boss.x)}, ${Math.round(boss.y)})`);
+                info.push(`Échelle: (${boss.scaleX}, ${boss.scaleY})`);
+                info.push(`Sprite: ${Boss.getBossSprite(levelManager.currentLevel)}`);
+                info.push(`Pattern: ${boss.pattern}`);
+                info.push(`Entry complete: ${boss.entryComplete}`);
+            }
+            
+            debugOutput.innerHTML = info.join('<br>');
+        }
+        
+        // Initialiser le jeu
+        game = new Phaser.Game(debugConfig);
+        
+        // Mettre à jour les infos toutes les secondes
+        setInterval(updateDebugInfo, 1000);
+    </script>
+</body>
+</html>

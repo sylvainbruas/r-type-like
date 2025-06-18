@@ -1,7 +1,11 @@
-// Classe des boss
+// Classe des boss - SYSTÈME REFAIT COMPLÈTEMENT
 class Boss extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, bossData) {
-        super(scene, x, y, 'enemy');
+        // Déterminer le sprite du boss selon le niveau
+        const bossSprite = Boss.getBossSprite(scene.levelManager.currentLevel);
+        console.log(`🔧 Creating boss with sprite: ${bossSprite} for level ${scene.levelManager.currentLevel}`);
+        
+        super(scene, x, y, bossSprite);
         
         // Ajouter à la scène et activer la physique
         scene.add.existing(this);
@@ -16,33 +20,20 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         this.lastFired = 0;
         this.startTime = scene.time.now;
         this.entryComplete = false;
+        this.lastLogTime = -1;
         
-        // Propriétés de mouvement
-        this.playerSpeed = GameConfig.player.speed; // 200
-        this.currentSpeed = 0;
-        this.speedChangeTimer = scene.time.now; // Initialiser avec le temps actuel
-        this.speedChangeDuration = 5000; // 5 secondes
-        this.chargeTimer = scene.time.now; // Initialiser avec le temps actuel
-        this.chargeDuration = 60000; // 1 minute
-        this.isCharging = false;
-        this.chargePrepTime = 10000; // 10 secondes de tremblement
-        this.isPreparingCharge = false;
-        this.chargeTarget = { x: 0, y: 0 };
-        this.originalX = 0;
-        this.trembleOffset = { x: 0, y: 0 };
-        this.chargeStartTime = 0;
-        
-        // Zone de mouvement (tiers droit de l'écran)
+        // Zone de mouvement (30% droit de l'écran, toute la hauteur hors décors)
         this.movementZone = {
-            left: GameConfig.width * 0.67, // 67% de l'écran
-            right: GameConfig.width - 50,
-            top: 50,
-            bottom: GameConfig.height - 50
+            left: GameConfig.width * 0.7,  // 70% de l'écran (30% droits)
+            right: GameConfig.width - 20,  // Marge de 20px du bord
+            top: 20,                        // Marge haute (hors décors)
+            bottom: GameConfig.height - 20  // Marge basse (hors décors)
         };
         
-        // Apparence du boss
-        this.setScale(2);
-        this.setTint(0xff00ff);
+        console.log(`🔧 Movement zone:`, this.movementZone);
+        
+        // Ajuster la taille selon le sprite du boss
+        this.setBossScale(scene.levelManager.currentLevel);
         
         // Barre de vie
         this.createHealthBar();
@@ -53,105 +44,40 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         // Afficher le nom du boss
         this.showBossName();
         
-        // Initialiser la vitesse
-        this.updateMovementSpeed();
+        console.log(`🔧 Boss initialization complete`);
     }
     
-    createHealthBar() {
-        const barWidth = 200;
-        const barHeight = 20;
-        const x = GameConfig.width - barWidth - 20;
-        const y = 20;
-        
-        // Fond de la barre
-        this.healthBarBg = this.scene.add.rectangle(x, y, barWidth, barHeight, 0x333333).setOrigin(0);
-        
-        // Barre de vie
-        this.healthBar = this.scene.add.rectangle(x, y, barWidth, barHeight, 0xff0000).setOrigin(0);
-        
-        // Texte du boss
-        this.bossNameText = this.scene.add.text(x, y - 25, this.bossData.name, {
-            fontSize: '16px',
-            fill: '#ffffff',
-            fontFamily: 'Courier New'
-        });
-    }
-    
-    updateHealthBar() {
-        const healthPercent = this.health / this.maxHealth;
-        const barWidth = 200 * healthPercent;
-        this.healthBar.width = Math.max(0, barWidth);
-        
-        // Changer la couleur selon la vie
-        if (healthPercent > 0.6) {
-            this.healthBar.setFillStyle(0x00ff00);
-        } else if (healthPercent > 0.3) {
-            this.healthBar.setFillStyle(0xffff00);
-        } else {
-            this.healthBar.setFillStyle(0xff0000);
-        }
-    }
-    
-    showBossName() {
-        // Vérifier que la scène existe
-        if (!this.scene || !this.scene.add) {
-            return;
-        }
-        
-        const warningText = this.scene.add.text(GameConfig.width / 2, GameConfig.height / 2, 
-            `ATTENTION!\n${this.bossData.name.toUpperCase()}`, {
-            fontSize: '32px',
-            fill: '#ff0000',
-            fontFamily: 'Courier New',
-            align: 'center'
-        }).setOrigin(0.5);
-        
-        // Animation d'apparition
-        if (this.scene.tweens) {
-            this.scene.tweens.add({
-                targets: warningText,
-                alpha: 0,
-                duration: 200,
-                yoyo: true,
-                repeat: 5,
-                onComplete: () => {
-                    if (warningText && warningText.destroy) {
-                        warningText.destroy();
-                    }
-                }
-            });
-        } else {
-            // Fallback si tweens n'est pas disponible
-            this.scene.time.delayedCall(3000, () => {
-                if (warningText && warningText.destroy) {
-                    warningText.destroy();
-                }
-            });
-        }
+    setBossScale(level) {
+        // Les sprites SVG sont déjà aux bonnes dimensions
+        this.setScale(1.0, 1.0);
+        console.log(`👾 Boss niveau ${level}: sprite=${Boss.getBossSprite(level)}, scale=1.0`);
     }
     
     enterScreen() {
+        // Entrée simple depuis la droite
         this.setVelocityX(-100);
         
+        // Arrêter l'entrée quand on atteint la zone de mouvement
         this.scene.time.delayedCall(2000, () => {
             this.setVelocityX(0);
             this.entryComplete = true;
-            this.x = this.movementZone.right - 50; // Position dans la zone de mouvement
-            this.originalX = this.x;
+            // Position dans le centre de la zone de mouvement
+            this.x = (this.movementZone.left + this.movementZone.right) / 2;
+            this.y = (this.movementZone.top + this.movementZone.bottom) / 2;
+            console.log(`Boss positioned in movement zone: x=${this.x}, y=${this.y}`);
         });
     }
     
     update() {
-        if (!this.entryComplete) return;
+        if (!this.entryComplete) {
+            return;
+        }
         
-        const currentTime = this.scene.time.now;
-        const elapsed = currentTime - this.startTime;
+        // Mouvement simple et direct
+        this.updateSimpleMovement();
         
-        // Gestion du mouvement du boss
-        this.updateBossMovement(currentTime);
-        
-        // Patterns d'attaque selon le type de boss
-        this.executePattern(elapsed);
+        // Patterns d'attaque
+        this.executePattern();
         
         // Changer de phase selon la vie
         this.updatePhase();
@@ -160,418 +86,301 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         this.updateHealthBar();
     }
     
-    updateBossMovement(currentTime) {
-        // Vérifier si c'est le moment de charger (toutes les minutes)
-        if (currentTime - this.chargeTimer > this.chargeDuration && !this.isCharging && !this.isPreparingCharge) {
-            this.startChargeSequence();
-        }
+    updateSimpleMovement() {
+        // Mouvement basé uniquement sur le pattern du boss
+        const elapsed = this.scene.time.now - this.startTime;
         
-        if (this.isPreparingCharge) {
-            this.handleChargePreparation(currentTime);
-        } else if (this.isCharging) {
-            this.handleCharging();
-        } else {
-            this.handleNormalMovement(currentTime);
+        switch (this.pattern) {
+            case 'serpent':
+                this.simpleSerpentMovement(elapsed);
+                break;
+            case 'cruiser':
+                this.simpleCruiserMovement(elapsed);
+                break;
+            case 'station':
+                this.simpleStationMovement(elapsed);
+                break;
+            case 'dreadnought':
+                this.simpleDreadnoughtMovement(elapsed);
+                break;
+            case 'final':
+                this.simpleFinalMovement(elapsed);
+                break;
+            default:
+                this.simpleDefaultMovement(elapsed);
+                break;
         }
         
         // Maintenir le boss dans sa zone
         this.constrainToMovementZone();
     }
     
-    startChargeSequence() {
-        this.isPreparingCharge = true;
-        this.chargeStartTime = this.scene.time.now;
-        this.setVelocity(0, 0); // Arrêter le mouvement
+    simpleSerpentMovement(elapsed) {
+        // Mouvement serpentin simple et efficace - VITESSE RÉDUITE DE MOITIÉ
+        const zoneHeight = this.movementZone.bottom - this.movementZone.top;
+        const zoneWidth = this.movementZone.right - this.movementZone.left;
+        const centerY = this.movementZone.top + zoneHeight / 2;
+        const centerX = this.movementZone.left + zoneWidth / 2;
         
-        // Plus besoin de mémoriser une position fixe car le boss va suivre en temps réel
-        console.log('Boss preparing to chase player dynamically!'); // Debug
-    }
-    
-    handleChargePreparation(currentTime) {
-        const prepElapsed = currentTime - this.chargeStartTime;
+        // Amplitude verticale très visible (90% de la zone)
+        const verticalAmplitude = zoneHeight * 0.45; // 45% de chaque côté = 90% total
+        const horizontalAmplitude = zoneWidth * 0.3;  // 30% de mouvement horizontal
         
-        // Tremblement pendant 10 secondes
-        if (prepElapsed < this.chargePrepTime) {
-            this.trembleOffset.x = (Math.random() - 0.5) * 10;
-            this.trembleOffset.y = (Math.random() - 0.5) * 10;
-            this.x = this.originalX + this.trembleOffset.x;
-            this.y += this.trembleOffset.y;
-        } else {
-            // Commencer la charge (plus besoin de capturer la position fixe)
-            this.isPreparingCharge = false;
-            this.isCharging = true;
-            this.chargeStartTime = currentTime; // Réinitialiser pour la durée de charge
-            
-            console.log('Boss starting dynamic chase!'); // Debug
+        // Fréquence RÉDUITE DE MOITIÉ pour mouvement plus lent
+        const time = elapsed * 0.001; // Convertir en secondes
+        const verticalFreq = 0.25; // 0.25 Hz = 1 cycle toutes les 4 secondes (était 0.5 Hz = 2 sec)
+        const horizontalFreq = 0.15; // Légèrement différent pour effet serpentin (était 0.3)
+        
+        // Calculer les positions cibles
+        const targetY = centerY + Math.sin(time * verticalFreq * 2 * Math.PI) * verticalAmplitude;
+        const targetX = centerX + Math.cos(time * horizontalFreq * 2 * Math.PI) * horizontalAmplitude;
+        
+        // Appliquer directement les positions (pas de vélocité)
+        this.y = targetY;
+        this.x = targetX;
+        
+        // Debug occasionnel
+        if (Math.floor(time) !== this.lastLogTime) {
+            this.lastLogTime = Math.floor(time);
+            console.log(`🐍 Serpent (VITESSE /2) - Y: ${Math.round(this.y)} (range: ${Math.round(centerY - verticalAmplitude)}-${Math.round(centerY + verticalAmplitude)})`);
         }
     }
     
-    handleCharging() {
-        // Le boss suit maintenant le joueur en temps réel à 80% de sa vitesse
-        if (this.scene.player) {
-            const dx = this.scene.player.x - this.x;
-            const dy = this.scene.player.y - this.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance > 0) {
-                const chargeSpeed = this.playerSpeed * 0.8; // 80% de la vitesse du joueur
-                this.setVelocity(
-                    (dx / distance) * chargeSpeed,
-                    (dy / distance) * chargeSpeed
-                );
-            }
-        }
+    simpleCruiserMovement(elapsed) {
+        // Mouvement vertical lent et régulier - VITESSE RÉDUITE DE MOITIÉ
+        const zoneHeight = this.movementZone.bottom - this.movementZone.top;
+        const centerY = this.movementZone.top + zoneHeight / 2;
+        const centerX = this.movementZone.left + (this.movementZone.right - this.movementZone.left) * 0.6;
         
-        // Arrêter la charge après un certain temps ou si le boss sort trop loin
-        const chargeElapsed = this.scene.time.now - this.chargeStartTime;
-        const maxChargeDuration = 15000; // 15 secondes maximum de poursuite
+        const verticalAmplitude = zoneHeight * 0.3;
+        const time = elapsed * 0.0004; // RÉDUIT DE MOITIÉ (était 0.0008)
         
-        if (chargeElapsed > maxChargeDuration || 
-            this.x < -200 || this.x > GameConfig.width + 200 || 
-            this.y < -200 || this.y > GameConfig.height + 200) {
-            this.resetAfterCharge();
-        }
+        this.y = centerY + Math.sin(time * 2 * Math.PI) * verticalAmplitude;
+        this.x = centerX;
     }
     
-    resetAfterCharge() {
-        this.isCharging = false;
-        this.isPreparingCharge = false;
-        this.chargeTimer = this.scene.time.now; // Réinitialiser le timer de charge
+    simpleStationMovement(elapsed) {
+        // Mouvement orbital - VITESSE RÉDUITE DE MOITIÉ
+        const zoneHeight = this.movementZone.bottom - this.movementZone.top;
+        const zoneWidth = this.movementZone.right - this.movementZone.left;
+        const centerY = this.movementZone.top + zoneHeight / 2;
+        const centerX = this.movementZone.left + zoneWidth / 2;
         
-        // Repositionner le boss dans sa zone
-        this.x = this.movementZone.right - 50;
-        this.y = GameConfig.height / 2;
-        this.originalX = this.x;
-        this.setVelocity(0, 0);
+        const verticalRadius = zoneHeight * 0.25;
+        const horizontalRadius = zoneWidth * 0.2;
+        const time = elapsed * 0.0003; // RÉDUIT DE MOITIÉ (était 0.0006)
         
-        // Reprendre le mouvement normal
-        this.updateMovementSpeed();
-        
-        console.log('Boss chase complete, returning to zone'); // Debug
+        this.y = centerY + Math.sin(time * 2 * Math.PI) * verticalRadius;
+        this.x = centerX + Math.cos(time * 2 * Math.PI) * horizontalRadius;
     }
     
-    handleNormalMovement(currentTime) {
-        // Changer la vitesse toutes les 5 secondes
-        if (currentTime - this.speedChangeTimer > this.speedChangeDuration) {
-            this.updateMovementSpeed();
-            this.speedChangeTimer = currentTime;
-            console.log('Boss speed updated to:', this.currentSpeed); // Debug
-        }
+    simpleDreadnoughtMovement(elapsed) {
+        // Mouvement agressif et imprévisible - VITESSE RÉDUITE DE MOITIÉ
+        const zoneHeight = this.movementZone.bottom - this.movementZone.top;
+        const zoneWidth = this.movementZone.right - this.movementZone.left;
+        const centerY = this.movementZone.top + zoneHeight / 2;
+        const centerX = this.movementZone.left + zoneWidth * 0.7;
         
-        // Mouvement selon le pattern du boss
-        this.applyMovementPattern(currentTime);
+        const verticalAmplitude = zoneHeight * 0.35;
+        const horizontalAmplitude = zoneWidth * 0.2;
+        const time = elapsed * 0.0005; // RÉDUIT DE MOITIÉ (était 0.001)
+        
+        // Mouvement chaotique avec plusieurs fréquences
+        const y1 = Math.sin(time * 0.7 * 2 * Math.PI) * verticalAmplitude * 0.6;
+        const y2 = Math.cos(time * 1.3 * 2 * Math.PI) * verticalAmplitude * 0.4;
+        const x1 = Math.sin(time * 0.5 * 2 * Math.PI) * horizontalAmplitude;
+        
+        this.y = centerY + y1 + y2;
+        this.x = centerX + x1;
     }
     
-    updateMovementSpeed() {
-        // Vitesse entre 25% et 35% de celle du joueur
-        const minSpeed = this.playerSpeed * 0.25;
-        const maxSpeed = this.playerSpeed * 0.35;
-        this.currentSpeed = Phaser.Math.Between(minSpeed, maxSpeed);
-        console.log('New boss speed:', this.currentSpeed, 'Player speed:', this.playerSpeed); // Debug
+    simpleFinalMovement(elapsed) {
+        // Mouvement chaotique du boss final - VITESSE RÉDUITE DE MOITIÉ
+        const zoneHeight = this.movementZone.bottom - this.movementZone.top;
+        const zoneWidth = this.movementZone.right - this.movementZone.left;
+        const centerY = this.movementZone.top + zoneHeight / 2;
+        const centerX = this.movementZone.left + zoneWidth / 2;
+        
+        const verticalAmplitude = zoneHeight * 0.4;
+        const horizontalAmplitude = zoneWidth * 0.3;
+        const time = elapsed * 0.0006; // RÉDUIT DE MOITIÉ (était 0.0012)
+        
+        // Mouvement très chaotique
+        const y1 = Math.sin(time * 0.8 * 2 * Math.PI) * verticalAmplitude * 0.5;
+        const y2 = Math.cos(time * 1.7 * 2 * Math.PI) * verticalAmplitude * 0.3;
+        const y3 = Math.sin(time * 2.3 * 2 * Math.PI) * verticalAmplitude * 0.2;
+        const x1 = Math.cos(time * 0.6 * 2 * Math.PI) * horizontalAmplitude * 0.7;
+        const x2 = Math.sin(time * 1.1 * 2 * Math.PI) * horizontalAmplitude * 0.3;
+        
+        this.y = centerY + y1 + y2 + y3;
+        this.x = centerX + x1 + x2;
     }
     
-    applyMovementPattern(currentTime) {
-        const elapsed = currentTime - this.startTime;
+    simpleDefaultMovement(elapsed) {
+        // Mouvement par défaut simple - VITESSE RÉDUITE DE MOITIÉ
+        const zoneHeight = this.movementZone.bottom - this.movementZone.top;
+        const centerY = this.movementZone.top + zoneHeight / 2;
+        const centerX = this.movementZone.left + (this.movementZone.right - this.movementZone.left) / 2;
         
-        switch (this.pattern) {
-            case 'serpent':
-                this.serpentMovement(elapsed);
-                break;
-            case 'cruiser':
-                this.cruiserMovement(elapsed);
-                break;
-            case 'station':
-                this.stationMovement(elapsed);
-                break;
-            case 'dreadnought':
-                this.dreadnoughtMovement(elapsed);
-                break;
-            case 'final':
-                this.finalMovement(elapsed);
-                break;
-        }
-    }
-    
-    serpentMovement(elapsed) {
-        // Mouvement sinusoïdal vertical simple
-        const amplitude = 80;
-        const frequency = 0.002;
-        const targetY = GameConfig.height / 2 + Math.sin(elapsed * frequency) * amplitude;
+        const verticalAmplitude = zoneHeight * 0.2;
+        const time = elapsed * 0.00025; // RÉDUIT DE MOITIÉ (était 0.0005)
         
-        // Appliquer directement la vélocité
-        const velocityY = (targetY - this.y) * 0.05;
-        this.setVelocityY(velocityY);
-        
-        console.log('Serpent movement - Y velocity:', velocityY); // Debug
-    }
-    
-    cruiserMovement(elapsed) {
-        // Mouvement vertical lent et régulier
-        const amplitude = 60;
-        const frequency = 0.001;
-        const targetY = GameConfig.height / 2 + Math.sin(elapsed * frequency) * amplitude;
-        
-        const velocityY = (targetY - this.y) * 0.03;
-        this.setVelocityY(velocityY);
-    }
-    
-    stationMovement(elapsed) {
-        // Mouvement minimal vers le centre
-        const targetY = GameConfig.height / 2;
-        const velocityY = (targetY - this.y) * 0.01;
-        this.setVelocityY(velocityY);
-    }
-    
-    dreadnoughtMovement(elapsed) {
-        // Mouvement complexe
-        const amplitude1 = 70;
-        const amplitude2 = 30;
-        const frequency1 = 0.003;
-        const frequency2 = 0.001;
-        
-        const targetY = GameConfig.height / 2 + 
-                       Math.sin(elapsed * frequency1) * amplitude1 + 
-                       Math.cos(elapsed * frequency2) * amplitude2;
-        
-        const velocityY = (targetY - this.y) * 0.04;
-        this.setVelocityY(velocityY);
-    }
-    
-    finalMovement(elapsed) {
-        // Mouvement le plus complexe
-        const amplitude = 100;
-        const frequency1 = 0.004;
-        const frequency2 = 0.002;
-        const frequency3 = 0.0015;
-        
-        const targetY = GameConfig.height / 2 + 
-                       Math.sin(elapsed * frequency1) * amplitude +
-                       Math.cos(elapsed * frequency2) * (amplitude * 0.5) +
-                       Math.sin(elapsed * frequency3) * (amplitude * 0.3);
-        
-        const velocityY = (targetY - this.y) * 0.05;
-        this.setVelocityY(velocityY);
+        this.y = centerY + Math.sin(time * 2 * Math.PI) * verticalAmplitude;
+        this.x = centerX;
     }
     
     constrainToMovementZone() {
-        // Pendant la charge, le boss peut aller partout sur l'écran
-        if (this.isCharging) {
-            // Pas de contraintes pendant la poursuite
-            return;
-        }
-        
-        // Maintenir le boss dans le tiers droit de l'écran en temps normal
+        // Maintenir le boss dans sa zone de mouvement
         if (this.x < this.movementZone.left) {
             this.x = this.movementZone.left;
-            this.setVelocityX(Math.abs(this.body.velocity.x));
         }
         if (this.x > this.movementZone.right) {
             this.x = this.movementZone.right;
-            this.setVelocityX(-Math.abs(this.body.velocity.x));
         }
         if (this.y < this.movementZone.top) {
             this.y = this.movementZone.top;
-            this.setVelocityY(Math.abs(this.body.velocity.y));
         }
         if (this.y > this.movementZone.bottom) {
             this.y = this.movementZone.bottom;
-            this.setVelocityY(-Math.abs(this.body.velocity.y));
         }
     }
     
-    executePattern(elapsed) {
+    executePattern() {
+        // Patterns d'attaque simplifiés
         const currentTime = this.scene.time.now;
         
-        switch (this.pattern) {
-            case 'serpent':
-                this.serpentPattern(elapsed);
-                break;
-            case 'cruiser':
-                this.cruiserPattern(elapsed);
-                break;
-            case 'station':
-                this.stationPattern(elapsed);
-                break;
-            case 'dreadnought':
-                this.dreadnoughtPattern(elapsed);
-                break;
-            case 'final':
-                this.finalPattern(elapsed);
-                break;
+        if (currentTime - this.lastFired > 2000) { // Tirer toutes les 2 secondes
+            this.fireBullet();
+            this.lastFired = currentTime;
         }
     }
     
-    serpentPattern(elapsed) {
-        // Tir en rafale (mouvement géré séparément)
-        if (this.scene.time.now > this.lastFired + 800) {
-            this.fireSpread(3);
-            this.lastFired = this.scene.time.now;
-        }
-    }
-    
-    cruiserPattern(elapsed) {
-        // Tir rapide (mouvement géré séparément)
-        if (this.scene.time.now > this.lastFired + 500) {
-            this.fireStraight();
-            this.lastFired = this.scene.time.now;
-        }
-    }
-    
-    stationPattern(elapsed) {
-        // Tir en éventail (mouvement géré séparément)
-        if (this.scene.time.now > this.lastFired + 1200) {
-            this.fireSpread(5);
-            this.lastFired = this.scene.time.now;
-        }
-    }
-    
-    dreadnoughtPattern(elapsed) {
-        // Tir multiple (mouvement géré séparément)
-        if (this.scene.time.now > this.lastFired + 600) {
-            this.fireSpread(4);
-            this.fireStraight();
-            this.lastFired = this.scene.time.now;
-        }
-    }
-    
-    finalPattern(elapsed) {
-        // Pattern le plus complexe (mouvement géré séparément)
-        if (this.phase >= 3) {
-            // Phase finale - tir intense
-            if (this.scene.time.now > this.lastFired + 300) {
-                this.fireSpread(7);
-                this.lastFired = this.scene.time.now;
-            }
-        } else {
-            if (this.scene.time.now > this.lastFired + 700) {
-                this.fireSpread(this.phase + 2);
-                this.lastFired = this.scene.time.now;
-            }
-        }
-    }
-    
-    fireStraight() {
-        const bullet = new Bullet(this.scene, this.x - 30, this.y, 'enemy');
-        this.scene.enemyBullets.add(bullet);
-    }
-    
-    fireSpread(count) {
-        const angleStep = 30 / (count - 1);
-        const startAngle = -15;
-        
-        for (let i = 0; i < count; i++) {
-            const angle = startAngle + (angleStep * i);
-            const bullet = new Bullet(this.scene, this.x - 30, this.y, 'enemy', angle);
+    fireBullet() {
+        // Tir simple vers le joueur
+        if (this.scene.player && this.scene.enemyBullets) {
+            const bullet = this.scene.physics.add.sprite(this.x - 20, this.y, 'enemy-missile');
             this.scene.enemyBullets.add(bullet);
-        }
-    }
-    
-    updatePhase() {
-        const healthPercent = this.health / this.maxHealth;
-        
-        if (healthPercent <= 0.3 && this.phase < 3) {
-            this.phase = 3;
-            this.setTint(0xff0000);
-        } else if (healthPercent <= 0.6 && this.phase < 2) {
-            this.phase = 2;
-            this.setTint(0xffff00);
+            bullet.setVelocityX(-200);
+            
+            // Détruire la balle si elle sort de l'écran
+            bullet.checkWorldBounds = true;
+            bullet.outOfBoundsKill = true;
         }
     }
     
     takeDamage(damage) {
         this.health -= damage;
         
-        // Effet visuel
-        this.setTint(0xffffff);
+        // Effet de dégât
+        this.setTint(0xff0000);
         this.scene.time.delayedCall(100, () => {
-            this.updatePhase();
+            this.clearTint();
         });
         
         if (this.health <= 0) {
-            this.explode();
+            this.destroy();
         }
     }
     
-    explode() {
-        // Capturer les références nécessaires avant la destruction
-        const scene = this.scene;
-        const bossX = this.x;
-        const bossY = this.y;
+    updatePhase() {
+        // Changer de phase selon la vie
+        const healthPercent = this.health / this.maxHealth;
         
-        // Vérifier que la scène existe
-        if (!scene || !scene.add || !scene.active) {
-            this.destroy();
-            return;
+        if (healthPercent <= 0.3 && this.phase === 1) {
+            this.phase = 2;
+            console.log('Boss entered phase 2!');
         }
+    }
+    
+    createHealthBar() {
+        const barWidth = 200;
+        const barHeight = 10;
+        const x = (GameConfig.width - barWidth) / 2;
+        const y = 30;
         
-        // Explosion spectaculaire
-        for (let i = 0; i < 10; i++) {
-            scene.time.delayedCall(i * 100, () => {
-                // Double vérification que la scène existe encore
-                if (scene && scene.add && scene.active) {
-                    const explosion = scene.add.particles(
-                        bossX + Phaser.Math.Between(-50, 50),
-                        bossY + Phaser.Math.Between(-50, 50),
-                        'bullet', {
-                        speed: { min: 100, max: 300 },
-                        scale: { start: 0.8, end: 0 },
-                        lifespan: 600,
-                        tint: 0xff4400,
-                        quantity: 15
-                    });
-                    
-                    // Nettoyer l'explosion après un délai
-                    scene.time.delayedCall(600, () => {
-                        if (explosion && explosion.destroy) {
-                            explosion.destroy();
-                        }
-                    });
-                }
-            });
-        }
+        // Fond de la barre
+        this.healthBarBg = this.scene.add.rectangle(x, y, barWidth, barHeight, 0x333333);
+        this.healthBarBg.setOrigin(0, 0);
         
-        // Ajouter les points du boss (utiliser le scoreManager local)
-        if (scene.scoreManager && scene.scoreManager.addScore) {
-            scene.scoreManager.addScore(GameConfig.scoring.boss, 'boss');
-        }
+        // Barre de vie
+        this.healthBar = this.scene.add.rectangle(x, y, barWidth, barHeight, 0x00ff00);
+        this.healthBar.setOrigin(0, 0);
         
-        // Nettoyer l'interface
-        this.cleanupUI();
-        
-        // Programmer la destruction du boss
-        scene.time.delayedCall(1000, () => {
-            if (this.active) {
-                this.destroy();
-            }
+        // Texte du boss
+        this.healthText = this.scene.add.text(x, y - 20, 'BOSS', {
+            fontSize: '16px',
+            fill: '#ffffff'
         });
     }
     
-    cleanupUI() {
-        try {
-            if (this.healthBar && this.healthBar.destroy) {
-                this.healthBar.destroy();
-                this.healthBar = null;
+    updateHealthBar() {
+        if (this.healthBar) {
+            const healthPercent = Math.max(0, this.health / this.maxHealth);
+            const barWidth = 200 * healthPercent;
+            this.healthBar.width = barWidth;
+            
+            // Changer la couleur selon la vie
+            if (healthPercent > 0.6) {
+                this.healthBar.fillColor = 0x00ff00; // Vert
+            } else if (healthPercent > 0.3) {
+                this.healthBar.fillColor = 0xffff00; // Jaune
+            } else {
+                this.healthBar.fillColor = 0xff0000; // Rouge
             }
-            if (this.healthBarBg && this.healthBarBg.destroy) {
-                this.healthBarBg.destroy();
-                this.healthBarBg = null;
-            }
-            if (this.bossNameText && this.bossNameText.destroy) {
-                this.bossNameText.destroy();
-                this.bossNameText = null;
-            }
-        } catch (error) {
-            console.warn('Error cleaning up boss UI:', error);
         }
     }
     
+    showBossName() {
+        const bossName = Boss.getBossName(this.scene.levelManager.currentLevel);
+        const nameText = this.scene.add.text(GameConfig.width / 2, GameConfig.height / 2 - 50, 
+            `BOSS: ${bossName}`, {
+            fontSize: '32px',
+            fill: '#ff0000',
+            stroke: '#000000',
+            strokeThickness: 4
+        });
+        nameText.setOrigin(0.5);
+        
+        // Faire disparaître le texte après 3 secondes
+        this.scene.time.delayedCall(3000, () => {
+            nameText.destroy();
+        });
+    }
+    
     destroy() {
-        // Nettoyer l'interface avant la destruction
-        this.cleanupUI();
+        // Nettoyer les éléments UI
+        if (this.healthBar) this.healthBar.destroy();
+        if (this.healthBarBg) this.healthBarBg.destroy();
+        if (this.healthText) this.healthText.destroy();
         
         // Vérifier que l'objet est encore actif avant la destruction
         if (this.active) {
             super.destroy();
         }
+    }
+    
+    // Méthodes statiques pour la gestion des sprites
+    static getBossSprite(level) {
+        const bossSprites = {
+            1: 'boss1', // Serpent Mécanique - Secteur Spatial
+            2: 'boss2', // Croiseur Lourd - Champ d'Astéroïdes
+            3: 'boss3', // Station Orbitale - Nébuleuse Toxique
+            4: 'boss4', // Dreadnought - Station Ennemie
+            5: 'boss5'  // Core Alien - Cœur Alien (Boss Final)
+        };
+        
+        return bossSprites[level] || 'enemy'; // Fallback vers sprite ennemi générique
+    }
+    
+    static getBossName(level) {
+        const bossNames = {
+            1: 'Serpent Mécanique',
+            2: 'Croiseur Lourd',
+            3: 'Station Orbitale',
+            4: 'Dreadnought',
+            5: 'Core Alien'
+        };
+        
+        return bossNames[level] || 'Boss Inconnu';
     }
 }

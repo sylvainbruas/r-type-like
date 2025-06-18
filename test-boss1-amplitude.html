@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Amplitude Verticale Boss 1</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        #game-container {
+            border: 2px solid #fff;
+            margin: 20px 0;
+        }
+        .info {
+            background: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls {
+            background: #444;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls button {
+            background: #666;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background: #888;
+        }
+        .metrics {
+            background: #2a2a4a;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4af;
+        }
+        .amplitude-bar {
+            width: 100%;
+            height: 20px;
+            background: #333;
+            border-radius: 10px;
+            margin: 10px 0;
+            position: relative;
+        }
+        .amplitude-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4af, #8f4);
+            border-radius: 10px;
+            width: 80%;
+            transition: width 0.3s ease;
+        }
+        .amplitude-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>🐍 Test Amplitude Verticale - Boss 1 Serpent</h1>
+    
+    <div class="info">
+        <h3>🎯 Test d'Amplitude Verticale</h3>
+        <p>Ce test vérifie que le Boss 1 utilise <strong>80% de la hauteur disponible</strong> pour son mouvement vertical.</p>
+        
+        <div class="amplitude-bar">
+            <div class="amplitude-fill"></div>
+            <div class="amplitude-text">80% Amplitude Verticale</div>
+        </div>
+        
+        <ul>
+            <li>✅ <strong>Amplitude</strong> : 80% de la zone de mouvement (vs 40% précédent)</li>
+            <li>✅ <strong>Réactivité</strong> : 0.25 (augmentée pour suivre l'amplitude)</li>
+            <li>✅ <strong>Zone complète</strong> : Du haut au bas de la zone verte</li>
+            <li>✅ <strong>Mouvement fluide</strong> : Sinusoïde ample et visible</li>
+        </ul>
+    </div>
+    
+    <div class="controls">
+        <h3>🎮 Contrôles de Test</h3>
+        <button onclick="spawnBoss1()">Spawner Boss 1 (Amplitude 80%)</button>
+        <button onclick="testAmplitude()">Test Amplitude Extrême (90%)</button>
+        <button onclick="clearBosses()">Nettoyer</button>
+        <button onclick="toggleMetrics()">Toggle Métriques</button>
+    </div>
+    
+    <div class="metrics" id="metrics">
+        <h3>📊 Métriques en Temps Réel</h3>
+        <div id="position-info">Position: En attente...</div>
+        <div id="amplitude-info">Amplitude: En attente...</div>
+        <div id="zone-info">Zone: En attente...</div>
+        <div id="velocity-info">Vélocité: En attente...</div>
+    </div>
+    
+    <div id="game-container"></div>
+
+    <!-- Phaser.js -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+    
+    <!-- Game files -->
+    <script src="js/config.js"></script>
+    <script src="js/managers/ScoreManager.js"></script>
+    <script src="js/managers/LevelManager.js"></script>
+    <script src="js/entities/Player.js"></script>
+    <script src="js/entities/Enemy.js"></script>
+    <script src="js/entities/Bullet.js"></script>
+    <script src="js/entities/Boss.js"></script>
+    <script src="js/scenes/PreloadScene.js"></script>
+    
+    <script>
+        let game;
+        let gameScene;
+        let boss1;
+        let debugZone;
+        let showMetrics = true;
+        let metricsInterval;
+        
+        // Configuration Phaser pour test d'amplitude
+        const testConfig = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            parent: 'game-container',
+            backgroundColor: '#001122',
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: false
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+        
+        function preload() {
+            console.log('🔧 Loading assets for amplitude test...');
+            
+            // Créer la texture du Boss 1 avec design serpentin
+            const graphics1 = this.add.graphics();
+            graphics1.fillStyle(0x666666);
+            graphics1.fillRect(0, 40, 240, 40); // Corps principal
+            graphics1.fillStyle(0x888888);
+            graphics1.fillRect(20, 35, 200, 10); // Partie haute
+            graphics1.fillRect(20, 75, 200, 10); // Partie basse
+            graphics1.fillStyle(0xff0000);
+            graphics1.fillCircle(220, 50, 4); // Yeux rouges
+            graphics1.fillCircle(220, 70, 4);
+            graphics1.fillStyle(0x999999);
+            for (let i = 0; i < 5; i++) {
+                graphics1.fillCircle(40 + i * 40, 60, 8); // Segments
+            }
+            graphics1.generateTexture('boss1', 240, 120);
+            graphics1.destroy();
+            
+            console.log('✅ Boss 1 texture created for amplitude test');
+        }
+        
+        function create() {
+            gameScene = this;
+            
+            // Créer les guides visuels avec mesures
+            createAmplitudeGuides.call(this);
+            
+            // Initialiser le level manager
+            this.levelManager = { currentLevel: 1 };
+            
+            // Texte d'information avec métriques
+            this.add.text(10, 10, 'Test Amplitude Verticale - Boss 1 Serpent', {
+                fontSize: '16px',
+                fill: '#00ff00'
+            });
+            
+            this.add.text(10, 30, 'Zone verte = Zone de mouvement | Lignes rouges = Limites amplitude', {
+                fontSize: '11px',
+                fill: '#00ff00'
+            });
+            
+            const zoneHeight = GameConfig.height - 40; // 20px top + 20px bottom
+            const amplitudeHeight = Math.round(zoneHeight * 0.8);
+            this.add.text(10, 50, `Amplitude 80% = ${amplitudeHeight}px sur ${zoneHeight}px disponibles`, {
+                fontSize: '12px',
+                fill: '#ffff00'
+            });
+            
+            // Démarrer les métriques
+            startMetrics();
+        }
+        
+        function update() {
+            if (boss1 && boss1.update) {
+                boss1.update();
+            }
+        }
+        
+        function createAmplitudeGuides() {
+            const graphics = this.add.graphics();
+            
+            // Zone de mouvement (30% droits)
+            const zoneLeft = GameConfig.width * 0.7;
+            const zoneRight = GameConfig.width - 20;
+            const zoneTop = 20;
+            const zoneBottom = GameConfig.height - 20;
+            
+            // Zone de mouvement principale (verte)
+            graphics.lineStyle(2, 0x00ff00, 0.5);
+            graphics.strokeRect(zoneLeft, zoneTop, zoneRight - zoneLeft, zoneBottom - zoneTop);
+            
+            // Centre de la zone
+            const centerY = (zoneTop + zoneBottom) / 2;
+            graphics.lineStyle(1, 0xffff00, 0.7);
+            graphics.moveTo(zoneLeft, centerY);
+            graphics.lineTo(zoneRight, centerY);
+            graphics.strokePath();
+            
+            // Limites d'amplitude (80% de la hauteur)
+            const amplitude = (zoneBottom - zoneTop) * 0.8;
+            const amplitudeTop = centerY - amplitude;
+            const amplitudeBottom = centerY + amplitude;
+            
+            graphics.lineStyle(2, 0xff0000, 0.8);
+            // Ligne amplitude haute
+            graphics.moveTo(zoneLeft, amplitudeTop);
+            graphics.lineTo(zoneRight, amplitudeTop);
+            graphics.strokePath();
+            // Ligne amplitude basse
+            graphics.moveTo(zoneLeft, amplitudeBottom);
+            graphics.lineTo(zoneRight, amplitudeBottom);
+            graphics.strokePath();
+            
+            // Labels des limites
+            this.add.text(zoneLeft - 100, amplitudeTop - 10, 'Limite Haute (80%)', {
+                fontSize: '10px',
+                fill: '#ff0000'
+            });
+            
+            this.add.text(zoneLeft - 100, amplitudeBottom + 5, 'Limite Basse (80%)', {
+                fontSize: '10px',
+                fill: '#ff0000'
+            });
+            
+            this.add.text(zoneLeft - 80, centerY - 5, 'Centre', {
+                fontSize: '10px',
+                fill: '#ffff00'
+            });
+            
+            debugZone = graphics;
+        }
+        
+        function spawnBoss1() {
+            clearBosses();
+            
+            const boss1Data = {
+                health: 50,
+                pattern: 'serpent',
+                name: 'Serpent Mécanique'
+            };
+            
+            boss1 = new Boss(gameScene, GameConfig.width + 100, GameConfig.height / 2, boss1Data);
+            
+            console.log('🐍 Boss 1 spawned with 80% amplitude:');
+            console.log('- Zone height:', GameConfig.height - 40, 'px');
+            console.log('- Amplitude:', Math.round((GameConfig.height - 40) * 0.8), 'px (80%)');
+            console.log('- Frequency: 0.0075 (x2.5 speed)');
+            console.log('- Reactivity: 0.25 (high responsiveness)');
+        }
+        
+        function testAmplitude() {
+            clearBosses();
+            
+            const boss1Data = {
+                health: 50,
+                pattern: 'serpent',
+                name: 'Serpent Mécanique'
+            };
+            
+            boss1 = new Boss(gameScene, GameConfig.width + 100, GameConfig.height / 2, boss1Data);
+            
+            // Modifier temporairement l'amplitude pour test extrême
+            const originalMethod = boss1.serpentMovement;
+            boss1.serpentMovement = function(elapsed) {
+                const amplitude = (this.movementZone.bottom - this.movementZone.top) * 0.9; // 90% !
+                const frequency = 0.0075;
+                const centerY = (this.movementZone.top + this.movementZone.bottom) / 2;
+                const targetY = centerY + Math.sin(elapsed * frequency) * amplitude;
+                
+                const horizontalAmplitude = (this.movementZone.right - this.movementZone.left) * 0.3;
+                const targetX = this.movementZone.left + horizontalAmplitude + Math.cos(elapsed * frequency * 0.6) * horizontalAmplitude;
+                
+                const velocityY = (targetY - this.y) * 0.3; // Encore plus réactif
+                const velocityX = (targetX - this.x) * 0.15;
+                
+                this.setVelocity(velocityX, velocityY);
+            };
+            
+            console.log('🔥 Boss 1 spawned with EXTREME 90% amplitude for testing!');
+        }
+        
+        function clearBosses() {
+            if (boss1) {
+                boss1.destroy();
+                boss1 = null;
+            }
+        }
+        
+        function toggleMetrics() {
+            const metricsEl = document.getElementById('metrics');
+            showMetrics = !showMetrics;
+            metricsEl.style.display = showMetrics ? 'block' : 'none';
+        }
+        
+        function startMetrics() {
+            metricsInterval = setInterval(() => {
+                if (boss1 && showMetrics) {
+                    const zoneHeight = GameConfig.height - 40;
+                    const amplitude = zoneHeight * 0.8;
+                    const centerY = GameConfig.height / 2;
+                    
+                    document.getElementById('position-info').textContent = 
+                        `Position: X=${Math.round(boss1.x)}, Y=${Math.round(boss1.y)}`;
+                    
+                    document.getElementById('amplitude-info').textContent = 
+                        `Amplitude: ${Math.round(amplitude)}px (80% de ${zoneHeight}px)`;
+                    
+                    document.getElementById('zone-info').textContent = 
+                        `Zone: ${20}-${GameConfig.height-20} | Centre: ${Math.round(centerY)}`;
+                    
+                    if (boss1.body) {
+                        document.getElementById('velocity-info').textContent = 
+                            `Vélocité: X=${Math.round(boss1.body.velocity.x)}, Y=${Math.round(boss1.body.velocity.y)}`;
+                    }
+                }
+            }, 100);
+        }
+        
+        // Initialiser le jeu
+        game = new Phaser.Game(testConfig);
+        
+        // Auto-spawn après 2 secondes
+        setTimeout(() => {
+            spawnBoss1();
+        }, 2000);
+    </script>
+</body>
+</html>

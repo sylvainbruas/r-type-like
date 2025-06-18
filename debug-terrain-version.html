@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Version du Terrain</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        .info {
+            background: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background: #2a4a2a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4f8;
+        }
+        .error {
+            background: #4a2a2a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #f84;
+        }
+        pre {
+            background: #222;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug - Version du Terrain AlienTerrain.js</h1>
+    
+    <div class="info">
+        <h3>🎯 Vérification de la Version du Terrain</h3>
+        <p>Cette page vérifie quelle version du fichier AlienTerrain.js est chargée par le navigateur.</p>
+    </div>
+    
+    <div id="version-check">
+        <p>🔄 Vérification en cours...</p>
+    </div>
+    
+    <div class="info">
+        <h3>📋 Versions Disponibles</h3>
+        <ul>
+            <li><strong>AlienTerrain.js</strong> - Version actuelle (objets Phaser natifs, 100% opaque)</li>
+            <li><strong>AlienTerrain_Graphics.js</strong> - Version graphics (potentiellement semi-transparente)</li>
+            <li><strong>AlienTerrain_SemiTransparent.js</strong> - Ancienne version semi-transparente</li>
+            <li><strong>AlienTerrain_Old.js</strong> - Version très ancienne</li>
+        </ul>
+    </div>
+    
+    <div id="terrain-test"></div>
+
+    <!-- Phaser.js -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+    
+    <!-- Game files -->
+    <script src="js/config.js"></script>
+    <script src="js/managers/ScoreManager.js"></script>
+    <script src="js/managers/LevelManager.js"></script>
+    <script src="js/entities/AlienTerrain.js"></script>
+    
+    <script>
+        console.log('🔍 Starting terrain version check...');
+        
+        // Vérifier la version du terrain
+        function checkTerrainVersion() {
+            const versionDiv = document.getElementById('version-check');
+            const testDiv = document.getElementById('terrain-test');
+            
+            try {
+                // Créer une scène de test minimale
+                const testConfig = {
+                    type: Phaser.AUTO,
+                    width: 400,
+                    height: 200,
+                    parent: 'terrain-test',
+                    backgroundColor: '#001122',
+                    physics: {
+                        default: 'arcade',
+                        arcade: { gravity: { y: 0 } }
+                    },
+                    scene: {
+                        create: function() {
+                            console.log('🌍 Creating test terrain...');
+                            
+                            // Simuler un level manager
+                            this.levelManager = { currentLevel: 1 };
+                            
+                            // Créer le terrain
+                            const terrain = new AlienTerrain(this);
+                            
+                            // Vérifier le type de terrain créé
+                            console.log('🔍 Terrain created:', terrain);
+                            console.log('🔍 Terrain type:', terrain.terrainType);
+                            console.log('🔍 Terrain constructor:', terrain.constructor.name);
+                            
+                            // Vérifier les méthodes disponibles
+                            const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(terrain));
+                            console.log('🔍 Available methods:', methods);
+                            
+                            // Déterminer la version
+                            let version = 'INCONNUE';
+                            let versionClass = 'info';
+                            let details = '';
+                            
+                            if (methods.includes('createSolidAsteroidDark')) {
+                                version = 'OBJETS PHASER NATIFS (100% OPAQUE)';
+                                versionClass = 'success';
+                                details = '✅ Version correcte avec objets Rectangle, Circle, Polygon';
+                            } else if (methods.includes('createAsteroidDarkSurface')) {
+                                version = 'GRAPHICS PHASER (POTENTIELLEMENT SEMI-TRANSPARENT)';
+                                versionClass = 'error';
+                                details = '❌ Version graphics qui peut être semi-transparente';
+                            } else if (methods.includes('createAsteroidSurface')) {
+                                version = 'ANCIENNE VERSION';
+                                versionClass = 'error';
+                                details = '❌ Ancienne version du terrain';
+                            } else {
+                                version = 'VERSION NON IDENTIFIÉE';
+                                versionClass = 'error';
+                                details = '❓ Version inconnue du terrain';
+                            }
+                            
+                            // Afficher les résultats
+                            versionDiv.innerHTML = `
+                                <div class="${versionClass}">
+                                    <h4>🔍 Version Détectée: ${version}</h4>
+                                    <p>${details}</p>
+                                    <p><strong>Type de terrain:</strong> ${terrain.terrainType}</p>
+                                    <p><strong>Méthodes disponibles:</strong></p>
+                                    <pre>${methods.filter(m => m.includes('create')).join('\n')}</pre>
+                                </div>
+                            `;
+                            
+                            // Ajouter des informations de debug
+                            this.add.text(10, 10, `Version: ${version}`, {
+                                fontSize: '12px',
+                                fill: versionClass === 'success' ? '#00ff00' : '#ff0000'
+                            });
+                            
+                            this.add.text(10, 30, `Terrain: ${terrain.terrainType}`, {
+                                fontSize: '10px',
+                                fill: '#ffff00'
+                            });
+                            
+                            this.add.text(10, 50, 'Test terrain créé avec succès', {
+                                fontSize: '10px',
+                                fill: '#ffffff'
+                            });
+                        }
+                    }
+                };
+                
+                const game = new Phaser.Game(testConfig);
+                
+            } catch (error) {
+                console.error('❌ Error checking terrain version:', error);
+                versionDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Erreur lors de la vérification</h4>
+                        <p>Impossible de créer le terrain de test.</p>
+                        <pre>${error.message}</pre>
+                    </div>
+                `;
+            }
+        }
+        
+        // Démarrer la vérification après un court délai
+        setTimeout(checkTerrainVersion, 1000);
+    </script>
+</body>
+</html>

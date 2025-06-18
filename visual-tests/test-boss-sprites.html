@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Visuel - Sprites des Boss R-Type 2</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #00ffff;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+            margin: 0;
+        }
+        
+        .boss-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .boss-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .boss-card:hover {
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .boss-title {
+            color: #ff6b6b;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .boss-level {
+            color: #4ecdc4;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        
+        .boss-sprite {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #555;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 150px;
+        }
+        
+        .boss-sprite img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+        
+        .boss-description {
+            color: #cccccc;
+            font-size: 0.85em;
+            line-height: 1.4;
+            margin-top: 10px;
+        }
+        
+        .size-info {
+            color: #ffd93d;
+            font-size: 0.8em;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .comparison {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .comparison h3 {
+            color: #00ffff;
+            margin-bottom: 20px;
+        }
+        
+        .sprite-comparison {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .sprite-item {
+            text-align: center;
+        }
+        
+        .sprite-item img {
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+        }
+        
+        .sprite-label {
+            color: #ffffff;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎮 Test Visuel - Sprites des Boss R-Type 2 🎮</h1>
+        <p>Validation des 5 sprites de boss (3x à 4x la taille du vaisseau joueur)</p>
+    </div>
+
+    <div class="boss-grid">
+        <div class="boss-card">
+            <div class="boss-title">Serpent Mécanique</div>
+            <div class="boss-level">Niveau 1 - Secteur Spatial</div>
+            <div class="boss-sprite">
+                <img src="../assets/images/boss1.svg" alt="Boss 1 - Serpent Mécanique">
+            </div>
+            <div class="boss-description">
+                Boss serpentin avec segments mécaniques articulés. Design spatial avec éléments cybernétiques, 
+                yeux rouges menaçants et canons latéraux. Mouvement ondulant caractéristique.
+            </div>
+            <div class="size-info">Dimensions: 240x120px (3.75x plus grand que le joueur)</div>
+        </div>
+
+        <div class="boss-card">
+            <div class="boss-title">Croiseur Lourd</div>
+            <div class="boss-level">Niveau 2 - Champ d'Astéroïdes</div>
+            <div class="boss-sprite">
+                <img src="../assets/images/boss2.svg" alt="Boss 2 - Croiseur Lourd">
+            </div>
+            <div class="boss-description">
+                Vaisseau de guerre massif avec blindage renforcé et astéroïdes incrustés. 
+                Tourelles principales, canons secondaires et propulseurs multiples. Design militaire imposant.
+            </div>
+            <div class="size-info">Dimensions: 220x140px (3.4x plus grand que le joueur)</div>
+        </div>
+
+        <div class="boss-card">
+            <div class="boss-title">Station Orbitale</div>
+            <div class="boss-level">Niveau 3 - Nébuleuse Toxique</div>
+            <div class="boss-sprite">
+                <img src="../assets/images/boss3.svg" alt="Boss 3 - Station Orbitale">
+            </div>
+            <div class="boss-description">
+                Station spatiale hexagonale avec anneaux orbitaux et réacteur central violet. 
+                Modules défensifs, panneaux solaires et effets de nébuleuse toxique. Design futuriste.
+            </div>
+            <div class="size-info">Dimensions: 200x160px (3.1x plus grand que le joueur)</div>
+        </div>
+
+        <div class="boss-card">
+            <div class="boss-title">Dreadnought</div>
+            <div class="boss-level">Niveau 4 - Station Ennemie</div>
+            <div class="boss-sprite">
+                <img src="../assets/images/boss4.svg" alt="Boss 4 - Dreadnought">
+            </div>
+            <div class="boss-description">
+                Cuirassé de guerre ultime avec blindage massif et armement lourd. 
+                Tourelles principales, systèmes de défense et propulseurs puissants. Design militaire extrême.
+            </div>
+            <div class="size-info">Dimensions: 260x120px (4.1x plus grand que le joueur)</div>
+        </div>
+
+        <div class="boss-card">
+            <div class="boss-title">Core Alien</div>
+            <div class="boss-level">Niveau 5 - Cœur Alien (Boss Final)</div>
+            <div class="boss-sprite">
+                <img src="../assets/images/boss5.svg" alt="Boss 5 - Core Alien">
+            </div>
+            <div class="boss-description">
+                Entité alien organique avec cœur pulsant, tentacules et yeux multiples. 
+                Structures cristallines, veines énergétiques et aura mystique. Design alien terrifiant.
+            </div>
+            <div class="size-info">Dimensions: 200x200px (3.1x plus grand que le joueur)</div>
+        </div>
+    </div>
+
+    <div class="comparison">
+        <h3>Comparaison des Tailles</h3>
+        <div class="sprite-comparison">
+            <div class="sprite-item">
+                <img src="../assets/images/player.svg" alt="Vaisseau Joueur" style="width: 64px; height: 32px;">
+                <div class="sprite-label">Joueur<br>64x32px</div>
+            </div>
+            <div class="sprite-item">
+                <img src="../assets/images/boss1.svg" alt="Boss 1" style="width: 120px; height: 60px;">
+                <div class="sprite-label">Boss 1<br>240x120px</div>
+            </div>
+            <div class="sprite-item">
+                <img src="../assets/images/boss2.svg" alt="Boss 2" style="width: 110px; height: 70px;">
+                <div class="sprite-label">Boss 2<br>220x140px</div>
+            </div>
+            <div class="sprite-item">
+                <img src="../assets/images/boss3.svg" alt="Boss 3" style="width: 100px; height: 80px;">
+                <div class="sprite-label">Boss 3<br>200x160px</div>
+            </div>
+            <div class="sprite-item">
+                <img src="../assets/images/boss4.svg" alt="Boss 4" style="width: 130px; height: 60px;">
+                <div class="sprite-label">Boss 4<br>260x120px</div>
+            </div>
+            <div class="sprite-item">
+                <img src="../assets/images/boss5.svg" alt="Boss 5" style="width: 100px; height: 100px;">
+                <div class="sprite-label">Boss 5<br>200x200px</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

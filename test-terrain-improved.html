@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Terrains Améliorés - Surfaces Spatiales</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        #game-container {
+            border: 2px solid #fff;
+            margin: 20px 0;
+        }
+        .info {
+            background: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls {
+            background: #444;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .controls button {
+            background: #666;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background: #888;
+        }
+        .terrain-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .terrain-card {
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid;
+        }
+        .terrain-card.asteroid { border-left-color: #6A6A6A; }
+        .terrain-card.mars { border-left-color: #CD853F; }
+        .terrain-card.moon { border-left-color: #B8B8B8; }
+        .terrain-card.alien { border-left-color: #00CC88; }
+        .success {
+            background: #2a4a2a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #4f8;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌍 Test Terrains Améliorés - Surfaces Spatiales Réalistes</h1>
+    
+    <div class="success">
+        <h3>✅ Terrains Complètement Refaits</h3>
+        <p><strong>Fini les couleurs semi-transparentes ! Place aux surfaces spatiales réalistes !</strong></p>
+        <ul>
+            <li>✅ <strong>Astéroïdes</strong> : Surface rocheuse grise avec cratères d'impact</li>
+            <li>✅ <strong>Mars</strong> : Surface rouge-orange avec formations rocheuses</li>
+            <li>✅ <strong>Lune</strong> : Surface grise avec régolithe et cratères</li>
+            <li>✅ <strong>Alien</strong> : Surface organique avec cristaux bioluminescents</li>
+        </ul>
+    </div>
+    
+    <div class="info">
+        <h3>🎯 Types de Terrain par Niveau</h3>
+        <div class="terrain-gallery">
+            <div class="terrain-card asteroid">
+                <h4>🌑 Astéroïdes (Niveaux 1-2)</h4>
+                <p>Surface rocheuse grise avec cratères d'impact, strates géologiques, rochers et débris spatiaux</p>
+            </div>
+            <div class="terrain-card mars">
+                <h4>🔴 Mars (Niveau 3)</h4>
+                <p>Surface rouge-orange avec couches sédimentaires, formations rocheuses et dépôts d'oxyde de fer</p>
+            </div>
+            <div class="terrain-card moon">
+                <h4>🌕 Lune (Niveau 4)</h4>
+                <p>Surface grise avec régolithe, cratères lunaires, pics centraux et traces de micrométorites</p>
+            </div>
+            <div class="terrain-card alien">
+                <h4>👽 Alien (Niveau 5)</h4>
+                <p>Surface organique avec formations bioluminescentes, cristaux aliens et végétation extraterrestre</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <h3>🎮 Test des Terrains</h3>
+        <button onclick="testTerrain('asteroid')">Terrain Astéroïde</button>
+        <button onclick="testTerrain('mars')">Terrain Mars</button>
+        <button onclick="testTerrain('moon')">Terrain Lunaire</button>
+        <button onclick="testTerrain('alien')">Terrain Alien</button>
+        <button onclick="cycleTerrains()">Cycle Automatique</button>
+    </div>
+    
+    <div class="info" id="current-terrain">
+        <h3>🌍 Terrain Actuel</h3>
+        <div id="terrain-info">Chargement...</div>
+    </div>
+    
+    <div id="game-container"></div>
+
+    <!-- Phaser.js -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+    
+    <!-- Game files -->
+    <script src="js/config.js"></script>
+    <script src="js/managers/ScoreManager.js"></script>
+    <script src="js/managers/LevelManager.js"></script>
+    <script src="js/entities/AlienTerrain.js"></script>
+    
+    <script>
+        let game;
+        let gameScene;
+        let currentTerrain;
+        let cycleInterval;
+        
+        // Configuration Phaser pour test des terrains
+        const testConfig = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            parent: 'game-container',
+            backgroundColor: '#001122',
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: false
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+        
+        function preload() {
+            console.log('🔧 Loading assets for terrain test...');
+            // Pas besoin de charger d'assets, tout est procédural
+        }
+        
+        function create() {
+            gameScene = this;
+            
+            // Initialiser le level manager
+            this.levelManager = { currentLevel: 1 };
+            
+            // Créer le terrain initial (astéroïde)
+            currentTerrain = new AlienTerrain(this);
+            
+            // Texte d'information
+            this.add.text(10, 10, 'Terrains Spatiaux Réalistes - AMÉLIORÉS', {
+                fontSize: '16px',
+                fill: '#00ff00'
+            });
+            
+            this.add.text(10, 30, 'Surfaces détaillées : Astéroïdes, Mars, Lune, Alien', {
+                fontSize: '11px',
+                fill: '#00ff00'
+            });
+            
+            this.add.text(10, 50, 'Fini les couleurs semi-transparentes !', {
+                fontSize: '12px',
+                fill: '#ffff00'
+            });
+            
+            updateTerrainInfo('asteroid');
+            
+            console.log('✅ Improved terrain system ready for testing');
+        }
+        
+        function update() {
+            // Pas de logique d'update nécessaire pour les terrains statiques
+        }
+        
+        function testTerrain(terrainType) {
+            console.log(`🌍 Testing ${terrainType} terrain`);
+            
+            // Changer le niveau pour correspondre au terrain
+            const levelMap = {
+                'asteroid': 1,
+                'mars': 3,
+                'moon': 4,
+                'alien': 5
+            };
+            
+            gameScene.levelManager.currentLevel = levelMap[terrainType];
+            
+            // Changer le type de terrain
+            if (currentTerrain) {
+                currentTerrain.changeTerrainType(terrainType);
+            }
+            
+            updateTerrainInfo(terrainType);
+            
+            // Arrêter le cycle automatique si actif
+            if (cycleInterval) {
+                clearInterval(cycleInterval);
+                cycleInterval = null;
+            }
+        }
+        
+        function cycleTerrains() {
+            const terrains = ['asteroid', 'mars', 'moon', 'alien'];
+            let currentIndex = 0;
+            
+            // Arrêter le cycle précédent s'il existe
+            if (cycleInterval) {
+                clearInterval(cycleInterval);
+            }
+            
+            cycleInterval = setInterval(() => {
+                testTerrain(terrains[currentIndex]);
+                currentIndex = (currentIndex + 1) % terrains.length;
+            }, 3000); // Changer toutes les 3 secondes
+            
+            console.log('🔄 Cycle automatique des terrains démarré');
+        }
+        
+        function updateTerrainInfo(terrainType) {
+            const terrainDescriptions = {
+                'asteroid': {
+                    name: '🌑 Surface d\'Astéroïde',
+                    description: 'Surface rocheuse grise avec cratères d\'impact, strates géologiques et débris spatiaux',
+                    features: [
+                        'Cratères d\'impact avec rebords',
+                        'Strates rocheuses multicouches',
+                        'Rochers et débris avec ombres',
+                        'Texture rugueuse réaliste'
+                    ]
+                },
+                'mars': {
+                    name: '🔴 Surface Martienne',
+                    description: 'Surface rouge-orange avec formations rocheuses et dépôts minéraux',
+                    features: [
+                        'Couches sédimentaires visibles',
+                        'Formations rocheuses érodées',
+                        'Dépôts d\'oxyde de fer',
+                        'Poussière martienne'
+                    ]
+                },
+                'moon': {
+                    name: '🌕 Surface Lunaire',
+                    description: 'Surface grise avec régolithe, cratères et traces d\'impacts',
+                    features: [
+                        'Régolithe (poussière lunaire)',
+                        'Cratères avec pics centraux',
+                        'Éjecta autour des cratères',
+                        'Traces de micrométorites'
+                    ]
+                },
+                'alien': {
+                    name: '👽 Surface Alien',
+                    description: 'Surface organique avec formations bioluminescentes et cristaux',
+                    features: [
+                        'Formations organiques pulsantes',
+                        'Cristaux bioluminescents',
+                        'Végétation extraterrestre',
+                        'Spores flottantes'
+                    ]
+                }
+            };
+            
+            const info = terrainDescriptions[terrainType];
+            const infoDiv = document.getElementById('terrain-info');
+            
+            infoDiv.innerHTML = `
+                <h4>${info.name}</h4>
+                <p>${info.description}</p>
+                <ul>
+                    ${info.features.map(feature => `<li>${feature}</li>`).join('')}
+                </ul>
+            `;
+        }
+        
+        // Initialiser le jeu
+        game = new Phaser.Game(testConfig);
+        
+        // Auto-cycle après 5 secondes
+        setTimeout(() => {
+            cycleTerrains();
+        }, 5000);
+    </script>
+</body>
+</html>

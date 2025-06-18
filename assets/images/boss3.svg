@@ -1,0 +1,63 @@
+<svg width="200" height="160" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- Boss Niveau 3: Station Orbitale - Nébuleuse Toxique -->
+  
+  <!-- Structure principale hexagonale -->
+  <polygon points="100,20 140,40 140,80 100,100 60,80 60,40" fill="#4A4A6A" stroke="#6A6A8A" stroke-width="3"/>
+  
+  <!-- Anneaux orbitaux -->
+  <ellipse cx="100" cy="60" rx="70" ry="15" fill="none" stroke="#8A4FFF" stroke-width="2" opacity="0.7"/>
+  <ellipse cx="100" cy="60" rx="85" ry="20" fill="none" stroke="#9A5FFF" stroke-width="1" opacity="0.5"/>
+  
+  <!-- Modules de la station -->
+  <rect x="85" y="45" width="30" height="30" fill="#5A5A7A" stroke="#7A7A9A" stroke-width="2"/>
+  <rect x="70" y="30" width="20" height="20" fill="#6A6A8A" stroke="#8A8AAA" stroke-width="1"/>
+  <rect x="110" y="30" width="20" height="20" fill="#6A6A8A" stroke="#8A8AAA" stroke-width="1"/>
+  <rect x="70" y="70" width="20" height="20" fill="#6A6A8A" stroke="#8A8AAA" stroke-width="1"/>
+  <rect x="110" y="70" width="20" height="20" fill="#6A6A8A" stroke="#8A8AAA" stroke-width="1"/>
+  
+  <!-- Réacteur central -->
+  <circle cx="100" cy="60" r="15" fill="#2A2A4A" stroke="#4A4A6A" stroke-width="2"/>
+  <circle cx="100" cy="60" r="10" fill="#8A4FFF" opacity="0.8"/>
+  <circle cx="100" cy="60" r="6" fill="#AA6FFF" opacity="0.9"/>
+  
+  <!-- Tours de défense -->
+  <rect x="45" y="25" width="8" height="25" fill="#7A7A9A" stroke="#9A9ABA" stroke-width="1"/>
+  <circle cx="49" cy="20" r="4" fill="#5A5A7A" stroke="#7A7A9A" stroke-width="1"/>
+  
+  <rect x="147" y="25" width="8" height="25" fill="#7A7A9A" stroke="#9A9ABA" stroke-width="1"/>
+  <circle cx="151" cy="20" r="4" fill="#5A5A7A" stroke="#7A7A9A" stroke-width="1"/>
+  
+  <rect x="45" y="75" width="8" height="25" fill="#7A7A9A" stroke="#9A9ABA" stroke-width="1"/>
+  <circle cx="49" cy="105" r="4" fill="#5A5A7A" stroke="#7A7A9A" stroke-width="1"/>
+  
+  <rect x="147" y="75" width="8" height="25" fill="#7A7A9A" stroke="#9A9ABA" stroke-width="1"/>
+  <circle cx="151" cy="105" r="4" fill="#5A5A7A" stroke="#7A7A9A" stroke-width="1"/>
+  
+  <!-- Panneaux solaires -->
+  <rect x="20" y="50" width="25" height="20" fill="#1A1A3A" stroke="#3A3A5A" stroke-width="1"/>
+  <rect x="155" y="50" width="25" height="20" fill="#1A1A3A" stroke="#3A3A5A" stroke-width="1"/>
+  
+  <!-- Grilles des panneaux -->
+  <line x1="25" y1="55" x2="40" y2="55" stroke="#4A4A6A" stroke-width="0.5"/>
+  <line x1="25" y1="60" x2="40" y2="60" stroke="#4A4A6A" stroke-width="0.5"/>
+  <line x1="25" y1="65" x2="40" y2="65" stroke="#4A4A6A" stroke-width="0.5"/>
+  <line x1="160" y1="55" x2="175" y2="55" stroke="#4A4A6A" stroke-width="0.5"/>
+  <line x1="160" y1="60" x2="175" y2="60" stroke="#4A4A6A" stroke-width="0.5"/>
+  <line x1="160" y1="65" x2="175" y2="65" stroke="#4A4A6A" stroke-width="0.5"/>
+  
+  <!-- Effets de nébuleuse toxique -->
+  <ellipse cx="80" cy="40" rx="12" ry="8" fill="#9A5FFF" opacity="0.3"/>
+  <ellipse cx="120" cy="80" rx="10" ry="6" fill="#AA6FFF" opacity="0.3"/>
+  <ellipse cx="60" cy="90" rx="8" ry="5" fill="#8A4FFF" opacity="0.3"/>
+  
+  <!-- Antennes de communication -->
+  <line x1="100" y1="20" x2="100" y2="10" stroke="#9A9ABA" stroke-width="2"/>
+  <line x1="95" y1="10" x2="105" y2="10" stroke="#9A9ABA" stroke-width="2"/>
+  <circle cx="100" cy="8" r="2" fill="#AA6FFF"/>
+  
+  <!-- Éclairages de navigation -->
+  <circle cx="60" cy="40" r="2" fill="#FF4444"/>
+  <circle cx="140" cy="40" r="2" fill="#44FF44"/>
+  <circle cx="60" cy="80" r="2" fill="#4444FF"/>
+  <circle cx="140" cy="80" r="2" fill="#FFFF44"/>
+</svg>
